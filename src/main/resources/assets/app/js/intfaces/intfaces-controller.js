@@ -60,7 +60,9 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
     $scope.alerts = [];
 
     $scope.gridOptions = {
-      paginationPageSizes: [10,20,50,100], paginationPageSize: 10, enableFiltering: true,
+      paginationPageSizes: [10,20,50,100], paginationPageSize: 10,
+      enableFiltering: true,
+      enableSelectionBatchEvent: false,
       data: $scope.intfaces,
       columnDefs: [
         {
@@ -77,7 +79,14 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
         {
           name: 'deftype', displayName: "Definition Type", width: 200, minWidth: 100
         }
-      ]
+      ],
+      onRegisterApi: function(gridApi){
+        //set gridApi on scope
+        $scope.gridApi = gridApi;
+        gridApi.selection.on.rowSelectionChanged($scope,function(row){
+          var msg = 'row selected ' + row.isSelected;
+        });
+      }
     };
 
     $scope.create_update = function(form) {
@@ -114,7 +123,14 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
     };
 
     $scope.find = function() {
+      $scope.context = PageNavigation.contexts.pop();
+
       Intfaces.query(function(intfaces) {
+        if ($scope.context) {
+          intfaces = _.filter(intfaces, function(intface) {
+            return ! _.contains($scope.context.model, intface.id)
+          });
+        }
         $scope.intfaces = intfaces;
         $scope.gridOptions.data = intfaces;
       });

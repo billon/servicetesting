@@ -1,6 +1,12 @@
 <div ng-controller="IntfacesController" ng-init="find()">
     <div class="row">
-        <h3 class="page-header">Interfaces</h3>
+        <h3 class="page-header col-md-8">Interfaces</h3>
+        <div class="col-md-1" ng-show="context && context.url">
+            <button type="button" class="btn btn-info" ng-click="return()">Return</button>
+        </div>
+        <div class="col-md-1" ng-show="context && context.expect && intfaces.length >= 0">
+            <button type="button" class="btn btn-info" ng-click="select()">Select</button>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-2">
