@@ -28,6 +28,38 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
 
     $scope.alerts = [];
 
+    $scope.envGridColumnDefs = [
+      {
+        name: 'name', width: 200, minWidth: 100,
+        sort: {
+          direction: uiGridConstants.ASC,
+          priority: 1
+        },
+        cellTemplate:'gridCellTemplate.html'
+      },
+      {
+        name: 'description', width: 600, minWidth: 300
+      }
+    ];
+
+    $scope.enventryGridOptions = {
+      paginationPageSizes: [10,20,50,100], paginationPageSize: 10,
+      enableFiltering: true,
+      columnDefs: [
+        {
+          field: 'intface.name', displayName: 'Interface', width: 200, minWidth: 100,
+          sort: {
+            direction: uiGridConstants.ASC,
+            priority: 1
+          },
+          cellTemplate:'gridCellTemplate.html'
+        },
+        {
+          field: 'endpoint.name', displayName: 'Endpoint',width: 600, minWidth: 300
+        }
+      ]
+    };
+
     $scope.create_update = function(form) {
       $scope.$broadcast('schemaFormValidate');
 
@@ -62,20 +94,6 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
     };
 
     $scope.find = function() {
-      $scope.envGridColumnDefs = [
-        {
-          name: 'name', width: 200, minWidth: 100,
-          sort: {
-            direction: uiGridConstants.ASC,
-            priority: 1
-          },
-          cellTemplate:'gridCellTemplate.html'
-        },
-        {
-          name: 'description', width: 600, minWidth: 300
-        }
-      ];
-
       Environments.query(function(environments) {
         $scope.environments = environments;
       });
@@ -116,25 +134,12 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
     $scope.findOne = function() {
       $scope.context = PageNavigation.contexts.pop();
 
-      $scope.enventryGridColumnDefs = [
-        {
-          field: 'intface.name', displayName: 'Interface', width: 200, minWidth: 100,
-          sort: {
-            direction: uiGridConstants.ASC,
-            priority: 1
-          },
-          cellTemplate:'gridCellTemplate.html'
-        },
-        {
-          field: 'endpoint.name', displayName: 'Endpoint',width: 600, minWidth: 300
-        }
-      ];
-
       if ($stateParams.environmentId) {
         Environments.get({
           environmentId: $stateParams.environmentId
         }, function(environment) {
           $scope.environment = environment;
+          $scope.enventryGridOptions.data = environment.entries;
         });
       }
     };
