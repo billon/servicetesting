@@ -29,16 +29,16 @@
                 <p></p>
                 <div class="row">
                     <div class="col-md-2">
-                        <button class="btn btn-primary" ng-click="goto('intface_all', null, 'intfaces')">Add Interfaces</button>
+                        <button type="button" class="btn btn-primary" ng-click="goto('intface_all', null, 'intfaces')">Add Interfaces</button>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-primary" ng-click="removeIntfaces()">Remove Interfaces</button>
+                        <button type="button" class="btn btn-primary" ng-click="removeEntries()">Remove Interfaces</button>
                     </div>
                 </div>
                 <p></p>
                 <div class="row">
                     <div ui-grid="enventryGridOptions" ui-grid-pagination ui-grid-resize-columns ui-grid-move-columns
-                         class="ui-grid"></div>
+                         ui-grid-selection class="ui-grid"></div>
                 </div>
             </tab>
         </tabset>

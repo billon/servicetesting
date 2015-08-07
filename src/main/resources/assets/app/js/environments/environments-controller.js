@@ -26,6 +26,8 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
 
     $scope.environment = {};
 
+    $scope.selectedEntries = [];
+
     $scope.alerts = [];
 
     $scope.envGridColumnDefs = [
@@ -58,7 +60,23 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
           field: 'endpoint.name', displayName: 'Endpoint',width: 600, minWidth: 300,
           cellTemplate:'gridEndpointCellTemplate.html'
         }
-      ]
+      ],
+      onRegisterApi: function(gridApi) {
+        //set gridApi on scope
+        $scope.gridApi = gridApi;
+        gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+          if (row.isSelected) {
+            $scope.selectedEntries.push(row.entity);
+          } else {
+            $scope.selectedEntries = _.without($scope.selectedEntries, row.entity);
+          }
+        });
+      }
+    };
+
+    $scope.removeEntries = function() {
+      $scope.environment.entries = _.difference($scope.environment.entries, $scope.selectedEntries);
+      $scope.enventryGridOptions.data = $scope.environment.entries;
     };
 
     $scope.create_update = function(form) {
