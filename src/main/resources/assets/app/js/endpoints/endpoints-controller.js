@@ -131,16 +131,18 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
     };
 
     $scope.select = function() {
-      $scope.context.model.endpointId = $scope.endpoint.id;
+      if ($scope.endpoint.id) {
+        $scope.context.assignto.endpointId = $scope.endpoint.id;
 
-      Endpoints.get({
-        endpointId: $scope.context.model.endpointId
-      }, function(endpoint) {
-        $scope.context.model.endpoint = endpoint;
+        Endpoints.get({
+          endpointId: $scope.context.assignto.endpointId
+        }, function(endpoint) {
+          $scope.context.assignto.endpoint = endpoint;
 
-        PageNavigation.returns.push($scope.context.model);
-        $location.path($scope.context.url);
-      });
+          PageNavigation.returns.push($scope.context);
+          $location.path($scope.context.url);
+        });
+      }
     };
 
     $scope.findOne = function() {

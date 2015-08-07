@@ -100,14 +100,15 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
       });
     };
 
-    $scope.goto = function(state, params, expect) {
+    $scope.goto = function(state, params, expect, assignto) {
       var intfaceIds = _.pluck($scope.environment.entries, 'intfaceId');
 
       var context = {
         model: $scope.environment,
         intfaceIds: intfaceIds,
         url: $location.path(),
-        expect: expect
+        expect: expect,
+        assignto: assignto
       };
 
       PageNavigation.contexts.push(context);
