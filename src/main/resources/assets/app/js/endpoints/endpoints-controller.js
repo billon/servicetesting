@@ -126,7 +126,7 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
     };
 
     $scope.return = function() {
-      PageNavigation.returns.push($scope.context.model);
+      PageNavigation.returns.push($scope.context);
       $location.path($scope.context.url);
     };
 

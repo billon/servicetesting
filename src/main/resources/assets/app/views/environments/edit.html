@@ -43,9 +43,15 @@
             </tab>
         </tabset>
     </form>
-    <script type="text/ng-template" id="gridCellTemplate.html">
+    <script type="text/ng-template" id="gridIntfaceCellTemplate.html">
         <div class="ui-grid-cell-contents">
             <div><a href="" ng-click="grid.appScope.goto('intface_edit', row.entity, null)">
+                {{COL_FIELD}}</a></div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="gridEndpointCellTemplate.html">
+        <div class="ui-grid-cell-contents">
+            <div><a href="" ng-click="grid.appScope.goto('endpoint_edit', row.entity, null)">
                 {{COL_FIELD}}</a></div>
         </div>
     </script>

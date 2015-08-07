@@ -52,10 +52,11 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
             direction: uiGridConstants.ASC,
             priority: 1
           },
-          cellTemplate:'gridCellTemplate.html'
+          cellTemplate:'gridIntfaceCellTemplate.html'
         },
         {
-          field: 'endpoint.name', displayName: 'Endpoint',width: 600, minWidth: 300
+          field: 'endpoint.name', displayName: 'Endpoint',width: 600, minWidth: 300,
+          cellTemplate:'gridEndpointCellTemplate.html'
         }
       ]
     };
