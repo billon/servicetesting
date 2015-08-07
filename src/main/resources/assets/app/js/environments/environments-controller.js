@@ -103,7 +103,8 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
       var intfaceIds = _.pluck($scope.environment.entries, 'intfaceId');
 
       var context = {
-        model: intfaceIds,
+        model: $scope.environment,
+        intfaceIds: intfaceIds,
         url: $location.path(),
         expect: expect
       };

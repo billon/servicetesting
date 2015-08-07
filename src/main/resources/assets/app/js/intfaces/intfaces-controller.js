@@ -55,6 +55,8 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
       }
     ];
 
+    $scope.selectedIntfaces = [];
+
     $scope.intface = {};
 
     $scope.alerts = [];
@@ -63,7 +65,6 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
       paginationPageSizes: [10,20,50,100], paginationPageSize: 10,
       enableFiltering: true,
       enableSelectionBatchEvent: false,
-      data: $scope.intfaces,
       columnDefs: [
         {
           name: 'name', width: 200, minWidth: 100,
@@ -84,7 +85,11 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
         //set gridApi on scope
         $scope.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope,function(row){
-          var msg = 'row selected ' + row.isSelected;
+          if (row.isSelected) {
+            $scope.selectedIntfaces.push(row.entity);
+          } else {
+            $scope.selectedIntfaces = _.without($scope.selectedIntfaces, row.entity);
+          }
         });
       }
     };
@@ -128,7 +133,7 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
       Intfaces.query(function(intfaces) {
         if ($scope.context) {
           intfaces = _.filter(intfaces, function(intface) {
-            return ! _.contains($scope.context.model, intface.id)
+            return ! _.contains($scope.context.intfaceIds, intface.id)
           });
         }
         $scope.intfaces = intfaces;
@@ -142,16 +147,23 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
     };
 
     $scope.select = function() {
-      $scope.context.model.intfaceId = $scope.intface.id;
+      if ($scope.intface.id) {
+        $scope.context.model.intfaceId = $scope.intface.id;
 
-      Intfaces.get({
-        intfaceId: $scope.context.model.intfaceId
-      }, function(intface) {
-        $scope.context.model.intface = intface;
+        Intfaces.get({
+          intfaceId: $scope.context.model.intfaceId
+        }, function(intface) {
+          $scope.context.model.intface = intface;
 
-        PageNavigation.returns.push($scope.context.model);
+          PageNavigation.returns.push($scope.context.model);
+          $location.path($scope.context.url);
+        });
+      } else {
+        $scope.context.selectedIntfaces = $scope.selectedIntfaces;
+
+        PageNavigation.returns.push($scope.context);
         $location.path($scope.context.url);
-      });
+      }
     };
 
     $scope.findOne = function() {
