@@ -25,7 +25,7 @@
                 <p></p>
                 <div sf-schema="schema" sf-form="form" sf-model="environment" ></div>
             </tab>
-            <tab ng-if="environment.id" heading="Interfaces">
+            <tab ng-if="environment.id" heading="Interfaces" active="true">
                 <p></p>
                 <div class="row">
                     <div class="col-md-2">
@@ -45,7 +45,8 @@
     </form>
     <script type="text/ng-template" id="gridCellTemplate.html">
         <div class="ui-grid-cell-contents">
-            <div><a ui-sref="enventry_edit({ enventryId: row.entity.id })">{{COL_FIELD}}</a></div>
+            <div><a href="" ng-click="grid.appScope.goto('intface_edit', row.entity, null)">
+                {{COL_FIELD}}</a></div>
         </div>
     </script>
 </div>
