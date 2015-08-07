@@ -142,7 +142,7 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
     };
 
     $scope.return = function() {
-      PageNavigation.returns.push($scope.context.model);
+      PageNavigation.returns.push($scope.context);
       $location.path($scope.context.url);
     };
 

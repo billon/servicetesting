@@ -133,15 +133,34 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
     };
 
     $scope.findOne = function() {
+      // Invoked from other page
       $scope.context = PageNavigation.contexts.pop();
 
-      if ($stateParams.environmentId) {
-        Environments.get({
-          environmentId: $stateParams.environmentId
-        }, function(environment) {
-          $scope.environment = environment;
-          $scope.enventryGridOptions.data = environment.entries;
-        });
+      // Returned from other page
+      var returnObj = PageNavigation.returns.pop();
+      if (returnObj) {
+        var selectedIntfaces = returnObj.selectedIntfaces;
+        if (selectedIntfaces) {
+          _.each(selectedIntfaces, function(selectedIntface, index, list) {
+            returnObj.model.entries.push({
+              intfaceId: selectedIntface.id,
+              intface: selectedIntface
+            });
+          });
+        }
+        $scope.environment = returnObj.model;
+        $scope.enventryGridOptions.data = returnObj.model.entries;
+
+      } else {
+        // A standalone page
+        if ($stateParams.environmentId) {
+          Environments.get({
+            environmentId: $stateParams.environmentId
+          }, function(environment) {
+            $scope.environment = environment;
+            $scope.enventryGridOptions.data = environment.entries;
+          });
+        }
       }
     };
   }
