@@ -4,7 +4,7 @@
         <div class="col-md-1" ng-show="context && context.url">
             <button type="button" class="btn btn-info" ng-click="return()">Return</button>
         </div>
-        <div class="col-md-1" ng-show="context && context.expect && intfaces.length >= 0">
+        <div class="col-md-1" ng-show="context && context.expect">
             <button type="button" class="btn btn-info" ng-click="select()">Select</button>
         </div>
     </div>
@@ -14,8 +14,10 @@
         </div>
     </div>
     <div class="row">
-        <div ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns ui-grid-move-columns ui-grid-selection
-             class="ui-grid"></div>
+        <div ng-if="context && context.expect" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
+             ui-grid-move-columns ui-grid-selection class="ui-grid"></div>
+        <div ng-if="! (context && context.expect)" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
+             ui-grid-move-columns class="ui-grid"></div>
     </div>
     <script type="text/ng-template" id="gridCellTemplate.html">
         <div class="ui-grid-cell-contents">
