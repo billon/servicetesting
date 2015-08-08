@@ -40,8 +40,8 @@
       <div class="form-group"></div>
       <div class="row">
         <div class="form-group">
-          <div class="col-lg-1">
-            <button class="btn btn-info" ui-sref="teststep_create({testcaseId: testcase.id})">Create</button>
+          <div class="col-lg-2">
+            <button class="btn btn-primary btn-block" ui-sref="teststep_create({testcaseId: testcase.id})">Create</button>
           </div>
           <div class="col-lg-offset-1 col-lg-7">
             <a ng-if="testcase.environmentId" class="text-right" href="" ng-click="goto('environment_edit', {environmentId: testcase.environmentId})"><h4>{{testcase.environment.name}}</h4></a>
@@ -51,7 +51,7 @@
             <a href="" ng-click="goto('environment_all', null, 'environment')"><h4><i class="glyphicon glyphicon-edit"></i></h4></a>
           </div>
           <div class="col-lg-1">
-            <button class="btn btn-info" href="" ng-click="run()">Run</button>
+            <button class="btn btn-success btn-block" href="" ng-click="run()">Run</button>
           </div>
         </div>
       </div>
