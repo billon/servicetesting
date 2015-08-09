@@ -1,27 +1,27 @@
 <div ng-controller="IntfacesController" data-ng-init="findOne()">
-    <div class="row">
-        <h3 class="page-header col-md-8">Interface - {{intface.name}}</h3>
-        <div class="col-md-1" ng-show="context && context.url">
-            <button type="button" class="btn btn-info" ng-click="return()">Return</button>
-        </div>
-        <div class="col-md-1" ng-show="context && context.expect && intface.id">
-            <button type="button" class="btn btn-info" ng-click="select()">Select</button>
-        </div>
-    </div>
-    <div class="row">
-        <form name="intfaceForm" class="form-horizontal col-md-10" ng-submit="create_update(intfaceForm)">
-            <p><medium ng-show="intface.updated">Last updated at {{intface.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
-            <div class="row">
-                <div class="col-md-offset-1 col-md-2">
-                    <button type="submit" class="btn btn-success btn-block">Save</button>
-                </div>
-                <div class="col-md-offset-1 col-md-2">
-                    <button type="button" class="btn btn-warning btn-block" ng-hide="context" ng-click="remove(intface)">Delete</button>
-                </div>
+    <form name="intfaceForm" class="form-horizontal col-md-10">
+        <div class="row">
+            <h3 class="page-header col-md-10">
+                <span class="col-md-10">Interface - {{intface.name}}</span>
+                <span class="btn-toolbar col-md-2">
+                    <a href="" ng-click="create_update(intfaceForm)" title="Save the Interface"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+                    <a href="" ng-click="remove(intface)" title="Delete the Interface"><span class="glyphicon glyphicon-trash"></span></a>
+                </span>
+            </h3>
+            <div class="btn-toolbar col-md-2">
+                <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
+                    <span class="glyphicon glyphicon-arrow-up"></span>
+                </button>
+                <button ng-if="isSelect() && intface.id" type="button" class="btn btn-primary" ng-click="select()" title="Select">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
             </div>
+        </div>
+        <div class="row">
+            <p><medium ng-show="intface.updated">Last updated at {{intface.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
             <p></p>
             <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
             <div sf-schema="schema" sf-form="form" sf-model="intface" ></div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

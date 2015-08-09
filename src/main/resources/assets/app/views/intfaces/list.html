@@ -1,22 +1,24 @@
 <div ng-controller="IntfacesController" ng-init="find()">
     <div class="row">
-        <h3 class="page-header col-md-8">Interfaces</h3>
-        <div class="col-md-1" ng-show="context && context.url">
-            <button type="button" class="btn btn-info" ng-click="return()">Return</button>
-        </div>
-        <div class="col-md-1" ng-show="context && context.expect">
-            <button type="button" class="btn btn-info" ng-click="select()">Select</button>
+        <h3 class="page-header col-md-10">
+            <span class="col-md-10">Interfaces</span>
+            <span class="btn-toolbar col-md-2">
+                <a ui-sref="intface_create" title="Create an Interface"><span class="glyphicon glyphicon-plus-sign"></span></a>
+            </span>
+        </h3>
+        <div class="btn-toolbar col-md-2">
+            <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
+                <span class="glyphicon glyphicon-arrow-up"></span>
+            </button>
+            <button ng-if="isSelect()" type="button" class="btn btn-primary" ng-click="select()" title="Select">
+                <span class="glyphicon glyphicon-ok"></span>
+            </button>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2">
-            <p><button class="btn btn-primary btn-block" ui-sref="intface_create">Create</button></p>
-        </div>
-    </div>
-    <div class="row">
-        <div ng-if="context && context.expect" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
+        <div ng-if="isSelect()" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
              ui-grid-move-columns ui-grid-selection class="ui-grid"></div>
-        <div ng-if="! (context && context.expect)" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
+        <div ng-if="! isSelect()" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
              ui-grid-move-columns class="ui-grid"></div>
     </div>
     <script type="text/ng-template" id="gridCellTemplate.html">

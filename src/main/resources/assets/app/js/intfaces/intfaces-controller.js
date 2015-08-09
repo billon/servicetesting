@@ -61,6 +61,26 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
 
     $scope.alerts = [];
 
+    $scope.isReturn = function() {
+      if ($scope.context) {
+        if ($scope.context.url) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    $scope.isSelect = function() {
+      if ($scope.context) {
+        if ($scope.context.expect) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
     $scope.gridOptions = {
       paginationPageSizes: [10,20,50,100], paginationPageSize: 10,
       enableFiltering: true,
@@ -84,13 +104,15 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
       onRegisterApi: function(gridApi){
         //set gridApi on scope
         $scope.gridApi = gridApi;
-        gridApi.selection.on.rowSelectionChanged($scope,function(row){
-          if (row.isSelected) {
-            $scope.selectedIntfaces.push(row.entity);
-          } else {
-            $scope.selectedIntfaces = _.without($scope.selectedIntfaces, row.entity);
-          }
-        });
+        if (gridApi.selection) {
+          gridApi.selection.on.rowSelectionChanged($scope,function(row){
+            if (row.isSelected) {
+              $scope.selectedIntfaces.push(row.entity);
+            } else {
+              $scope.selectedIntfaces = _.without($scope.selectedIntfaces, row.entity);
+            }
+          });
+        }
       }
     };
 
