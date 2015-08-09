@@ -1,11 +1,13 @@
 <div ng-controller="IntfacesController" ng-init="find()">
     <div class="row">
-        <h3 class="page-header col-md-10">
-            <span class="col-md-10">Interfaces</span>
+        <div class="col-md-10">
+            <span class="bottom col-md-10"><h3>Interfaces</h3></span>
             <span class="btn-toolbar col-md-2">
-                <a ui-sref="intface_create" title="Create an Interface"><span class="glyphicon glyphicon-plus-sign"></span></a>
+                <a ui-sref="intface_create" title="Create an Interface">
+                    <h3><i class="glyphicon glyphicon-plus-sign"></i></h3>
+                </a>
             </span>
-        </h3>
+        </div>
         <div class="btn-toolbar col-md-2">
             <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
                 <span class="glyphicon glyphicon-arrow-up"></span>
@@ -15,11 +17,13 @@
             </button>
         </div>
     </div>
-    <div class="row">
-        <div ng-if="isSelect()" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
-             ui-grid-move-columns ui-grid-selection class="ui-grid"></div>
-        <div ng-if="! isSelect()" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
-             ui-grid-move-columns class="ui-grid"></div>
+    <div class="row spacer-top-20">
+        <div class="col-md-12">
+            <div ng-if="isSelect()" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
+                 ui-grid-move-columns ui-grid-selection class="ui-grid"></div>
+            <div ng-if="! isSelect()" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
+                 ui-grid-move-columns class="ui-grid"></div>
+        </div>
     </div>
     <script type="text/ng-template" id="gridCellTemplate.html">
         <div class="ui-grid-cell-contents">

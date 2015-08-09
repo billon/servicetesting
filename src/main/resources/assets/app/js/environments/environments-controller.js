@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('EnvironmentsController', ['$scope', 'Environments', 'EnvEntries', 'PageNavigation', '$location', '$stateParams', '$state', 'uiGridConstants',
-  function($scope, Environments, EnvEntries, PageNavigation, $location, $stateParams, $state, uiGridConstants) {
+angular.module('service-testing-tool').controller('EnvironmentsController', ['$scope', 'Environments', 'EnvEntries', 'PageNavigation', '$location', '$stateParams', '$state', 'uiGridConstants', '$modal',
+  function($scope, Environments, EnvEntries, PageNavigation, $location, $stateParams, $state, uiGridConstants, $modal) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -129,9 +129,13 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
         assignto: assignto
       };
 
-      PageNavigation.contexts.push(context);
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/intfaces/list.html',
+        windowClass: 'large-Modal'
+      });
 
-      $state.go(state, params);
+      PageNavigation.contexts.push(context);
     };
 
     $scope.return = function() {
