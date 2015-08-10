@@ -63,9 +63,7 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
 
     $scope.isReturn = function() {
       if ($scope.context) {
-        if ($scope.context.url) {
-          return true;
-        }
+        return true;
       }
 
       return false;
@@ -188,7 +186,7 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
           $scope.context.model.intface = intface;
         });
       } else {
-        $scope.context.selectedIntfaces = $scope.selectedIntfaces;
+        $modalInstance.close($scope.selectedIntfaces);
       }
     };
 
