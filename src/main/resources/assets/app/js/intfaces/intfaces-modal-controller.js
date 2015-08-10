@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('IntfacesController', ['$scope', 'Intfaces', '$location', '$stateParams', '$state', 'uiGridConstants', '$modalInstance', 'context',
-  function($scope, Intfaces, $location, $stateParams, $state, uiGridConstants, $modalInstance, context) {
+angular.module('service-testing-tool').controller('IntfacesModalController', ['$scope', 'Intfaces', '$stateParams', '$state', 'uiGridConstants', '$modalInstance', 'context',
+  function($scope, Intfaces, $stateParams, $state, uiGridConstants, $modalInstance, context) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -150,12 +150,6 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
 
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);
-    };
-
-    $scope.remove = function(intface) {
-      intface.$remove(function(response) {
-          $state.go('intface_all');
-      });
     };
 
     $scope.find = function() {

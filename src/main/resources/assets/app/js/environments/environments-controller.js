@@ -130,7 +130,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
       var modalInstance = $modal.open({
         animation: true,
         templateUrl: '/ui/views/intfaces/list-modal.html',
-        controller: 'IntfacesController',
+        controller: 'IntfacesModalController',
         windowClass: 'large-Modal',
         resolve: {
           context: function () {
