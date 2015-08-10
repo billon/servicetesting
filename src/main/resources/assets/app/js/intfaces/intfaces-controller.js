@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('IntfacesController', ['$scope', 'Intfaces', 'PageNavigation', '$location', '$stateParams', '$state', 'uiGridConstants',
-  function($scope, Intfaces, PageNavigation, $location, $stateParams, $state, uiGridConstants) {
+angular.module('service-testing-tool').controller('IntfacesController', ['$scope', 'Intfaces', '$location', '$stateParams', '$state', 'uiGridConstants', '$modalInstance', 'context',
+  function($scope, Intfaces, $location, $stateParams, $state, uiGridConstants, $modalInstance, context) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -81,6 +81,18 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
       return false;
     };
 
+    $scope.isMultiSelect = function() {
+      if ($scope.context) {
+        if ($scope.context.expect) {
+          if ($scope.context.expect === "Multi") {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    };
+
     $scope.gridOptions = {
       paginationPageSizes: [10,20,50,100], paginationPageSize: 10,
       enableFiltering: true,
@@ -130,7 +142,6 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
         } else {
           var intface = new Intfaces(this.intface);
           intface.$save(function(response) {
-            PageNavigation.contexts.push($scope.context);
             $state.go('intface_edit', {intfaceId: response.id});
           }, function(exception) {
             $scope.alerts.push({type: 'warning', msg: exception.data});
@@ -150,7 +161,7 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
     };
 
     $scope.find = function() {
-      $scope.context = PageNavigation.contexts.pop();
+      $scope.context = context;
 
       Intfaces.query(function(intfaces) {
         if ($scope.context) {
@@ -164,8 +175,7 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
     };
 
     $scope.return = function() {
-      PageNavigation.returns.push($scope.context);
-      $location.path($scope.context.url);
+      $modalInstance.close();
     };
 
     $scope.select = function() {
@@ -176,21 +186,13 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
           intfaceId: $scope.context.model.intfaceId
         }, function(intface) {
           $scope.context.model.intface = intface;
-
-          PageNavigation.returns.push($scope.context.model);
-          $location.path($scope.context.url);
         });
       } else {
         $scope.context.selectedIntfaces = $scope.selectedIntfaces;
-
-        PageNavigation.returns.push($scope.context);
-        $location.path($scope.context.url);
       }
     };
 
     $scope.findOne = function() {
-      $scope.context = PageNavigation.contexts.pop();
-
       if ($stateParams.intfaceId) {
         Intfaces.get({
           intfaceId: $stateParams.intfaceId

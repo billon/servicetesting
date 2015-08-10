@@ -124,18 +124,21 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
       var context = {
         model: $scope.environment,
         intfaceIds: intfaceIds,
-        url: $location.path(),
         expect: expect,
         assignto: assignto
       };
 
       var modalInstance = $modal.open({
         animation: true,
-        templateUrl: '/ui/views/intfaces/list.html',
-        windowClass: 'large-Modal'
+        templateUrl: '/ui/views/intfaces/list-modal.html',
+        controller: 'IntfacesController',
+        windowClass: 'large-Modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
       });
-
-      PageNavigation.contexts.push(context);
     };
 
     $scope.return = function() {
