@@ -8,20 +8,11 @@
                 </a>
             </span>
         </div>
-        <div class="btn-toolbar col-md-2">
-            <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
-                <span class="glyphicon glyphicon-arrow-up"></span>
-            </button>
-            <button ng-if="isSelect()" type="button" class="btn btn-primary" ng-click="select()" title="Select">
-                <span class="glyphicon glyphicon-ok"></span>
-            </button>
-        </div>
     </div>
-    <div class="row spacer-top-20">
+    <p></p>
+    <div class="row">
         <div class="col-md-12">
-            <div ng-if="isSelect()" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
-                 ui-grid-move-columns ui-grid-selection class="ui-grid"></div>
-            <div ng-if="! isSelect()" ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
+            <div ui-grid="gridOptions" ui-grid-pagination ui-grid-resize-columns
                  ui-grid-move-columns class="ui-grid"></div>
         </div>
     </div>
