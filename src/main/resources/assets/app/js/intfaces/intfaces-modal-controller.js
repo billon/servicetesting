@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('IntfacesModalController', ['$scope', 'Intfaces', '$stateParams', '$state', 'uiGridConstants', '$modalInstance', 'context',
-  function($scope, Intfaces, $stateParams, $state, uiGridConstants, $modalInstance, context) {
+angular.module('service-testing-tool').controller('IntfacesModalController', ['$scope', 'Intfaces', '$stateParams', 'uiGridConstants', '$modalInstance', 'context',
+  function($scope, Intfaces, $stateParams, uiGridConstants, $modalInstance, context) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -121,28 +121,6 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
             } else {
               $scope.selectedIntfaces = _.without($scope.selectedIntfaces, row.entity);
             }
-          });
-        }
-      }
-    };
-
-    $scope.create_update = function(form) {
-      $scope.$broadcast('schemaFormValidate');
-
-      if (form.$valid) {
-        if (this.intface.id) {
-          var intface = this.intface;
-          intface.$update(function() {
-            $scope.alerts.push({type: 'success', msg: 'The Intface has been updated successfully'});
-          }, function(exception) {
-            $scope.alerts.push({type: 'warning', msg: exception.data});
-          });
-        } else {
-          var intface = new Intfaces(this.intface);
-          intface.$save(function(response) {
-            $state.go('intface_edit', {intfaceId: response.id});
-          }, function(exception) {
-            $scope.alerts.push({type: 'warning', msg: exception.data});
           });
         }
       }

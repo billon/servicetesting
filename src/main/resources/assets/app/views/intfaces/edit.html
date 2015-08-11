@@ -1,14 +1,21 @@
 <div ng-controller="IntfacesController" data-ng-init="findOne()">
-    <form name="intfaceForm" class="form-horizontal col-md-10">
+    <form name="intfaceForm" class="form-horizontal">
         <div class="row">
-            <h3 class="page-header col-md-10">
-                <span class="col-md-10">Interface - {{intface.name}}</span>
-                <span class="btn-toolbar col-md-2">
-                    <a href="" ng-click="create_update(intfaceForm)" title="Save the Interface"><span class="glyphicon glyphicon-floppy-disk"></span></a>
-                    <a href="" ng-click="remove(intface)" title="Delete the Interface"><span class="glyphicon glyphicon-trash"></span></a>
+            <div class="col-lg-10">
+                <span class="bottom col-lg-10"><h3>Interface - {{intface.name}}</h3></span>
+                <span class="btn-toolbar col-lg-2">
+                    <a href="" ui-sref="intface_all" title="Back">
+                        <span><h3 class="glyphicon glyphicon-circle-arrow-left"></h3></span>
+                    </a>
+                    <a href="" ng-click="create_update(intfaceForm)" title="Save the Interface">
+                        <span><h3 class="glyphicon glyphicon-floppy-disk"></h3></span>
+                    </a>
+                    <a href="" ng-click="remove(intface)" title="Delete the Interface">
+                        <span><h3 class="glyphicon glyphicon-trash"></h3></span>
+                    </a>
                 </span>
-            </h3>
-            <div class="btn-toolbar col-md-2">
+            </div>
+            <div class="btn-toolbar col-lg-2">
                 <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
                     <span class="glyphicon glyphicon-arrow-up"></span>
                 </button>
@@ -18,10 +25,12 @@
             </div>
         </div>
         <div class="row">
-            <p><medium ng-show="intface.updated">Last updated at {{intface.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
-            <p></p>
-            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-            <div sf-schema="schema" sf-form="form" sf-model="intface" ></div>
+            <div class="col-lg-12">
+                <p><medium ng-show="intface.updated">Last updated at {{intface.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
+                <p></p>
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+                <div sf-schema="schema" sf-form="form" sf-model="intface" ></div>
+            </div>
         </div>
     </form>
 </div>
