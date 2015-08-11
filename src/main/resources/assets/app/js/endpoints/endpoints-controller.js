@@ -69,6 +69,10 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
 
     $scope.alerts = [];
 
+    $scope.isPassword = function(entity) {
+      return entity.name === 'password';
+    }
+
     $scope.create_update = function(form) {
       $scope.$broadcast('schemaFormValidate');
 
