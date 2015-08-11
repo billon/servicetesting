@@ -1,15 +1,20 @@
 <div ng-controller="EnvironmentsController" ng-init="find()">
     <div class="row">
-        <h3 class="page-header">Environments</h3>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-            <p><button class="btn btn-primary btn-block" ui-sref="environment_create">Create</button></p>
+        <div class="col-lg-10">
+            <span class="bottom col-lg-10"><h3>Environments</h3></span>
+            <span class="btn-toolbar col-lg-2">
+                <a ui-sref="environment_create" title="Create an Environment">
+                    <i><h3 class="glyphicon glyphicon-plus-sign"></h3></i>
+                </a>
+            </span>
         </div>
     </div>
+    <p></p>
     <div class="row">
-        <div ui-grid="{paginationPageSizes: [10,20,50,100], paginationPageSize: 10, enableFiltering: true, data: environments, columnDefs: envGridColumnDefs}"
-             ui-grid-pagination ui-grid-resize-columns ui-grid-move-columns class="ui-grid"></div>
+        <div class="col-lg-12">
+            <div ui-grid="{paginationPageSizes: [10,20,50,100], paginationPageSize: 10, enableFiltering: true, data: environments, columnDefs: envGridColumnDefs}"
+                 ui-grid-pagination ui-grid-resize-columns ui-grid-move-columns class="ui-grid"></div>
+        </div>
     </div>
     <script type="text/ng-template" id="gridCellTemplate.html">
         <div class="ui-grid-cell-contents">
