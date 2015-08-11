@@ -19,7 +19,7 @@
                 <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
                     <span class="glyphicon glyphicon-arrow-up"></span>
                 </button>
-                <button ng-if="isSelect() && environment.id" type="button" class="btn btn-primary" ng-click="select()" title="Select">
+                <button ng-if="isSelect()" type="button" class="btn btn-primary" ng-click="select()" title="Select">
                     <span class="glyphicon glyphicon-ok"></span>
                 </button>
             </div>
@@ -37,17 +37,22 @@
                     <tab ng-if="environment.id" heading="Interfaces" active="true">
                         <p></p>
                         <div class="row">
-                            <div class="col-lg-2">
-                                <button type="button" class="btn btn-primary" ng-click="goto('intface_all', null, 'Multi')">Add Interfaces</button>
-                            </div>
-                            <div class="col-lg-2">
-                                <button type="button" class="btn btn-primary" ng-click="removeEntries()">Remove Interfaces</button>
+                            <div class="btn-group col-md-offset-9 col-lg-2" dropdown>
+                                <button type="button" class="btn btn-primary" dropdown-toggle>
+                                    Action <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="" ng-click="goto('intface_all', null, 'Multi')">Add Interfaces</a></li>
+                                    <li><a href="" ng-click="removeEntries()">Remove Selected Interfaces</a></li>
+                                </ul>
                             </div>
                         </div>
                         <p></p>
                         <div class="row">
-                            <div ui-grid="enventryGridOptions" ui-grid-pagination ui-grid-resize-columns ui-grid-move-columns
-                                 ui-grid-selection class="ui-grid"></div>
+                            <div class="col-lg-12">
+                                <div ui-grid="enventryGridOptions" ui-grid-pagination ui-grid-resize-columns ui-grid-move-columns
+                                     ui-grid-selection class="ui-grid"></div>
+                            </div>
                         </div>
                     </tab>
                 </tabset>
