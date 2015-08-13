@@ -123,7 +123,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
 
       var context = {
         intfaceIds: intfaceIds,
-        expect: expect
+        expect: 'Multi'
       };
 
       var modalInstance = $modal.open({

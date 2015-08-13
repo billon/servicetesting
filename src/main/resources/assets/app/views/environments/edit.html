@@ -26,13 +26,15 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <p><medium ng-show="environment.updated">Last updated at {{environment.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
+                <p><medium ng-show="environment.updated" class="margin-small">Last updated at {{environment.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
                 <p></p>
                 <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
                 <tabset>
                     <tab heading="Basic Info">
                         <p></p>
-                        <div sf-schema="schema" sf-form="form" sf-model="environment" ></div>
+                        <div class="margin-medium">
+                            <div sf-schema="schema" sf-form="form" sf-model="environment" ></div>
+                        </div>
                     </tab>
                     <tab ng-if="environment.id" heading="Interfaces" active="true">
                         <p></p>
@@ -42,7 +44,7 @@
                                     Action <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="" ng-click="addEntries('Multi')">Add Interfaces</a></li>
+                                    <li><a href="" ng-click="addEntries()">Add Interfaces</a></li>
                                     <li><a href="" ng-click="removeEntries()">Remove Selected Interfaces</a></li>
                                 </ul>
                             </div>
