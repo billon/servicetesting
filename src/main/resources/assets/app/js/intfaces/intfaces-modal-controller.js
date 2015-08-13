@@ -163,9 +163,11 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
     };
 
     $scope.findOne = function() {
-      if ($stateParams.intfaceId) {
+      $scope.context = context;
+
+      if ($scope.context.intfaceId) {
         Intfaces.get({
-          intfaceId: $stateParams.intfaceId
+          intfaceId: $scope.context.intfaceId
         }, function(intface) {
           $scope.intface = intface;
         });

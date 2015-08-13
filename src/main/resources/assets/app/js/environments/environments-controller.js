@@ -118,13 +118,12 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
       });
     };
 
-    $scope.goto = function(state, params, expect, assignto) {
+    $scope.addEntries = function(expect) {
       var intfaceIds = _.pluck($scope.environment.entries, 'intfaceId');
 
       var context = {
         intfaceIds: intfaceIds,
-        expect: expect,
-        assignto: assignto
+        expect: expect
       };
 
       var modalInstance = $modal.open({
@@ -147,6 +146,24 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
               intface: selectedIntface
             });
           });
+        }
+      });
+    };
+
+    $scope.viewIntface = function(intfaceId) {
+      var context = {
+        intfaceId: intfaceId
+      };
+
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/intfaces/edit-modal.html',
+        controller: 'IntfacesModalController',
+        windowClass: 'large-Modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
         }
       });
     };

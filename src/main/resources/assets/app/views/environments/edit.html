@@ -42,7 +42,7 @@
                                     Action <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="" ng-click="goto('intface_all', null, 'Multi')">Add Interfaces</a></li>
+                                    <li><a href="" ng-click="addEntries('Multi')">Add Interfaces</a></li>
                                     <li><a href="" ng-click="removeEntries()">Remove Selected Interfaces</a></li>
                                 </ul>
                             </div>
@@ -60,7 +60,7 @@
         </div>
         <script type="text/ng-template" id="gridIntfaceCellTemplate.html">
             <div class="ui-grid-cell-contents">
-                <div><a href="" ng-click="grid.appScope.goto('intface_edit', row.entity, null)">
+                <div><a href="" ng-click="grid.appScope.viewIntface(row.entity.intfaceId)">
                     {{COL_FIELD}}</a></div>
             </div>
         </script>
