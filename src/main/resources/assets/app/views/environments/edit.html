@@ -69,7 +69,7 @@
         <script type="text/ng-template" id="gridEndpointCellTemplate.html">
             <div class="ui-grid-cell-contents">
                 <div class="col-lg-11">
-                    <a ng-if="row.entity.endpointId" href="" ng-click="grid.appScope.goto('endpoint_edit', row.entity, null)">{{COL_FIELD}}</a>
+                    <a ng-if="row.entity.endpointId" href="" ng-click="grid.appScope.viewEndpoint(row.entity.endpointId)">{{COL_FIELD}}</a>
                     <span ng-if="! row.entity.endpointId">Please select an endpoint</span>
                 </div>
                 <div class="col-lg-1">

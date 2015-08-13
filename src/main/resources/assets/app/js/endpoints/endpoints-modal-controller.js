@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('EndpointsController', ['$scope', 'Endpoints', '$stateParams', '$state', 'uiGridConstants',
-  function($scope, Endpoints, $stateParams, $state, uiGridConstants) {
+angular.module('service-testing-tool').controller('EndpointsController', ['$scope', 'Endpoints', 'PageNavigation', '$location', '$stateParams', '$state', 'uiGridConstants',
+  function($scope, Endpoints, PageNavigation, $location, $stateParams, $state, uiGridConstants) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -87,6 +87,7 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
         } else {
           var endpoint = new Endpoints(this.endpoint);
           endpoint.$save(function(response) {
+            PageNavigation.contexts.push($scope.context);
             $state.go('endpoint_edit', {endpointId: response.id});
           }, function(exception) {
             $scope.alerts.push({type: 'warning', msg: exception.data});
@@ -128,6 +129,26 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
       });
     };
 
+    $scope.return = function() {
+      PageNavigation.returns.push($scope.context);
+      $location.path($scope.context.url);
+    };
+
+    $scope.select = function() {
+      if ($scope.endpoint.id) {
+        $scope.context.assignto.endpointId = $scope.endpoint.id;
+
+        Endpoints.get({
+          endpointId: $scope.context.assignto.endpointId
+        }, function(endpoint) {
+          $scope.context.assignto.endpoint = endpoint;
+
+          PageNavigation.returns.push($scope.context);
+          $location.path($scope.context.url);
+        });
+      }
+    };
+
     $scope.findOne = function() {
       $scope.columnDefs = [
         {
@@ -138,6 +159,8 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
           cellTemplate:'propertyGridCellTemplate.html'
         }
       ];
+
+      $scope.context = PageNavigation.contexts.pop();
 
       if ($stateParams.endpointId) {
         Endpoints.get({

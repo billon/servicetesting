@@ -168,6 +168,24 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
       });
     };
 
+    $scope.viewEndpoint = function(endpointId) {
+      var context = {
+        endpointId: endpointId
+      };
+
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/endpoints/edit-modal.html',
+        controller: 'EndpointsModalController',
+        windowClass: 'large-Modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+    };
+
     $scope.return = function() {
       PageNavigation.returns.push($scope.context.model);
       $location.path($scope.context.url);

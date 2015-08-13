@@ -61,6 +61,28 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
 
     $scope.alerts = [];
 
+    $scope.create_update = function(form) {
+      $scope.$broadcast('schemaFormValidate');
+
+      if (form.$valid) {
+        if (this.intface.id) {
+          var intface = this.intface;
+          intface.$update(function() {
+            $scope.alerts.push({type: 'success', msg: 'The Intface has been updated successfully'});
+          }, function(exception) {
+            $scope.alerts.push({type: 'warning', msg: exception.data});
+          });
+        } else {
+          var intface = new Intfaces(this.intface);
+          intface.$save(function(response) {
+            $state.go('intface_edit', {intfaceId: response.id});
+          }, function(exception) {
+            $scope.alerts.push({type: 'warning', msg: exception.data});
+          });
+        }
+      }
+    };
+
     $scope.isReturn = function() {
       if ($scope.context) {
         return true;
