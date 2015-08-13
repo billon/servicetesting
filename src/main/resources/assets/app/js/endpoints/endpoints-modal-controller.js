@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('EndpointsController', ['$scope', 'Endpoints', 'PageNavigation', '$location', '$stateParams', '$state', 'uiGridConstants',
-  function($scope, Endpoints, PageNavigation, $location, $stateParams, $state, uiGridConstants) {
+angular.module('service-testing-tool').controller('EndpointsModalController', ['$scope', 'Endpoints', '$stateParams', '$state', 'uiGridConstants', '$modalInstance', 'context',
+  function($scope, Endpoints, $stateParams, $state, uiGridConstants, $modalInstance, context) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -87,7 +87,6 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
         } else {
           var endpoint = new Endpoints(this.endpoint);
           endpoint.$save(function(response) {
-            PageNavigation.contexts.push($scope.context);
             $state.go('endpoint_edit', {endpointId: response.id});
           }, function(exception) {
             $scope.alerts.push({type: 'warning', msg: exception.data});
@@ -96,14 +95,26 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
       }
     };
 
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
+    $scope.isReturn = function() {
+      if ($scope.context) {
+        return true;
+      }
+
+      return false;
     };
 
-    $scope.remove = function(endpoint) {
-      endpoint.$remove(function(response) {
-          $state.go('endpoint_all');
-      });
+    $scope.isSelect = function() {
+      if ($scope.context) {
+        if ($scope.context.expect) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    $scope.closeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
     };
 
     $scope.find = function() {
@@ -130,23 +141,10 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
     };
 
     $scope.return = function() {
-      PageNavigation.returns.push($scope.context);
-      $location.path($scope.context.url);
+      $modalInstance.close();
     };
 
     $scope.select = function() {
-      if ($scope.endpoint.id) {
-        $scope.context.assignto.endpointId = $scope.endpoint.id;
-
-        Endpoints.get({
-          endpointId: $scope.context.assignto.endpointId
-        }, function(endpoint) {
-          $scope.context.assignto.endpoint = endpoint;
-
-          PageNavigation.returns.push($scope.context);
-          $location.path($scope.context.url);
-        });
-      }
     };
 
     $scope.findOne = function() {
@@ -160,11 +158,11 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
         }
       ];
 
-      $scope.context = PageNavigation.contexts.pop();
+      $scope.context = context;
 
-      if ($stateParams.endpointId) {
+      if ($scope.context.endpointId) {
         Endpoints.get({
-          endpointId: $stateParams.endpointId
+          endpointId: $scope.context.endpointId
         }, function(endpoint) {
           $scope.endpoint = endpoint;
         });
