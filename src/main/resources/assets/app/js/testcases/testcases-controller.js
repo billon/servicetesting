@@ -11,11 +11,7 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
         },
         cellTemplate: 'testcaseGridNameCellTemplate.html'
       },
-      {name: 'description', width: 585, minWidth: 300},
-      {
-        name: 'delete', width: 100, minWidth: 80, enableSorting: false, enableFiltering: false,
-        cellTemplate: 'testcaseGridDeleteCellTemplate.html'
-      }
+      {name: 'description', width: 585, minWidth: 300}
     ];
 
     $scope.teststepColumnDefs = [
