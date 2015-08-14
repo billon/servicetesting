@@ -8,7 +8,7 @@ angular.module('service-testing-tool').config(['$stateProvider', function ($stat
         })
         .state('testcase_create', {
             url: '/testcases/create',
-            templateUrl: '/ui/views/testcases/create.html'
+            templateUrl: '/ui/views/testcases/edit.html'
         })
         .state('testcase_edit', {
             url: '/testcases/:testcaseId/edit',

@@ -63,32 +63,32 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
 
     $scope.testcase = {};
 
-    $scope.update = function(isValid) {
-      if (isValid) {
-        $scope.testcase.$update(function(response) {
-          $scope.saveSuccessful = true;
-          $scope.testcase = response;
-        }, function(error) {
-          $scope.savingErrorMessage = error.data.message;
-          $scope.saveSuccessful = false;
-        });
-      } else {
-        $scope.submitted = true;
+    $scope.alerts = [];
+
+    $scope.create_update = function(form) {
+      $scope.$broadcast('schemaFormValidate');
+
+      if (form.$valid) {
+        if (this.testcase.id) {
+          var testcase = this.testcase;
+          testcase.$update(function() {
+            $scope.alerts.push({type: 'success', msg: 'The Test Case has been updated successfully'});
+          }, function(exception) {
+            $scope.alerts.push({type: 'warning', msg: exception.data});
+          });
+        } else {
+          var testcase = new Testcases(this.testcase);
+          testcase.$save(function(response) {
+            $state.go('testcase_edit', {testcaseId: response.id});
+          }, function(exception) {
+            $scope.alerts.push({type: 'warning', msg: exception.data});
+          });
+        }
       }
     };
 
-    $scope.create = function(isValid) {
-      if (isValid) {
-        var testcase = new Testcases({
-          name: this.name,
-          description: this.description
-        });
-        testcase.$save(function(response) {
-          $state.go('testcase_edit', {testcaseId: response.id});
-        });
-      } else {
-        $scope.submitted = true;
-      }
+    $scope.closeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
     };
 
     $scope.remove = function(testcase) {
