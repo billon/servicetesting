@@ -61,7 +61,7 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       }
     ];
 
-    $scope.saveSuccessful = null;
+    $scope.testcase = {};
 
     $scope.update = function(isValid) {
       if (isValid) {
@@ -75,14 +75,6 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       } else {
         $scope.submitted = true;
       }
-    };
-
-    var timer;
-    $scope.autoSave = function(isValid) {
-      if (timer) $timeout.cancel(timer);
-      timer = $timeout(function() {
-        $scope.update(isValid);
-      }, 2000);
     };
 
     $scope.create = function(isValid) {
