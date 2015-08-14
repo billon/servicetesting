@@ -35,20 +35,17 @@ angular.module('service-testing-tool').controller('EndpointsModalController', ['
       {
         key: "name",
         title: "Name",
-        htmlClass: 'spacer-bottom-0',
         validationMessage: "The Name is required and should be less than 50 characters"
       },
       {
         key: "description",
         title: "Description",
-        htmlClass: 'spacer-bottom-0',
         type: "textarea",
         validationMessage: "The Description is required and should be less than 500 characters"
       },
       {
         key: "handler",
         title: "Handler",
-        htmlClass: 'spacer-bottom-0',
         type: "select",
         titleMap: [
           {value: "DBHandler", name: "DBHandler"},

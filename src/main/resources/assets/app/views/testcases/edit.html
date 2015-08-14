@@ -1,16 +1,18 @@
 <div ng-controller="TestcasesController" ng-init="findOne()">
   <div class="row">
-    <div>
-      <h3 class="page-header">Test Case - {{testcase.name}}
-        <label class="col-lg-offset-1 failure-message" ng-show="saveSuccessful !== null && !saveSuccessful">
-          Failed to save. {{savingErrorMessage}}
-        </label>
-        <label class="col-lg-offset-1" successful-message ng-class="{ 'successful-message-animation' : saveSuccessful }">
-          Successfully saved
-        </label>
-        <small>Last edit at {{testcase.updated | date:'medium'}}</small>
-        <label class="back-link"><a ui-sref="testcase_all">Back</a>                    </label>
-      </h3>
+    <div class="col-lg-10">
+      <span class="bottom col-lg-10"><h3>Test Case - {{testcase.name}}</h3></span>
+        <span class="btn-toolbar col-lg-2">
+            <a href="" ui-sref="testcase_all" title="Back">
+              <i><h3 class="glyphicon glyphicon-circle-arrow-left"></h3></i>
+            </a>
+            <a href="" ng-click="create_update(testcaseForm)" title="Save the Test Case">
+              <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
+            </a>
+            <a href="" ng-click="remove(testcase)" title="Delete the Test Case">
+              <i><h3 class="glyphicon glyphicon-trash"></h3></i>
+            </a>
+        </span>
     </div>
   </div>
   <tabset>

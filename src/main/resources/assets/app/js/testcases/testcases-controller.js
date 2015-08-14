@@ -2,6 +2,29 @@
 
 angular.module('service-testing-tool').controller('TestcasesController', ['$scope', 'Testcases', 'Teststeps', 'Testruns', '$stateParams', '$state', 'uiGridConstants', '$timeout', '$location', 'PageNavigation',
   function($scope, Testcases, Teststeps, Testruns, $stateParams, $state, uiGridConstants, $timeout, $location, PageNavigation) {
+    $scope.schema = {
+      type: "object",
+      properties: {
+        id: { type: "integer" },
+        name: { type: "string", maxLength: 200 },
+        description: { type: "string" }
+      },
+      "required": ["name", "description"]
+    };
+
+    $scope.form = [
+      {
+        key: "name",
+        title: "Name",
+        validationMessage: "The Name is required and should be less than 200 characters"
+      },
+      {
+        key: "description",
+        title: "Description",
+        type: "textarea"
+      }
+    ];
+
     $scope.columnDefs = [
       {
         name: 'name', width: 200, minWidth: 100,
