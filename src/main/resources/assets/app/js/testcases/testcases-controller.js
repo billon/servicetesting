@@ -39,21 +39,17 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
 
     $scope.teststepColumnDefs = [
       {
-        name: 'name', width: 200, minWidth: 100,
+        name: 'name', width: 150, minWidth: 50,
         sort: {
           direction: uiGridConstants.ASC,
           priority: 1
         },
         cellTemplate: 'teststepGridNameCellTemplate.html'
       },
-      {name: 'description', width: 485, minWidth: 300},
+      {name: 'description', width: 400, minWidth: 200},
       {
         name: 'intface.name', displayName: 'Interface', width: 200, minWidth: 100,
         cellTemplate: 'teststepGridIntfaceCellTemplate.html'
-      },
-      {
-        name: 'delete', width: 100, minWidth: 80, enableSorting: false, enableFiltering: false,
-        cellTemplate: 'teststepGridDeleteCellTemplate.html'
       },
       {
         name: 'result.error', displayName: 'Result', width: 100, minWidth: 80,

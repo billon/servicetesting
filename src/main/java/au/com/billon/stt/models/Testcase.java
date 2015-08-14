@@ -57,7 +57,11 @@ public class Testcase {
     }
 
     public void setEnvironmentId(Long environmentId) {
-        this.environmentId = environmentId;
+        if (environmentId == 0) {
+            this.environmentId = null;
+        } else {
+            this.environmentId = environmentId;
+        }
     }
 
     public Environment getEnvironment() {
