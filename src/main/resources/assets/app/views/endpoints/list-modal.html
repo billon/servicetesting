@@ -7,7 +7,7 @@
             <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
                 <span class="glyphicon glyphicon-arrow-up"></span>
             </button>
-            <button ng-if="isSelect()" type="button" class="btn btn-primary" ng-click="select()" title="Select">
+            <button ng-if="isMultiSelect()" type="button" class="btn btn-primary" ng-click="select()" title="Select">
                 <span class="glyphicon glyphicon-ok"></span>
             </button>
         </div>
@@ -21,7 +21,7 @@
     </div>
     <script type="text/ng-template" id="gridCellTemplate.html">
         <div class="ui-grid-cell-contents">
-            <div><a ui-sref="endpoint_edit({ endpointId: row.entity.id })">{{COL_FIELD}}</a></div>
+            <div><a href="" ng-click="grid.appScope.select(row.entity)">{{COL_FIELD}}</a></div>
         </div>
     </script>
 </div>

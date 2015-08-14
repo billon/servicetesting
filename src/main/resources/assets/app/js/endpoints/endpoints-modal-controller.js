@@ -113,6 +113,18 @@ angular.module('service-testing-tool').controller('EndpointsModalController', ['
       return false;
     };
 
+    $scope.isMultiSelect = function() {
+      if ($scope.context) {
+        if ($scope.context.expect) {
+          if ($scope.context.expect === "Multi") {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    };
+
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);
     };
@@ -135,7 +147,15 @@ angular.module('service-testing-tool').controller('EndpointsModalController', ['
         }
       ];
 
+      $scope.context = context;
+
       Endpoints.query(function(endpoints) {
+        if ($scope.context) {
+          endpoints = _.filter(endpoints, function(endpoint) {
+            return $scope.context.endpointId !== endpoint.id;
+          });
+        }
+
         $scope.endpoints = endpoints;
       });
     };
@@ -144,7 +164,8 @@ angular.module('service-testing-tool').controller('EndpointsModalController', ['
       $modalInstance.close();
     };
 
-    $scope.select = function() {
+    $scope.select = function(endpoint) {
+      $modalInstance.close(endpoint);
     };
 
     $scope.findOne = function() {

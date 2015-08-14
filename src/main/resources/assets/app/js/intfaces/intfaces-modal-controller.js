@@ -158,7 +158,7 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
       Intfaces.query(function(intfaces) {
         if ($scope.context) {
           intfaces = _.filter(intfaces, function(intface) {
-            return ! _.contains($scope.context.intfaceIds, intface.id)
+            return ! _.contains($scope.context.intfaceIds, intface.id);
           });
         }
         $scope.intfaces = intfaces;
@@ -171,16 +171,9 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
     };
 
     $scope.select = function() {
-      if ($scope.intface.id) {
-        $scope.context.model.intfaceId = $scope.intface.id;
-
-        Intfaces.get({
-          intfaceId: $scope.context.model.intfaceId
-        }, function(intface) {
-          $scope.context.model.intface = intface;
-        });
-      } else {
+      if ($scope.isMultiSelect()) {
         $modalInstance.close($scope.selectedIntfaces);
+      } else {
       }
     };
 

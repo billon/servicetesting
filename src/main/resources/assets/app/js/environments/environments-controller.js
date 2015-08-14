@@ -170,6 +170,8 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
 
       modalInstance.result.then(function (selectedEndpoint) {
         if (selectedEndpoint) {
+          entry.endpointId = selectedEndpoint.id;
+          entry.endpoint = selectedEndpoint;
         }
       });
     };
