@@ -1,102 +1,109 @@
 <div ng-controller="TestcasesController" ng-init="findOne()">
-  <div class="row">
-    <div class="col-lg-10">
-      <span class="bottom col-lg-10"><h3>Test Case - {{testcase.name}}</h3></span>
-        <span class="btn-toolbar col-lg-2">
-            <a href="" ui-sref="testcase_all" title="Back">
-              <i><h3 class="glyphicon glyphicon-circle-arrow-left"></h3></i>
-            </a>
-            <a href="" ng-click="create_update(testcaseForm)" title="Save the Test Case">
-              <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
-            </a>
-            <a href="" ng-click="remove(testcase)" title="Delete the Test Case">
-              <i><h3 class="glyphicon glyphicon-trash"></h3></i>
-            </a>
-        </span>
+  <form name="testcaseForm" class="form-horizontal col-lg-6" role="form" novalidate>
+    <div class="row">
+      <div class="col-lg-10">
+        <span class="bottom col-lg-10"><h3>Test Case - {{testcase.name}}</h3></span>
+          <span class="btn-toolbar col-lg-2">
+              <a href="" ui-sref="testcase_all" title="Back">
+                <i><h3 class="glyphicon glyphicon-circle-arrow-left"></h3></i>
+              </a>
+              <a href="" ng-click="create_update(testcaseForm)" title="Save the Test Case">
+                <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
+              </a>
+              <a href="" ng-click="remove(testcase)" title="Delete the Test Case">
+                <i><h3 class="glyphicon glyphicon-trash"></h3></i>
+              </a>
+          </span>
+      </div>
     </div>
-  </div>
-  <tabset>
-    <tab heading="Basic Info">
-      <form name="testcaseForm" class="form-horizontal col-lg-6" role="form" novalidate>
-        <div class="form-group"></div>
-        <div class="form-group" ng-class="{ 'has-error' : submitted && testcaseForm.name.$invalid }">
-          <label for="name" class="col-lg-2 control-label">Name</label>
-          <div class="col-lg-10">
-            <input name="name" type="text" class="form-control" ng-model="testcase.name"
-                ng-change="autoSave(testcaseForm.$valid)" id="name" placeholder="Name" maxlength="200" required>
-            <div ng-show="submitted && testcaseForm.name.$invalid" class="help-block">
-              <p ng-show="testcaseForm.name.$error.required">Name is required</p>
+    <div class="row">
+      <div class="col-lg-12">
+        <p><medium ng-show="testcase.updated" class="margin-small">Last updated at {{testcase.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
+        <p></p>
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        <tabset>
+          <tab heading="Basic Info">
+              <div class="form-group"></div>
+              <div class="form-group" ng-class="{ 'has-error' : submitted && testcaseForm.name.$invalid }">
+                <label for="name" class="col-lg-2 control-label">Name</label>
+                <div class="col-lg-10">
+                  <input name="name" type="text" class="form-control" ng-model="testcase.name"
+                      ng-change="autoSave(testcaseForm.$valid)" id="name" placeholder="Name" maxlength="200" required>
+                  <div ng-show="submitted && testcaseForm.name.$invalid" class="help-block">
+                    <p ng-show="testcaseForm.name.$error.required">Name is required</p>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="description" class="col-lg-2 control-label">Description</label>
+                <div class="col-lg-10">
+                  <textarea name="description" ng-model="testcase.description" ng-change="autoSave(testcaseForm.$valid)"
+                      id="description" cols="30" rows="10" placeholder="Description" class="form-control"></textarea>
+                </div>
+              </div>
+          </tab>
+          <tab heading="Test Steps" active="true">
+            <div class="form-group"></div>
+            <div class="row">
+              <div class="form-group">
+                <div class="col-lg-2">
+                  <button class="btn btn-primary btn-block" ui-sref="teststep_create({testcaseId: testcase.id})">Create</button>
+                </div>
+                <div class="col-lg-offset-1 col-lg-7">
+                  <a ng-if="testcase.environmentId" class="text-right" href="" ng-click="goto('environment_edit', {environmentId: testcase.environmentId})"><h4>{{testcase.environment.name}}</h4></a>
+                  <span ng-if="! testcase.environmentId" class="text-right"><h4>Please select an environment to run</h4></span>
+                </div>
+                <div class="col-lg-1">
+                  <a href="" ng-click="goto('environment_all', null, 'environment')"><h4><i class="glyphicon glyphicon-edit"></i></h4></a>
+                </div>
+                <div class="col-lg-1">
+                  <button class="btn btn-success btn-block" href="" ng-click="run()">Run</button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="description" class="col-lg-2 control-label">Description</label>
-          <div class="col-lg-10">
-            <textarea name="description" ng-model="testcase.description" ng-change="autoSave(testcaseForm.$valid)"
-                id="description" cols="30" rows="10" placeholder="Description" class="form-control"></textarea>
-          </div>
-        </div>
-      </form>
-    </tab>
-    <tab heading="Test Steps" active="true">
-      <div class="form-group"></div>
-      <div class="row">
-        <div class="form-group">
-          <div class="col-lg-2">
-            <button class="btn btn-primary btn-block" ui-sref="teststep_create({testcaseId: testcase.id})">Create</button>
-          </div>
-          <div class="col-lg-offset-1 col-lg-7">
-            <a ng-if="testcase.environmentId" class="text-right" href="" ng-click="goto('environment_edit', {environmentId: testcase.environmentId})"><h4>{{testcase.environment.name}}</h4></a>
-            <span ng-if="! testcase.environmentId" class="text-right"><h4>Please select an environment to run</h4></span>
-          </div>
-          <div class="col-lg-1">
-            <a href="" ng-click="goto('environment_all', null, 'environment')"><h4><i class="glyphicon glyphicon-edit"></i></h4></a>
-          </div>
-          <div class="col-lg-1">
-            <button class="btn btn-success btn-block" href="" ng-click="run()">Run</button>
-          </div>
-        </div>
+            <div class="form-group"></div>
+            <div class="row">
+              <div ui-grid="{enableFiltering: true, data: testcase.teststeps, columnDefs: teststepColumnDefs}"
+                   ui-grid-resize-columns ui-grid-move-columns class="ui-grid"></div>
+            </div>
+          </tab>
+        </tabset>
       </div>
-      <div class="form-group"></div>
-      <div class="row">
-        <div ui-grid="{enableFiltering: true, data: testcase.teststeps, columnDefs: teststepColumnDefs}"
-             ui-grid-resize-columns ui-grid-move-columns class="ui-grid"></div>
-      </div>
-    </tab>
-  </tabset>
+    </div>
 
-  <script type="text/ng-template" id="teststepGridNameCellTemplate.html">
-    <div class="ui-grid-cell-contents">
-      <div>
-        <a ui-sref="teststep_edit({ testcaseId: row.entity.testcaseId, teststepId: row.entity.id })">{{COL_FIELD}}</a>
-      </div>
-    </div>
-  </script>
-  <script type="text/ng-template" id="teststepGridIntfaceCellTemplate.html">
-    <div class="ui-grid-cell-contents">
-      <div ng-if="row.entity.intfaceId">
-        <a ng-click="grid.appScope.goto('intface_edit', {intfaceId: row.entity.intfaceId})" href="">{{COL_FIELD}}</a>
-      </div>
-      <div ng-if="! row.entity.intfaceId">Quick SOAP Test</div>
-    </div>
-  </script>
-  <script type="text/ng-template" id="teststepGridDeleteCellTemplate.html">
-    <div class="ui-grid-cell-contents">
-      <div>
-        <a ng-click="grid.appScope.removeTeststep(row.entity)" href="">
-          <i class="glyphicon glyphicon-trash center-block text-center"></i>
-        </a>
-      </div>
-    </div>
-  </script>
-  <script type="text/ng-template" id="teststepGridResultCellTemplate.html">
-    <div class="ui-grid-cell-contents">
-      <div>
-        <div ng-if="row.entity.result">
-          <div ng-if="row.entity.result.error">Failed</div>
-          <div ng-if="! row.entity.result.error">Successful</div>
+    <script type="text/ng-template" id="teststepGridNameCellTemplate.html">
+      <div class="ui-grid-cell-contents">
+        <div>
+          <a ui-sref="teststep_edit({ testcaseId: row.entity.testcaseId, teststepId: row.entity.id })">{{COL_FIELD}}</a>
         </div>
       </div>
-    </div>
-  </script>
+    </script>
+    <script type="text/ng-template" id="teststepGridIntfaceCellTemplate.html">
+      <div class="ui-grid-cell-contents">
+        <div ng-if="row.entity.intfaceId">
+          <a ng-click="grid.appScope.goto('intface_edit', {intfaceId: row.entity.intfaceId})" href="">{{COL_FIELD}}</a>
+        </div>
+        <div ng-if="! row.entity.intfaceId">Quick SOAP Test</div>
+      </div>
+    </script>
+    <script type="text/ng-template" id="teststepGridDeleteCellTemplate.html">
+      <div class="ui-grid-cell-contents">
+        <div>
+          <a ng-click="grid.appScope.removeTeststep(row.entity)" href="">
+            <i class="glyphicon glyphicon-trash center-block text-center"></i>
+          </a>
+        </div>
+      </div>
+    </script>
+    <script type="text/ng-template" id="teststepGridResultCellTemplate.html">
+      <div class="ui-grid-cell-contents">
+        <div>
+          <div ng-if="row.entity.result">
+            <div ng-if="row.entity.result.error">Failed</div>
+            <div ng-if="! row.entity.result.error">Successful</div>
+          </div>
+        </div>
+      </div>
+    </script>
+  </form>
 </div>
