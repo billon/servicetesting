@@ -118,7 +118,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
       });
     };
 
-    $scope.addEntries = function(expect) {
+    $scope.addEntries = function() {
       var intfaceIds = _.pluck($scope.environment.entries, 'intfaceId');
 
       var context = {
@@ -146,6 +146,30 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
               intface: selectedIntface
             });
           });
+        }
+      });
+    };
+
+    $scope.changeEndpoint = function(entry) {
+      var context = {
+        endpointId: entry.endpointId,
+        expect: 'Single'
+      };
+
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/endpoints/list-modal.html',
+        controller: 'EndpointsModalController',
+        windowClass: 'large-Modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedEndpoint) {
+        if (selectedEndpoint) {
         }
       });
     };
