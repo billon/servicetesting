@@ -52,12 +52,16 @@
     to {opacity: 0;}
 }
 
-.testcase-grid {
-    height: 500px;
+.main-grid {
+    height: 800px;
+}
+
+.medium-grid {
+    height: 600px;
 }
 
 .ws-uiview {
-    height: 800px;
+    height: 900px;
 }
 
 .spacer-top-40 {
