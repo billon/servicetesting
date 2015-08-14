@@ -28,13 +28,22 @@
               <div sf-schema="schema" sf-form="form" sf-model="testcase" ></div>
             </div>
           </tab>
-          <tab heading="Test Steps" active="true">
-            <div class="form-group"></div>
+          <tab ng-if="testcase.id" heading="Test Steps" active="true">
+            <p></p>
+            <div class="row">
+              <div class="btn-group col-lg-offset-9 col-lg-2" dropdown>
+                <button type="button" class="btn btn-primary" dropdown-toggle>
+                  Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a ui-sref="teststep_create({testcaseId: testcase.id})">Create a Test Step</a></li>
+                  <li><a href="" ng-click="run()">Run Test Steps</a></li>
+                </ul>
+              </div>
+            </div>
+            <p></p>
             <div class="row">
               <div class="form-group">
-                <div class="col-lg-2">
-                  <button class="btn btn-primary btn-block" ui-sref="teststep_create({testcaseId: testcase.id})">Create</button>
-                </div>
                 <div class="col-lg-offset-1 col-lg-7">
                   <a ng-if="testcase.environmentId" class="text-right" href="" ng-click="goto('environment_edit', {environmentId: testcase.environmentId})"><h4>{{testcase.environment.name}}</h4></a>
                   <span ng-if="! testcase.environmentId" class="text-right"><h4>Please select an environment to run</h4></span>
@@ -42,15 +51,14 @@
                 <div class="col-lg-1">
                   <a href="" ng-click="goto('environment_all', null, 'environment')"><h4><i class="glyphicon glyphicon-edit"></i></h4></a>
                 </div>
-                <div class="col-lg-1">
-                  <button class="btn btn-success btn-block" href="" ng-click="run()">Run</button>
-                </div>
               </div>
             </div>
             <div class="form-group"></div>
             <div class="row">
-              <div ui-grid="{enableFiltering: true, data: testcase.teststeps, columnDefs: teststepColumnDefs}"
-                   ui-grid-resize-columns ui-grid-move-columns class="ui-grid"></div>
+              <div class="col-lg-12">
+                <div ui-grid="{enableFiltering: true, data: testcase.teststeps, columnDefs: teststepColumnDefs}"
+                     ui-grid-resize-columns ui-grid-move-columns class="ui-grid"></div>
+              </div>
             </div>
           </tab>
         </tabset>
