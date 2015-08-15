@@ -237,16 +237,10 @@ angular.module('service-testing-tool').controller('EnvironmentsModalController',
     };
 
     $scope.return = function() {
+      $modalInstance.close();
     };
 
-    $scope.select = function() {
-      $scope.context.model.environmentId = $scope.environment.id;
-
-      Environments.get({
-        environmentId: $scope.context.model.environmentId
-      }, function(environment) {
-        $scope.context.model.environment = environment;
-      });
+    $scope.select = function(endpoint) {
     };
 
     $scope.findOne = function() {

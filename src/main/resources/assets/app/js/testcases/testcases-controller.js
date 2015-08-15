@@ -139,14 +139,6 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       });
     };
 
-    $scope.return = function() {
-      $modalInstance.close();
-    };
-
-    $scope.select = function(endpoint) {
-      $modalInstance.close(endpoint);
-    };
-
     $scope.findOne = function() {
       Testcases.get({
         testcaseId: $stateParams.testcaseId
