@@ -93,6 +93,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
         } else {
           var environment = new Environments($scope.environment);
           environment.$save(function(response) {
+            PageNavigation.contexts.push($scope.context);
             $state.go('environment_edit', {environmentId: response.id});
           }, function(exception) {
             $scope.alerts.push({type: 'warning', msg: exception.data});
@@ -103,12 +104,6 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
 
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);
-    };
-
-    $scope.remove = function(environment) {
-      environment.$remove(function(response) {
-          $state.go('environment_all');
-      });
     };
 
     $scope.find = function() {
@@ -208,6 +203,19 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
             return context;
           }
         }
+      });
+    };
+
+    $scope.return = function() {
+    };
+
+    $scope.select = function() {
+      $scope.context.model.environmentId = $scope.environment.id;
+
+      Environments.get({
+        environmentId: $scope.context.model.environmentId
+      }, function(environment) {
+        $scope.context.model.environment = environment;
       });
     };
 
