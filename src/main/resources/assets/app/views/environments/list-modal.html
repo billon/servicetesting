@@ -1,4 +1,4 @@
-<div ng-controller="EnvironmentsController" ng-init="find()">
+<div ng-init="find()">
     <div class="row">
         <div class="col-lg-10">
             <span class="bottom col-lg-10"><h3>Environments</h3></span>
@@ -21,7 +21,7 @@
     </div>
     <script type="text/ng-template" id="gridCellTemplate.html">
         <div class="ui-grid-cell-contents">
-            <div><a ui-sref="environment_edit({ environmentId: row.entity.id })">{{COL_FIELD}}</a></div>
+            <div><a href="" ng-click="grid.appScope.select(row.entity)">{{COL_FIELD}}</a></div>
         </div>
     </script>
 </div>

@@ -129,7 +129,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
         animation: true,
         templateUrl: '/ui/views/intfaces/list-modal.html',
         controller: 'IntfacesModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;
@@ -159,7 +159,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
         animation: true,
         templateUrl: '/ui/views/endpoints/list-modal.html',
         controller: 'EndpointsModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;
@@ -184,7 +184,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
         animation: true,
         templateUrl: '/ui/views/intfaces/edit-modal.html',
         controller: 'IntfacesModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;
@@ -202,7 +202,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
         animation: true,
         templateUrl: '/ui/views/endpoints/edit-modal.html',
         controller: 'EndpointsModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;

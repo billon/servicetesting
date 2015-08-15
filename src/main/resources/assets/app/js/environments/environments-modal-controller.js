@@ -137,8 +137,16 @@ angular.module('service-testing-tool').controller('EnvironmentsModalController',
     };
 
     $scope.find = function() {
+      $scope.context = context;
+
       Environments.query(function(environments) {
+        if ($scope.context) {
+          environments = _.filter(environments, function(environment) {
+            return $scope.context.environmentId !== environment.id;
+          });
+        }
         $scope.environments = environments;
+        $scope.gridOptions.data = environments;
       });
     };
 
@@ -154,7 +162,7 @@ angular.module('service-testing-tool').controller('EnvironmentsModalController',
         animation: true,
         templateUrl: '/ui/views/intfaces/list-modal.html',
         controller: 'IntfacesModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;
@@ -184,7 +192,7 @@ angular.module('service-testing-tool').controller('EnvironmentsModalController',
         animation: true,
         templateUrl: '/ui/views/endpoints/list-modal.html',
         controller: 'EndpointsModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;
@@ -209,7 +217,7 @@ angular.module('service-testing-tool').controller('EnvironmentsModalController',
         animation: true,
         templateUrl: '/ui/views/intfaces/edit-modal.html',
         controller: 'IntfacesModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;
@@ -227,7 +235,7 @@ angular.module('service-testing-tool').controller('EnvironmentsModalController',
         animation: true,
         templateUrl: '/ui/views/endpoints/edit-modal.html',
         controller: 'EndpointsModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;
@@ -240,7 +248,8 @@ angular.module('service-testing-tool').controller('EnvironmentsModalController',
       $modalInstance.close();
     };
 
-    $scope.select = function(endpoint) {
+    $scope.select = function(environment) {
+      $modalInstance.close(environment);
     };
 
     $scope.findOne = function() {

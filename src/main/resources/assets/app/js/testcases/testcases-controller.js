@@ -103,7 +103,7 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
         animation: true,
         templateUrl: '/ui/views/environments/edit-modal.html',
         controller: 'EnvironmentsModalController',
-        windowClass: 'large-Modal',
+        windowClass: 'large-modal',
         resolve: {
           context: function () {
             return context;
@@ -112,6 +112,32 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       });
     };
 
+    $scope.changeEnvironment = function(testcase) {
+      var context = {
+        environmentId: testcase.environmentId,
+        expect: 'Single'
+      };
+
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/environments/list-modal.html',
+        controller: 'EnvironmentsModalController',
+        windowClass: 'large-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedEnvironment) {
+        if (selectedEnvironment) {
+          testcase.environmentId = selectedEnvironment.id;
+          testcase.environment = selectedEnvironment;
+        }
+      });
+    };
+    
     $scope.run = function() {
       var testrun = new Testruns({
         testcaseId: $scope.testcase.id,
