@@ -146,7 +146,6 @@ angular.module('service-testing-tool').controller('EnvironmentsModalController',
           });
         }
         $scope.environments = environments;
-        $scope.gridOptions.data = environments;
       });
     };
 
