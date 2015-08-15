@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('TestcasesController', ['$scope', 'Testcases', 'Teststeps', 'Testruns', '$stateParams', '$state', 'uiGridConstants', '$timeout', '$location', 'PageNavigation',
-  function($scope, Testcases, Teststeps, Testruns, $stateParams, $state, uiGridConstants, $timeout, $location, PageNavigation) {
+angular.module('service-testing-tool').controller('TestcasesController', ['$scope', 'Testcases', 'Teststeps', 'Testruns', '$stateParams', '$state', 'uiGridConstants', '$modal',
+  function($scope, Testcases, Teststeps, Testruns, $stateParams, $state, uiGridConstants, $modal) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -94,16 +94,22 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       });
     };
 
-    $scope.goto = function(state, params, expect) {
+    $scope.viewEnvironment = function(environmentId) {
       var context = {
-        model: $scope.testcase,
-        url: $location.path(),
-        expect: expect
+        environmentId: environmentId
       };
 
-      PageNavigation.contexts.push(context);
-
-      $state.go(state, params);
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/environments/edit-modal.html',
+        controller: 'EnvironmentsModalController',
+        windowClass: 'large-Modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
     };
 
     $scope.run = function() {
@@ -133,17 +139,20 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       });
     };
 
+    $scope.return = function() {
+      $modalInstance.close();
+    };
+
+    $scope.select = function(endpoint) {
+      $modalInstance.close(endpoint);
+    };
+
     $scope.findOne = function() {
-      var model = PageNavigation.returns.pop();
-      if (model) {
-        $scope.testcase = model;
-      } else {
-        Testcases.get({
-          testcaseId: $stateParams.testcaseId
-        }, function(testcase) {
-          $scope.testcase = testcase;
-        });
-      }
+      Testcases.get({
+        testcaseId: $stateParams.testcaseId
+      }, function(testcase) {
+        $scope.testcase = testcase;
+      });
     };
   }
 ]);

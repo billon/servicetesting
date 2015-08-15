@@ -1,19 +1,21 @@
-<div ng-controller="EnvironmentsController" data-ng-init="findOne()">
+<div data-ng-init="findOne()">
     <form name="environmentForm" class="form-horizontal">
         <div class="row">
             <div class="col-lg-10">
                 <span class="bottom col-lg-10"><h3>Environment - {{environment.name}}</h3></span>
                 <span class="btn-toolbar col-lg-2">
-                    <a href="" ui-sref="environment_all" title="Back">
-                        <i><h3 class="glyphicon glyphicon-circle-arrow-left"></h3></i>
-                    </a>
                     <a href="" ng-click="create_update(environmentForm)" title="Save the Environment">
                         <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
                     </a>
-                    <a href="" ng-click="remove(environment)" title="Delete the Environment">
-                        <i><h3 class="glyphicon glyphicon-trash"></h3></i>
-                    </a>
                 </span>
+            </div>
+            <div class="btn-toolbar col-lg-2">
+                <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
+                    <span class="glyphicon glyphicon-arrow-up"></span>
+                </button>
+                <button ng-if="isSelect()" type="button" class="btn btn-primary" ng-click="select()" title="Select">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
             </div>
         </div>
         <div class="row">

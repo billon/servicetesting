@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('EnvironmentsController', ['$scope', 'Environments', 'EnvEntries', '$stateParams', '$state', 'uiGridConstants', '$modal',
-  function($scope, Environments, EnvEntries, $stateParams, $state, uiGridConstants, $modal) {
+angular.module('service-testing-tool').controller('EnvironmentsModalController', ['$scope', 'Environments', 'EnvEntries', '$stateParams', '$state', 'uiGridConstants', '$modal', '$modalInstance', 'context',
+  function($scope, Environments, EnvEntries, $stateParams, $state, uiGridConstants, $modal, $modalInstance, context) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -72,6 +72,36 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
           }
         });
       }
+    };
+
+    $scope.isReturn = function() {
+      if ($scope.context) {
+        return true;
+      }
+
+      return false;
+    };
+
+    $scope.isSelect = function() {
+      if ($scope.context) {
+        if ($scope.context.expect) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    $scope.isMultiSelect = function() {
+      if ($scope.context) {
+        if ($scope.context.expect) {
+          if ($scope.context.expect === "Multi") {
+            return true;
+          }
+        }
+      }
+
+      return false;
     };
 
     $scope.removeEntries = function() {
@@ -220,9 +250,11 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
     };
 
     $scope.findOne = function() {
-      if ($stateParams.environmentId) {
+      $scope.context = context;
+
+      if ($scope.context.environmentId) {
         Environments.get({
-          environmentId: $stateParams.environmentId
+          environmentId: $scope.context.environmentId
         }, function(environment) {
           $scope.environment = environment;
           $scope.enventryGridOptions.data = environment.entries;
