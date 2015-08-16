@@ -16,43 +16,24 @@
           </span>
       </div>
     </div>
-    <tabset>
-      <tab heading="Basic Info">
-        <div class="form-group"></div>
-        <div class="form-group" ng-class="{ 'has-error' : savingStatus.submitted && teststepForm.name.$invalid }">
-          <div class="col-lg-6">
-            <label for="name" class="col-lg-2 control-label">Name</label>
-            <div class="col-lg-10">
-              <input name="name" type="text" class="form-control" ng-model="teststep.name"
-                     ng-change="autoSave(teststepForm.$valid)" id="name" placeholder="Name" maxlength="200" required>
-              <div ng-show="savingStatus.submitted && teststepForm.name.$invalid" class="help-block">
-                <p ng-show="teststepForm.name.$error.required">Name is required</p>
-              </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <p><medium ng-show="teststep.updated" class="margin-small">Last updated at {{teststep.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
+        <p></p>
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        <tabset>
+          <tab heading="Basic Info">
+            <p></p>
+            <div class="margin-medium">
+              <div sf-schema="schema" sf-form="form" sf-model="teststep" ></div>
             </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-lg-6">
-            <label for="description" class="col-lg-2 control-label">Description</label>
-            <div class="col-lg-10">
-              <textarea name="description" ng-model="teststep.description" ng-change="autoSave(teststepForm.$valid)"
-                        id="description" cols="30" rows="10" placeholder="Description" class="form-control"></textarea>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="col-lg-6">
-            <label for="intface" class="col-lg-2 control-label">Interface</label>
-            <div class="col-lg-10">
-              <input name="intface" type="text" class="form-control" ng-model="teststep.intface.name" id="intface" readonly>
-            </div>
-          </div>
-        </div>
-      </tab>
-      <tab ng-if="teststep.id" heading="Assertions" active="true">
-        <div ng-if="teststep.type==='SOAP'" ng-include="'/ui/views/teststeps/edit-soap-request-response.html'"></div>
-        <div ng-if="teststep.type!=='SOAP'" ng-include="'/ui/views/teststeps/edit-db-request-response.html'"></div>
-      </tab>
-    </tabset>
+          </tab>
+          <tab ng-if="teststep.id" heading="Assertions" active="true">
+            <div ng-if="teststep.type==='SOAP'" ng-include="'/ui/views/teststeps/edit-soap-request-response.html'"></div>
+            <div ng-if="teststep.type!=='SOAP'" ng-include="'/ui/views/teststeps/edit-db-request-response.html'"></div>
+          </tab>
+        </tabset>
+      </div>
+    </div>
   </form>
 </div>
