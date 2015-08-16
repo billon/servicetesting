@@ -10,7 +10,7 @@
               <a href="" ng-click="create_update(testcaseForm)" title="Save the Test Case">
                 <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
               </a>
-              <a href="" ng-click="remove(testcase)" title="Delete the Test Case">
+              <a href="" ng-if="testcase.id" ng-click="remove(testcase)" title="Delete the Test Case">
                 <i><h3 class="glyphicon glyphicon-trash"></h3></i>
               </a>
           </span>

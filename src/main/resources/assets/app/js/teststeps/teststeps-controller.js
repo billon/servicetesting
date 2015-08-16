@@ -3,6 +3,29 @@
 angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns',
     '$location', '$stateParams', '$state', '$http', '_', '$timeout', 'PageNavigation',
   function($scope, Teststeps, Testruns, $location, $stateParams, $state, $http, _, $timeout, PageNavigation) {
+    $scope.schema = {
+      type: "object",
+      properties: {
+        id: { type: "integer" },
+        name: { type: "string", maxLength: 200 },
+        description: { type: "string" }
+      },
+      "required": ["name", "description"]
+    };
+
+    $scope.form = [
+      {
+        key: "name",
+        title: "Name",
+        validationMessage: "The Name is required and should be less than 200 characters"
+      },
+      {
+        key: "description",
+        title: "Description",
+        type: "textarea"
+      }
+    ];
+
     var timer;
     $scope.teststep = {};
     //  use object instead of primitives, so that child scope can update the values

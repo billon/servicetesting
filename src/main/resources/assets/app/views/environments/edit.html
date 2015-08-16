@@ -10,7 +10,7 @@
                     <a href="" ng-click="create_update(environmentForm)" title="Save the Environment">
                         <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
                     </a>
-                    <a href="" ng-click="remove(environment)" title="Delete the Environment">
+                    <a href=""  ng-if="environment.id" ng-click="remove(environment)" title="Delete the Environment">
                         <i><h3 class="glyphicon glyphicon-trash"></h3></i>
                     </a>
                 </span>
