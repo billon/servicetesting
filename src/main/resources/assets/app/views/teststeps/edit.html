@@ -7,7 +7,7 @@
             <a href="" ui-sref="testcase_edit({testcaseId: teststep.testcaseId})" title="Back">
               <i><h3 class="glyphicon glyphicon-circle-arrow-left"></h3></i>
             </a>
-            <a href="" ng-click="create_update(teststepForm)" title="Save the Test Step">
+            <a href="" ng-click="update(teststepForm.$valid)" title="Save the Test Step">
               <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
             </a>
             <a href="" ng-click="remove(teststep)" title="Delete the Test Step">

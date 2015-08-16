@@ -39,18 +39,20 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       columnDefs: [ ]
     };
 
+    $scope.alerts = [];
+
     $scope.update = function(isValid) {
       if (isValid) {
         $scope.teststep.$update(function(response) {
-          $scope.savingStatus.saveSuccessful = true;
-          $scope.teststep = response;
+          $scope.alerts.push({type: 'success', msg: 'The Test Step has been updated successfully'});
         }, function(error) {
-          $scope.savingStatus.savingErrorMessage = error.data.message;
-          $scope.savingStatus.saveSuccessful = false;
+          $scope.alerts.push({type: 'warning', msg: error.data});
         });
-      } else {
-        $scope.savingStatus.submitted = true;
       }
+    };
+
+    $scope.closeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
     };
 
     $scope.autoSave = function(isValid) {
@@ -119,6 +121,12 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       } else {
         $scope.submitted = true;
       }
+    };
+
+    $scope.remove = function(teststep) {
+      teststep.$remove(function(response) {
+        $state.go('testcase_edit', { testcaseId: $stateParams.testcaseId });
+      });
     };
 
     $scope.changeIntface = function(teststep) {

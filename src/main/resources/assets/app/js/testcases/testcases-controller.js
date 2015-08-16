@@ -88,9 +88,8 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
     };
 
     $scope.remove = function(testcase) {
-      var testcaseService = new Testcases(testcase);
-      testcaseService.$remove(function(response) {
-        $state.go($state.current, {}, {reload: true});
+      testcase.$remove(function(response) {
+        $state.go('testcase_all');
       });
     };
 
@@ -164,15 +163,6 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       testrun.$save(function(response) {
         $scope.testcase = response.testcase;
       },function(error) {
-        alert('Error');
-      });
-    };
-
-    $scope.removeTeststep = function(teststep) {
-      var teststepService = new Teststeps(teststep);
-      teststepService.$remove(function(response) {
-        $state.go($state.current, {}, {reload: true});
-      }, function(error) {
         alert('Error');
       });
     };
