@@ -147,6 +147,32 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       });
     };
 
+    $scope.createIntface = function(teststep) {
+      var context = {
+        defurl: teststep.wsdlUrl,
+        expect: 'Single'
+      };
+
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/intfaces/edit-modal.html',
+        controller: 'IntfacesModalController',
+        windowClass: 'large-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedIntface) {
+        if (selectedIntface) {
+          teststep.intfaceId = selectedIntface.id;
+          teststep.intface = selectedIntface;
+        }
+      });
+    };
+
     $scope.findOne = function() {
       if ($stateParams.teststepId) {
         // edit an existing entry
