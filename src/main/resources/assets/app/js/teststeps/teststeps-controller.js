@@ -166,6 +166,24 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         }
       });
 
+      $scope.viewIntface = function(intfaceId) {
+        var context = {
+          intfaceId: intfaceId
+        };
+
+        var modalInstance = $modal.open({
+          animation: true,
+          templateUrl: '/ui/views/intfaces/edit-modal.html',
+          controller: 'IntfacesModalController',
+          windowClass: 'large-modal',
+          resolve: {
+            context: function () {
+              return context;
+            }
+          }
+        });
+      };
+
       modalInstance.result.then(function (selectedIntface) {
         if (selectedIntface) {
           teststep.intfaceId = selectedIntface.id;

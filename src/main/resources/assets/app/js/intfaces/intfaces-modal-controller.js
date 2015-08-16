@@ -182,6 +182,8 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
       var intface = new Intfaces(this.intface);
       intface.$save(function(response) {
         $modalInstance.close(response);
+      }, function(exception) {
+        $scope.alerts.push({type: 'warning', msg: exception.data});
       });
     };
 
