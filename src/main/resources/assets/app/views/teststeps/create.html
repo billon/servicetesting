@@ -31,13 +31,13 @@
             </div>
             <div class="row">
               <div class="col-lg-9">
-                <a ng-if ="teststep.intfaceId" ng-click="viewIntface(teststep.intfaceId)" readonly>{{teststep.intface.name}}</a>
+                <a href="" ng-if="teststep.intfaceId" ng-click="viewIntface(teststep.intfaceId)">{{teststep.intface.name}}</a>
                 <input name="wsdlUrl" type="text" class="form-control" ng-if ="! teststep.intfaceId" ng-model="teststep.wsdlUrl" id="wsdlUrl" required
                        placeholder="http://localhost:8080/soap/article?wsdl">
               </div>
               <div class="btn-toolbar col-lg-3">
-                <button ng-if="! teststep.intfaceId" type="button" class="btn btn-primary" ng-click="createIntface(teststep.wsdlUrl)" title="Share the URL">
-                  <span class="vertical-center glyphicon glyphicon-share"></span>
+                <button ng-if="! teststep.intfaceId" type="button" class="btn btn-primary" ng-click="createIntface(teststep)" title="Share the URL">
+                  <span class="vertical-center glyphicon glyphicon-share-alt"></span>
                 </button>
                 <button type="button" class="btn btn-primary" ng-click="changeIntface(teststep)" title="Change Interface">
                   <span class="glyphicon glyphicon-edit"></span>

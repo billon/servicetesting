@@ -4,7 +4,7 @@
             <div class="col-lg-10">
                 <span class="bottom col-lg-10"><h3>Interface - {{intface.name}}</h3></span>
                 <span class="btn-toolbar col-lg-2">
-                    <a href="" ng-click="create_update(intfaceForm)" title="Save the Interface">
+                    <a href="" ng-if="intface.id" ng-click="create_update(intfaceForm)" title="Save the Interface">
                         <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
                     </a>
                 </span>
@@ -13,8 +13,8 @@
                 <button ng-if="isReturn()" type="button" class="btn btn-primary" ng-click="return()" title="Return">
                     <span class="glyphicon glyphicon-arrow-up"></span>
                 </button>
-                <button ng-if="isSelect()" type="button" class="btn btn-primary" ng-click="select()" title="Select">
-                    <span class="glyphicon glyphicon-ok"></span>
+                <button ng-if="isSelect()" type="button" class="btn btn-primary" ng-click="save_select(intfaceForm)" title="Save and Select">
+                    <span class="glyphicon glyphicon-saved"></span>
                 </button>
             </div>
         </div>

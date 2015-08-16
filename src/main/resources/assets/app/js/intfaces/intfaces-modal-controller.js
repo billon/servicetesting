@@ -178,6 +178,13 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
       }
     };
 
+    $scope.save_select = function(form) {
+      var intface = new Intfaces(this.intface);
+      intface.$save(function(response) {
+        $modalInstance.close(response);
+      });
+    };
+
     $scope.findOne = function() {
       $scope.context = context;
 
@@ -187,6 +194,9 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
         }, function(intface) {
           $scope.intface = intface;
         });
+      } else {
+        $scope.intface.defurl = context.defurl;
+        $scope.intface.deftype = context.deftype;
       }
     };
   }

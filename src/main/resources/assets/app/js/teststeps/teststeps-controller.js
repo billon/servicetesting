@@ -150,6 +150,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     $scope.createIntface = function(teststep) {
       var context = {
         defurl: teststep.wsdlUrl,
+        deftype: 'WSDL',
         expect: 'Single'
       };
 
