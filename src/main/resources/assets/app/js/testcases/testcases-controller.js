@@ -112,6 +112,24 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       });
     };
 
+    $scope.viewIntface = function(intfaceId) {
+      var context = {
+        intfaceId: intfaceId
+      };
+
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/intfaces/edit-modal.html',
+        controller: 'IntfacesModalController',
+        windowClass: 'large-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+    };
+
     $scope.changeEnvironment = function(testcase) {
       var context = {
         environmentId: testcase.environmentId,

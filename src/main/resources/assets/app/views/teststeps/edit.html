@@ -26,6 +26,19 @@
             <p></p>
             <div class="margin-medium">
               <div sf-schema="schema" sf-form="form" sf-model="teststep" ></div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <label class="control-label">Interface</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <a href="" ng-if="teststep.intfaceId" ng-click="viewIntface(teststep.intfaceId)">{{teststep.intface.name}}</a>
+                    <input name="wsdlUrl" type="text" class="form-control" ng-if ="! teststep.intfaceId" ng-model="teststep.properties.wsdlUrl" id="wsdlUrl" readonly>
+                  </div>
+                </div>
+              </div>
             </div>
           </tab>
           <tab ng-if="teststep.id" heading="Assertions" active="true">
