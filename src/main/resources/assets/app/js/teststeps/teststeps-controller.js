@@ -1,8 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns',
-    '$location', '$stateParams', '$state', '$http', '_', '$timeout', 'PageNavigation',
-  function($scope, Teststeps, Testruns, $location, $stateParams, $state, $http, _, $timeout, PageNavigation) {
+angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns', '$stateParams', '$state', '$http', '$timeout',
+  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $timeout) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -27,6 +26,16 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       {
         type: "template",
         templateUrl: "intfaceSchemaFormTemplate.html",
+        name: 'Interface'
+      },
+      {
+        type: "template",
+        templateUrl: "wsdlBindingSchemaFormTemplate.html",
+        name: 'Interface'
+      },
+      {
+        type: "template",
+        templateUrl: "wsdlOperationSchemaFormTemplate.html",
         name: 'Interface'
       }
     ];
@@ -130,34 +139,24 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     $scope.goto = function(state, params, expect) {
       var context = {
         model: $scope.teststep,
-        url: $location.path(),
         expect: expect
       };
-
-      PageNavigation.contexts.push(context);
 
       $state.go(state, params);
     };
 
     $scope.findOne = function() {
-      // entry returned from other pages
-      var model = PageNavigation.returns.pop();
-      if (model) {
-        $scope.teststep = model;
-        $scope.autoSave(true);
+      if ($stateParams.teststepId) {
+        // edit an existing entry
+        Teststeps.get({
+          testcaseId: $stateParams.testcaseId,
+          teststepId: $stateParams.teststepId
+        }, function (response) {
+          $scope.teststep = response;
+        });
       } else {
-        if ($stateParams.teststepId) {
-          // edit an existing entry
-          Teststeps.get({
-            testcaseId: $stateParams.testcaseId,
-            teststepId: $stateParams.teststepId
-          }, function (response) {
-            $scope.teststep = response;
-          });
-        } else {
-          // create a new entry
-          $scope.teststep.testcaseId = $stateParams.testcaseId;
-        }
+        // create a new entry
+        $scope.teststep.testcaseId = $stateParams.testcaseId;
       }
     };
 

@@ -24,31 +24,6 @@
         <div class="margin-medium">
           <div sf-schema="schema" sf-form="form" sf-model="teststep" ></div>
         </div>
-        <div class="form-group" ng-class="{ 'has-error' : submitted && teststepForm.wsdlUrl.$invalid }">
-          <label for="wsdlUrl" class="col-lg-2 control-label">Interface</label>
-          <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="col-lg-1">
-            <button type="button" class="btn btn-info" ng-click="loadWsdl()">Load</button>
-          </div>
-        </div>
-        <div ng-if="teststep.intfaceId && teststep.intface.deftype==='WSDL'" class="form-group">
-          <div class="col-lg-offset-2 col-lg-10">
-            <input name="intWsdlUrl" type="text" class="form-control" ng-model="teststep.intface.defurl" id="intWsdlUrl" readonly>
-          </div>
-        </div>
-        <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="form-group">
-          <label for="wsdlBinding" class="col-lg-2 control-label">WSDL Binding</label>
-          <div class="col-lg-10">
-            <select name="wsdlBinding" id="wsdlBinding" class="form-control" ng-model="teststep.wsdlBinding"
-                ng-options="item.name for item in teststep.wsdlBindings" ng-change="refreshOperations()"></select>
-          </div>
-        </div>
-        <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="form-group">
-          <label for="wsdlOperation" class="col-lg-2 control-label">WSDL Operation</label>
-          <div class="col-lg-10">
-            <select name="wsdlOperation" id="wsdlOperation" class="form-control" ng-model="teststep.wsdlOperation"
-                ng-options="item for item in teststep.wsdlOperations"></select>
-          </div>
-        </div>
         <div class="form-group">
           <div class="col-lg-offset-5">
             <button type="submit" class="btn btn-info">Submit</button>
@@ -68,7 +43,7 @@
                    placeholder="http://localhost:8080/soap/article?wsdl">
           </span>
           <span class="btn-toolbar col-lg-1">
-            <a href="" ui-sref="createIntface(teststep.wsdlUrl)" title="Share the URL">
+            <a href="" ng-if="! teststep.intfaceId" ui-sref="createIntface(teststep.wsdlUrl)" title="Share the URL">
               <span class="vertical-center glyphicon glyphicon-share"></span>
             </a>
             <a href="" ng-click="changeInterface(teststep.intfaceId)" title="Change Interface">
@@ -76,10 +51,33 @@
             </a>
           </span>
           <span class="btn-toolbar col-lg-1">
-            <a href="" ng-click="loadWsdl()" title="Load the WSDL">
+            <a href="" ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" ng-click="loadWsdl()" title="Load the WSDL">
               <span class="glyphicon glyphicon-cloud-download"></span>
             </a>
           </span>
+        </div>
+      </div>
+    </script>
+    <script type="text/ng-template" id="wsdlBindingSchemaFormTemplate.html">
+      <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="form-group">
+        <div class="row">
+          <label class="control-label margin-small">WSDL Binding</label>
+        </div>
+        <div class="row">
+          <select name="wsdlBinding" id="wsdlBinding" class="form-control" ng-model="teststep.wsdlBinding"
+                  ng-options="item.name for item in teststep.wsdlBindings" ng-change="refreshOperations()"></select>
+        </div>
+      </div>
+    </script>
+    <script type="text/ng-template" id="wsdlOperationSchemaFormTemplate.html">
+      <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="form-group">
+        <div class="row">
+          <label class="control-label margin-small">WSDL Operation</label>
+        </div>
+        <div class="row">
+          <select name="wsdlOperation" id="wsdlOperation" class="form-control" ng-model="teststep.wsdlOperation"
+                  ng-options="item for item in teststep.wsdlOperations"></select>
+        </div>
         </div>
       </div>
     </script>
