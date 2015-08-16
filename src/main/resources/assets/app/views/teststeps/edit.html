@@ -35,7 +35,7 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <a href="" ng-if="teststep.intfaceId" ng-click="viewIntface(teststep.intfaceId)">{{teststep.intface.name}}</a>
-                    <input name="wsdlUrl" type="text" class="form-control" ng-if ="! teststep.intfaceId" ng-model="teststep.properties.wsdlUrl" id="wsdlUrl" readonly>
+                    <input ng-if ="! teststep.intfaceId" name="wsdlUrl" type="text" class="form-control" ng-model="teststep.properties.wsdlUrl" id="wsdlUrl" readonly>
                   </div>
                 </div>
               </div>
