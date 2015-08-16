@@ -3,42 +3,29 @@
     <div class="row">
       <div class="col-lg-10">
         <span class="bottom col-lg-10"><h3>Test Step - {{teststep.name}}</h3></span>
-          <span class="btn-toolbar col-lg-2">
-            <a href="" ui-sref="testcase_edit({testcaseId: teststep.testcaseId})" title="Back">
-              <i><h3 class="glyphicon glyphicon-circle-arrow-left"></h3></i>
-            </a>
-            <a href="" ng-click="create_update(teststepForm)" title="Save the Test Step">
-              <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
-            </a>
-            <a href="" ng-if="teststep.id" ng-click="remove(teststep)" title="Delete the Test Step">
-              <i><h3 class="glyphicon glyphicon-trash"></h3></i>
-            </a>
-          </span>
+        <span class="btn-toolbar col-lg-2">
+          <a href="" ui-sref="testcase_edit({testcaseId: teststep.testcaseId})" title="Back">
+            <i><h3 class="glyphicon glyphicon-circle-arrow-left"></h3></i>
+          </a>
+          <a href="" ng-click="create_update(teststepForm)" title="Save the Test Step">
+            <i><h3 class="glyphicon glyphicon-floppy-disk"></h3></i>
+          </a>
+          <a href="" ng-if="teststep.id" ng-click="remove(teststep)" title="Delete the Test Step">
+            <i><h3 class="glyphicon glyphicon-trash"></h3></i>
+          </a>
+        </span>
       </div>
     </div>
     <div class="row">
+      <div class="col-lg-12">
+        <p><medium ng-show="teststep.updated" class="margin-small">Last updated at {{teststep.updated | date:'dd-MM-yyyy HH:mm:ss'}}</medium></p>
+        <p></p>
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+        <div class="margin-medium">
+          <div sf-schema="schema" sf-form="form" sf-model="teststep" ></div>
+        </div>
         <div class="form-group" ng-class="{ 'has-error' : submitted && teststepForm.wsdlUrl.$invalid }">
           <label for="wsdlUrl" class="col-lg-2 control-label">Interface</label>
-          <div class="col-lg-7">
-            <input name="intface" type="text" class="form-control" ng-if ="teststep.intfaceId" ng-model="teststep.intface.name" id="intface" readonly>
-            <input name="wsdlUrl" type="text" class="form-control" ng-if ="! teststep.intfaceId" ng-model="teststep.wsdlUrl" id="wsdlUrl"
-                   placeholder="http://localhost:8080/soap/article?wsdl" required>
-            <div ng-show="submitted && teststepForm.wsdlUrl.$invalid" class="help-block">
-              <p ng-show="teststepForm.wsdlUrl.$error.required">WSDL URL is required</p>
-            </div>
-          </div>
-          <div class="btn-group col-lg-2" dropdown>
-            <button type="button" class="btn btn-info" dropdown-toggle>
-              Go to <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li ng-show="teststep.intfaceId">
-                <a href="" ng-click="goto('intface_edit', {intfaceId: teststep.intfaceId})">Interface Details</a>
-              </li>
-              <li><a href="" ng-click="goto('intface_all', null, 'intface')">Interface List</a></li>
-              <li><a href="" ng-click="goto('intface_create', null, 'intface')">A New Interface</a></li>
-            </ul>
-          </div>
           <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="col-lg-1">
             <button type="button" class="btn btn-info" ng-click="loadWsdl()">Load</button>
           </div>
@@ -67,6 +54,34 @@
             <button type="submit" class="btn btn-info">Submit</button>
           </div>
         </div>
+      </div>
     </div>
+    <script type="text/ng-template" id="intfaceSchemaFormTemplate.html">
+      <div class="form-group">
+        <div class="row">
+          <label class="control-label margin-small">Interface</label>
+        </div>
+        <div class="row">
+          <span class="col-lg-10">
+            <a ng-if ="teststep.intfaceId" ng-click="viewIntface(teststep.intfaceId)" readonly>{{teststep.intface.name}}</a>
+            <input name="wsdlUrl" type="text" class="form-control" ng-if ="! teststep.intfaceId" ng-model="teststep.wsdlUrl" id="wsdlUrl" required
+                   placeholder="http://localhost:8080/soap/article?wsdl">
+          </span>
+          <span class="btn-toolbar col-lg-1">
+            <a href="" ui-sref="createIntface(teststep.wsdlUrl)" title="Share the URL">
+              <span class="vertical-center glyphicon glyphicon-share"></span>
+            </a>
+            <a href="" ng-click="changeInterface(teststep.intfaceId)" title="Change Interface">
+              <span class="glyphicon glyphicon-edit"></span>
+            </a>
+          </span>
+          <span class="btn-toolbar col-lg-1">
+            <a href="" ng-click="loadWsdl()" title="Load the WSDL">
+              <span class="glyphicon glyphicon-cloud-download"></span>
+            </a>
+          </span>
+        </div>
+      </div>
+    </script>
   </form>
 </div>

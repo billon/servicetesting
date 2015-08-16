@@ -23,6 +23,11 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         key: "description",
         title: "Description",
         type: "textarea"
+      },
+      {
+        type: "template",
+        templateUrl: "intfaceSchemaFormTemplate.html",
+        name: 'Interface'
       }
     ];
 
