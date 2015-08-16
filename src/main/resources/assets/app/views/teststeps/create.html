@@ -25,70 +25,64 @@
           <div sf-schema="schema" sf-form="form" sf-model="teststep" ></div>
         </div>
         <div class="form-group">
+          <div class="row">
+            <div class="col-lg-12">
+              <label class="control-label">Interface</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-10">
+              <a ng-if ="teststep.intfaceId" ng-click="viewIntface(teststep.intfaceId)" readonly>{{teststep.intface.name}}</a>
+              <input name="wsdlUrl" type="text" class="form-control" ng-if ="! teststep.intfaceId" ng-model="teststep.wsdlUrl" id="wsdlUrl" required
+                     placeholder="http://localhost:8080/soap/article?wsdl">
+            </div>
+            <div class="btn-toolbar col-lg-1">
+              <a href="" ng-if="! teststep.intfaceId" ui-sref="createIntface(teststep.wsdlUrl)" title="Share the URL">
+                <span class="vertical-center glyphicon glyphicon-share"></span>
+              </a>
+              <a href="" ng-click="changeIntface(teststep)" title="Change Interface">
+                <span class="glyphicon glyphicon-edit"></span>
+              </a>
+            </div>
+            <div class="btn-toolbar col-lg-1">
+              <a href="" ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" ng-click="loadWsdl()" title="Load the WSDL">
+                <span class="glyphicon glyphicon-cloud-download"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="form-group">
+          <div class="row">
+            <div class="col-lg-12">
+              <label class="control-label">WSDL Binding</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <select name="wsdlBinding" id="wsdlBinding" class="form-control" ng-model="teststep.wsdlBinding"
+                      ng-options="item.name for item in teststep.wsdlBindings" ng-change="refreshOperations()" />
+            </div>
+          </div>
+        </div>
+        <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="form-group">
+          <div class="row">
+            <div class="col-lg-12">
+              <label class="control-label">WSDL Operation</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <select name="wsdlOperation" id="wsdlOperation" class="form-control" ng-model="teststep.wsdlOperation"
+                      ng-options="item for item in teststep.wsdlOperations" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
           <div class="col-lg-offset-5">
             <button type="submit" class="btn btn-info">Submit</button>
           </div>
         </div>
       </div>
     </div>
-    <script type="text/ng-template" id="intfaceSchemaFormTemplate.html">
-      <div class="form-group">
-        <div class="row">
-          <div class="col-lg-12">
-            <label class="control-label">Interface</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-10">
-            <a ng-if ="teststep.intfaceId" ng-click="viewIntface(teststep.intfaceId)" readonly>{{teststep.intface.name}}</a>
-            <input name="wsdlUrl" type="text" class="form-control" ng-if ="! teststep.intfaceId" ng-model="teststep.wsdlUrl" id="wsdlUrl" required
-                   placeholder="http://localhost:8080/soap/article?wsdl">
-          </div>
-          <div class="btn-toolbar col-lg-1">
-            <a href="" ng-if="! teststep.intfaceId" ui-sref="createIntface(teststep.wsdlUrl)" title="Share the URL">
-              <span class="vertical-center glyphicon glyphicon-share"></span>
-            </a>
-            <a href="" ng-click="changeInterface(teststep.intfaceId)" title="Change Interface">
-              <span class="glyphicon glyphicon-edit"></span>
-            </a>
-          </div>
-          <div class="btn-toolbar col-lg-1">
-            <a href="" ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" ng-click="loadWsdl()" title="Load the WSDL">
-              <span class="glyphicon glyphicon-cloud-download"></span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </script>
-    <script type="text/ng-template" id="wsdlBindingSchemaFormTemplate.html">
-      <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="form-group">
-        <div class="row">
-          <div class="col-lg-12">
-            <label class="control-label">WSDL Binding</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <select name="wsdlBinding" id="wsdlBinding" class="form-control" ng-model="teststep.wsdlBinding"
-                    ng-options="item.name for item in teststep.wsdlBindings" ng-change="refreshOperations()" />
-          </div>
-        </div>
-      </div>
-    </script>
-    <script type="text/ng-template" id="wsdlOperationSchemaFormTemplate.html">
-      <div ng-if="! teststep.intfaceId || teststep.intface.deftype==='WSDL'" class="form-group">
-        <div class="row">
-          <div class="col-lg-12">
-             <label class="control-label">WSDL Operation</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <select name="wsdlOperation" id="wsdlOperation" class="form-control" ng-model="teststep.wsdlOperation"
-                    ng-options="item for item in teststep.wsdlOperations" />
-          </div>
-        </div>
-      </div>
-    </script>
   </form>
 </div>

@@ -170,10 +170,11 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
       $modalInstance.close();
     };
 
-    $scope.select = function() {
+    $scope.select = function(selectedIntface) {
       if ($scope.isMultiSelect()) {
         $modalInstance.close($scope.selectedIntfaces);
       } else {
+        $modalInstance.close(selectedIntface);
       }
     };
 

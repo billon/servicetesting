@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns', '$stateParams', '$state', '$http', '$timeout',
-  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $timeout) {
+angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns', '$stateParams', '$state', '$http', '$timeout', '$modal',
+  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $timeout, $modal) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -22,21 +22,6 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         key: "description",
         title: "Description",
         type: "textarea"
-      },
-      {
-        type: "template",
-        templateUrl: "intfaceSchemaFormTemplate.html",
-        name: 'Interface'
-      },
-      {
-        type: "template",
-        templateUrl: "wsdlBindingSchemaFormTemplate.html",
-        name: 'Interface'
-      },
-      {
-        type: "template",
-        templateUrl: "wsdlOperationSchemaFormTemplate.html",
-        name: 'Interface'
       }
     ];
 
@@ -136,13 +121,30 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       }
     };
 
-    $scope.goto = function(state, params, expect) {
+    $scope.changeIntface = function(teststep) {
       var context = {
-        model: $scope.teststep,
-        expect: expect
+        intfaceId: teststep.intfaceId,
+        expect: 'Single'
       };
 
-      $state.go(state, params);
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/intfaces/list-modal.html',
+        controller: 'IntfacesModalController',
+        windowClass: 'large-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedIntface) {
+        if (selectedIntface) {
+          teststep.intfaceId = selectedIntface.id;
+          teststep.intface = selectedIntface;
+        }
+      });
     };
 
     $scope.findOne = function() {

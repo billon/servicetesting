@@ -23,7 +23,8 @@
     </div>
     <script type="text/ng-template" id="gridCellTemplate.html">
         <div class="ui-grid-cell-contents">
-            <div>{{COL_FIELD}}</div>
+            <div ng-if="grid.appScope.isMultiSelect()">{{COL_FIELD}}</div>
+            <div ng-if="! grid.appScope.isMultiSelect()"><a href="" ng-click="grid.appScope.select(row.entity)">{{COL_FIELD}}</a></div>
         </div>
     </script>
 </div>
