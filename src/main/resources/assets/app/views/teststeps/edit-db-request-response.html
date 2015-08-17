@@ -47,16 +47,14 @@
   <script type="text/ng-template" id="assertionGridNameEditableCellTemplate.html">
     <div class="ui-grid-cell-contents">
       <div>
-        <input type="text" class="form-control" maxlength="200" ui-grid-editor ng-model="row.entity.name"
-               ng-init="grid.appScope.assertionsModelObj.assertion = row.entity">
+        <input type="text" class="form-control" maxlength="200" ui-grid-editor ng-model="row.entity.name">
       </div>
     </div>
   </script>
   <script type="text/ng-template" id="assertionGridValueEditableCellTemplate.html">
     <div class="ui-grid-cell-contents">
       <div>
-        <input type="text" class="form-control" maxlength="200" ui-grid-editor ng-model="row.entity.properties.value"
-               ng-init="grid.appScope.assertionsModelObj.assertion = row.entity">
+        <input type="text" class="form-control" maxlength="200" ui-grid-editor ng-model="row.entity.properties.value">
       </div>
     </div>
   </script>

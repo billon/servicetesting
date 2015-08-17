@@ -284,6 +284,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
           for (var key in row) {
             $scope.responseOptions.columnDefs.push({
               field: key,
+              displayName: key,
               menuItems: [
                 {
                   title: 'Create An Assertion',

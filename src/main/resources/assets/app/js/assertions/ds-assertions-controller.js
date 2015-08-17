@@ -24,10 +24,10 @@ angular.module('service-testing-tool').controller('DSAssertionsController', ['$s
           name: 'properties.value', displayName: 'Value', width: 200, minWidth: 200,
           editableCellTemplate: 'assertionGridValueEditableCellTemplate.html'
         },
+        {name: 'result', displayName: 'Result', width: 100, minWidth: 100, enableCellEdit: false},
         {name: 'delete', width: 100, minWidth: 100, enableSorting: false, enableCellEdit: false,
           cellTemplate: 'assertionGridDeleteCellTemplate.html'
-        },
-        {name: 'result', displayName: 'Result', width: 100, minWidth: 100, enableCellEdit: false}
+        }
       ]
     };
 
@@ -59,7 +59,7 @@ angular.module('service-testing-tool').controller('DSAssertionsController', ['$s
     $scope.assertionsModelObj.createDSFieldContainAssertion = function(field) {
       var assertion = new Assertions({
         teststepId: $stateParams.teststepId,
-        name: 'Field contains value',
+        name: 'Field ' + field + ' contains value',
         type: 'DSField',
         properties: {
           field: field,
