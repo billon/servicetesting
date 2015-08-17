@@ -1,24 +1,26 @@
 <p></p>
 <div class="row">
-  <div class="col-lg-7">
-    <a href="" ng-if="teststep.endpointId" ng-click="viewEndpoint(teststep.endpointId)">{{teststep.endpoint.name}}</a>
-    <input ng-if="! teststep.endpointId" name="soapAddress" type="text" class="form-control" ng-model="teststep.properties.soapAddress" id="soapAddress" required
-           placeholder="http://localhost:8080/soap/article">
+  <div class="col-lg-6">
+    <a href="" ng-if="teststep.endpointId" ng-click="viewEndpoint(teststep.endpointId)" class="margin-small">{{teststep.endpoint.name}}</a>
+    <input ng-if="! teststep.endpointId" name="soapAddress" type="text" class="form-control margin-small" ng-model="teststep.properties.soapAddress" id="soapAddress" required
+           placeholder="Please select or input an endpoint to invoke">
   </div>
-  <div class="btn-group col-lg-2" dropdown>
-    <button type="button" class="btn btn-info" dropdown-toggle>
-      Go to <span class="caret"></span>
+  <div class="btn-toolbar col-lg-2">
+    <button ng-if="! teststep.endpointId" type="button" class="btn btn-primary" ng-click="createEndpoint(teststep)" title="Share the URL">
+      <span class="vertical-center glyphicon glyphicon-share-alt"></span>
+    </button>
+    <button type="button" class="btn btn-primary" ng-click="changeEndpoint(teststep)" title="Change Interface">
+      <span class="glyphicon glyphicon-edit"></span>
+    </button>
+  </div>
+  <div class="btn-group col-lg-offset-2 col-lg-2" dropdown>
+    <button type="button" class="btn btn-primary" dropdown-toggle>
+      Action <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
-      <li ng-show="teststep.endpointId">
-        <a href="" ng-click="goto('endpoint_edit', {endpointId: teststep.endpointId})">Endpoint Details</a>
-      </li>
-      <li><a href="" ng-click="goto('endpoint_all', null, 'endpoint')">Endpoint List</a></li>
-      <li><a href="" ng-click="goto('endpoint_create', null, 'endpoint')">A New Endpoint</a></li>
+      <li><a href="" ng-click="invoke(teststep)">Invoke the Test Step</a></li>
+      <li><a href="" ng-click="evaluateDataSet()">Evaluation Assertions</a></li>
     </ul>
-  </div>
-  <div class="col-lg-1">
-    <button type="button" class="btn btn-info" ng-click="invoke(teststep)">Invoke</button>
   </div>
 </div>
 <p></p>
@@ -62,9 +64,4 @@
         <i class="glyphicon glyphicon-trash center-block text-center"></i></a></div>
     </div>
   </script>
-</div>
-<div class="form-group">
-  <div class="col-lg-1">
-    <button type="button" class="btn btn-info" ng-click="evaluateDataSet()">Evaluate</button>
-  </div>
 </div>
