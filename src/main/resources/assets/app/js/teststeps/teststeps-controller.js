@@ -200,6 +200,50 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       });
     };
 
+    $scope.changeEndpoint = function(teststep) {
+      var context = {
+        endpointId: teststep.endpointId,
+        expect: 'Single'
+      };
+
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/endpoints/list-modal.html',
+        controller: 'EndpointsModalController',
+        windowClass: 'large-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (selectedEndpoint) {
+        if (selectedEndpoint) {
+          teststep.endpointId = selectedEndpoint.id;
+          teststep.endpoint = selectedEndpoint;
+        }
+      });
+    };
+
+    $scope.viewEndpoint = function(endpointId) {
+      var context = {
+        endpointId: endpointId
+      };
+
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: '/ui/views/endpoints/edit-modal.html',
+        controller: 'EndpointsModalController',
+        windowClass: 'large-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+    };
+
     $scope.findOne = function() {
       if ($stateParams.teststepId) {
         // edit an existing entry
