@@ -1,27 +1,24 @@
 <p></p>
 <div class="row">
-  <div class="col-lg-10">
-    <label for="soapAddress" class="col-lg-2 control-label">Endpoint</label>
-    <div class="col-lg-7">
-      <input name="endpoint" type="text" class="form-control" ng-if ="teststep.endpointId" ng-model="teststep.endpoint.name" id="endpoint" readonly>
-      <input name="soapAddress" type="text" class="form-control" ng-if ="! teststep.endpointId" ng-model="teststep.properties.soapAddress"
-          ng-change="autoSave(teststepForm.$valid)" id="soapAddress" placeholder="SOAP Address">
-    </div>
-    <div class="btn-group col-lg-2" dropdown>
-      <button type="button" class="btn btn-info" dropdown-toggle>
-        Go to <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li ng-show="teststep.endpointId">
-          <a href="" ng-click="goto('endpoint_edit', {endpointId: teststep.endpointId})">Endpoint Details</a>
-        </li>
-        <li><a href="" ng-click="goto('endpoint_all', null, 'endpoint')">Endpoint List</a></li>
-        <li><a href="" ng-click="goto('endpoint_create', null, 'endpoint')">A New Endpoint</a></li>
-      </ul>
-    </div>
-    <div class="col-lg-1">
-      <button type="button" class="btn btn-info" ng-click="invoke(teststep)">Invoke</button>
-    </div>
+  <div class="col-lg-7">
+    <a href="" ng-if="teststep.endpointId" ng-click="viewEndpoint(teststep.endpointId)">{{teststep.endpoint.name}}</a>
+    <input ng-if="! teststep.endpointId" name="soapAddress" type="text" class="form-control" ng-model="teststep.properties.soapAddress" id="soapAddress" required
+           placeholder="http://localhost:8080/soap/article">
+  </div>
+  <div class="btn-group col-lg-2" dropdown>
+    <button type="button" class="btn btn-info" dropdown-toggle>
+      Go to <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li ng-show="teststep.endpointId">
+        <a href="" ng-click="goto('endpoint_edit', {endpointId: teststep.endpointId})">Endpoint Details</a>
+      </li>
+      <li><a href="" ng-click="goto('endpoint_all', null, 'endpoint')">Endpoint List</a></li>
+      <li><a href="" ng-click="goto('endpoint_create', null, 'endpoint')">A New Endpoint</a></li>
+    </ul>
+  </div>
+  <div class="col-lg-1">
+    <button type="button" class="btn btn-info" ng-click="invoke(teststep)">Invoke</button>
   </div>
 </div>
 <p></p>
