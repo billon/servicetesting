@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns', '$stateParams', '$state', '$http', '$timeout', '$modal',
-  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $timeout, $modal) {
+angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns', '$stateParams', '$state', '$http', '$modal',
+  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $modal) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -53,13 +53,6 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
 
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);
-    };
-
-    $scope.autoSave = function(isValid) {
-      if (timer) $timeout.cancel(timer);
-      timer = $timeout(function() {
-        $scope.update(isValid);
-      }, 2000);
     };
 
     $scope.loadWsdl = function() {
@@ -294,7 +287,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
               menuItems: [
                 {
                   title: 'Create An Assertion',
-                  icon: 'ui-grid-icon-info-circled',
+                  icon: 'ui-grid-icon-plus-squared',
                   context: $scope,
                   action: function() {
                     this.context.createDSFieldContainAssertion(this.context.col.colDef.field);
