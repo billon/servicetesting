@@ -1,6 +1,6 @@
 <div ng-controller="TeststepsController" ng-init="findOne()">
   <form name="teststepForm" class="form-horizontal">
-    <div class="row">
+    <div class="row" id="page-header">
       <div class="col-lg-10">
         <span class="bottom col-lg-10"><h3>Test Step - {{teststep.name}}</h3></span>
           <span class="btn-toolbar col-lg-2">
@@ -41,7 +41,7 @@
               </div>
             </div>
           </tab>
-          <tab ng-if="teststep.id" heading="Assertions" active="true">
+          <tab ng-if="teststep.id" heading="Invocation" active="true">
             <div ng-if="teststep.type==='SOAP'" ng-include="'/ui/views/teststeps/edit-soap-request-response.html'"></div>
             <div ng-if="teststep.type!=='SOAP'" ng-include="'/ui/views/teststeps/edit-db-request-response.html'"></div>
           </tab>
