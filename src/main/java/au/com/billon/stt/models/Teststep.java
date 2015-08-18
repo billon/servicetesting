@@ -3,6 +3,7 @@ package au.com.billon.stt.models;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zheng on 7/07/2015.
@@ -20,6 +21,7 @@ public class Teststep {
     private long endpointId;
     private Endpoint endpoint;
     private Properties properties;
+    private List<Assertion> assertions;
     private EvaluationResponse result;
     private Date created;
     private Date updated;
@@ -110,6 +112,14 @@ public class Teststep {
     }
 
     public void setIntface(Intface intface) { this.intface = intface; }
+
+    public List<Assertion> getAssertions() {
+        return assertions;
+    }
+
+    public void setAssertions(List<Assertion> assertions) {
+        this.assertions = assertions;
+    }
 
     public Date getCreated() {
         return created;
