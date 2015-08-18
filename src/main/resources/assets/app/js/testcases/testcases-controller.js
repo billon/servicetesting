@@ -88,8 +88,28 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
     };
 
     $scope.remove = function(testcase) {
-      testcase.$remove(function(response) {
-        $state.go('testcase_all');
+      var context = {
+        message: 'Do you want to delete the test case "' + testcase.name + '" and all its test steps?'
+      };
+
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: '/ui/views/common/messagebox-modal.html',
+        controller: 'MessageboxModalController',
+        windowClass: 'small-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (isOK) {
+        if (isOK) {
+          testcase.$remove(function(response) {
+            $state.go('testcase_all');
+          });
+        }
       });
     };
 
@@ -174,11 +194,13 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
     };
 
     $scope.findOne = function() {
-      Testcases.get({
-        testcaseId: $stateParams.testcaseId
-      }, function(testcase) {
-        $scope.testcase = testcase;
-      });
+      if ($stateParams.testcaseId) {
+        Testcases.get({
+          testcaseId: $stateParams.testcaseId
+        }, function(testcase) {
+          $scope.testcase = testcase;
+        });
+      }
     };
   }
 ]);

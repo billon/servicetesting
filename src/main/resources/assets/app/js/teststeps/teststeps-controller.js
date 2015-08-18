@@ -117,8 +117,28 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     };
 
     $scope.remove = function(teststep) {
-      teststep.$remove(function(response) {
-        $state.go('testcase_edit', { testcaseId: $stateParams.testcaseId });
+      var context = {
+        message: 'Do you want to delete the test step "' + teststep.name + '" and all its assertions?'
+      };
+
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: '/ui/views/common/messagebox-modal.html',
+        controller: 'MessageboxModalController',
+        windowClass: 'small-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (isOK) {
+        if (isOK) {
+          teststep.$remove(function(response) {
+            $state.go('testcase_edit', { testcaseId: $stateParams.testcaseId });
+          });
+        }
       });
     };
 
