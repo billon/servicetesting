@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('EndpointsController', ['$scope', 'Endpoints', '$stateParams', '$state', 'uiGridConstants',
-  function($scope, Endpoints, $stateParams, $state, uiGridConstants) {
+angular.module('service-testing-tool').controller('EndpointsController', ['$scope', 'Endpoints', '$stateParams', '$state', 'uiGridConstants', '$modal',
+  function($scope, Endpoints, $stateParams, $state, uiGridConstants, $modal) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -97,8 +97,28 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
     };
 
     $scope.remove = function(endpoint) {
-      endpoint.$remove(function(response) {
-          $state.go('endpoint_all');
+      var context = {
+        message: 'Do you want to delete the Endpoint "' + endpoint.name + '"?'
+      };
+
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: '/ui/views/common/messagebox-modal.html',
+        controller: 'MessageboxModalController',
+        windowClass: 'small-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (isOK) {
+        if (isOK) {
+          endpoint.$remove(function(response) {
+            $state.go('endpoint_all');
+          });
+        }
       });
     };
 
