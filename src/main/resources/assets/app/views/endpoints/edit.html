@@ -34,8 +34,8 @@
         </div>
         <script type="text/ng-template" id="propertyGridCellTemplate.html">
             <div class="ui-grid-cell-contents">
-                <div ng-if="grid.appScope.isPassword(row.entity)"><input type="password" ui-grid-editor ng-model="row.entity.value"></div>
-                <div ng-if="! grid.appScope.isPassword(row.entity)"><input type="text" ui-grid-editor ng-model="row.entity.value"></div>
+                <input ng-if="grid.appScope.isPassword(row.entity)" type="password" ui-grid-editor ng-model="row.entity.value">
+                <input ng-if="! grid.appScope.isPassword(row.entity)" type="text" ui-grid-editor ng-model="row.entity.value">
             </div>
         </script>
     </form>

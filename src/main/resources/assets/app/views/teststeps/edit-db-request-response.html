@@ -58,10 +58,18 @@
       </div>
     </div>
   </script>
+  <script type="text/ng-template" id="assertionGridResultCellTemplate.html">
+    <div class="ui-grid-cell-contents">
+      <div ng-class="{ 'background-red' : row.entity.result === false, 'background-green' : row.entity.result === true }">
+        {{COL_FIELD}}
+      </div>
+    </div>
+  </script>
   <script type="text/ng-template" id="assertionGridDeleteCellTemplate.html">
     <div class="ui-grid-cell-contents">
-      <div><a ng-click="grid.appScope.assertionsModelObj.remove(row.entity)" href="">
-        <i class="glyphicon glyphicon-trash center-block text-center"></i></a></div>
+      <a ng-click="grid.appScope.removeAssertion(row.entity)" href="">
+        <i class="glyphicon glyphicon-trash center-block text-center"></i>
+      </a>
     </div>
   </script>
 </div>

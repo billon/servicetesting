@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns',
-  '$stateParams', '$state', '$http', '$modal', 'uiGridConstants', 'uiGridEditConstants',
-  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $modal, uiGridConstants, uiGridEditConstants) {
+  '$stateParams', '$state', '$http', '$modal', 'uiGridConstants', 'uiGridEditConstants', 'STTUtils',
+  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $modal, uiGridConstants, uiGridEditConstants, STTUtils) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -316,7 +316,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     $scope.assertionsModelObj.gridOptions = {
       columnDefs: [
         {
-          name: 'name', displayName: 'Name', width: 250, minWidth: 250,
+          name: 'name', width: 250, minWidth: 250,
           sort: {
             direction: uiGridConstants.ASC,
             priority: 1
@@ -329,7 +329,10 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
           name: 'properties.value', displayName: 'Value', width: 200, minWidth: 200,
           editableCellTemplate: 'assertionGridValueEditableCellTemplate.html'
         },
-        {name: 'result', displayName: 'Result', width: 100, minWidth: 100, enableCellEdit: false},
+        {
+          name: 'result', width: 100, minWidth: 100, enableCellEdit: false,
+          cellTemplate: 'assertionGridResultCellTemplate.html'
+        },
         {name: 'delete', width: 100, minWidth: 100, enableSorting: false, enableCellEdit: false,
           cellTemplate: 'assertionGridDeleteCellTemplate.html'
         }
@@ -348,6 +351,13 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         }
       };
       $scope.assertionsModelObj.gridOptions.data.push(assertion);
+    };
+
+    $scope.removeAssertion = function(assertion) {
+      var assertionId = assertion.id;
+      var gridData = $scope.assertionsModelObj.gridOptions.data;
+      var indexOfRowToBeDeleted = STTUtils.indexOfArrayElementByProperty(gridData, 'id', assertionId);
+      gridData.splice(indexOfRowToBeDeleted, 1);
     };
 
     $scope.evaluateDataSet = function() {
