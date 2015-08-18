@@ -98,7 +98,7 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
 
     $scope.remove = function(endpoint) {
       var context = {
-        message: 'Do you want to delete the Endpoint "' + endpoint.name + '"?'
+        message: 'Do you want to delete the endpoint "' + endpoint.name + '"?'
       };
 
       var modalInstance = $modal.open({

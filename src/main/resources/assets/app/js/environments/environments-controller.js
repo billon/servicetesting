@@ -106,8 +106,28 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
     };
 
     $scope.remove = function(environment) {
-      environment.$remove(function(response) {
-          $state.go('environment_all');
+      var context = {
+        message: 'Do you want to delete the environment "' + environment.name + '"?'
+      };
+
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: '/ui/views/common/messagebox-modal.html',
+        controller: 'MessageboxModalController',
+        windowClass: 'small-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (isOK) {
+        if (isOK) {
+          environment.$remove(function(response) {
+            $state.go('environment_all');
+          });
+        }
       });
     };
 

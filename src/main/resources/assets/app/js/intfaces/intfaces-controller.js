@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('IntfacesController', ['$scope', 'Intfaces', '$stateParams', '$state', 'uiGridConstants',
-  function($scope, Intfaces, $stateParams, $state, uiGridConstants) {
+angular.module('service-testing-tool').controller('IntfacesController', ['$scope', 'Intfaces', '$stateParams', '$state', 'uiGridConstants', '$modal',
+  function($scope, Intfaces, $stateParams, $state, uiGridConstants, $modal) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -107,8 +107,28 @@ angular.module('service-testing-tool').controller('IntfacesController', ['$scope
     };
 
     $scope.remove = function(intface) {
-      intface.$remove(function(response) {
-          $state.go('intface_all');
+      var context = {
+        message: 'Do you want to delete the interface "' + intface.name + '"?'
+      };
+
+      var modalInstance = $modal.open({
+        animation: false,
+        templateUrl: '/ui/views/common/messagebox-modal.html',
+        controller: 'MessageboxModalController',
+        windowClass: 'small-modal',
+        resolve: {
+          context: function () {
+            return context;
+          }
+        }
+      });
+
+      modalInstance.result.then(function (isOK) {
+        if (isOK) {
+          intface.$remove(function(response) {
+            $state.go('intface_all');
+          });
+        }
       });
     };
 
