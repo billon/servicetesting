@@ -259,6 +259,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
           teststepId: $stateParams.teststepId
         }, function (response) {
           $scope.teststep = response;
+          $scope.assertionsModelObj.gridOptions.data = response.assertions;
         });
       } else {
         // create a new entry
@@ -334,20 +335,8 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       ]
     };
 
-    $scope.assertionsModelObj.findAll = function() {
-      Assertions.query(
-          {
-            testcaseId: $stateParams.testcaseId,
-            teststepId: $stateParams.teststepId
-          }, function(response) {
-            $scope.assertionsModelObj.gridOptions.data = response;
-          }, function(error) {
-            $scope.$parent.alerts.push({type: 'warning', msg: error.data});
-          });
-    };
-
-    $scope.assertionsModelObj.createDSFieldContainAssertion = function(field) {
-      var assertion = new Assertions({
+    $scope.createDSFieldContainAssertion = function(field) {
+      var assertion = {
         teststepId: $stateParams.teststepId,
         name: 'Field ' + field + ' contains value',
         type: 'DSField',
@@ -356,56 +345,21 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
           operator: 'Contains',
           value: ''
         }
-      });
+      };
       $scope.assertionsModelObj.gridOptions.data.push(assertion);
     };
 
-    $scope.assertionsModelObj.update = function(teststep) {
-      teststep.assertions = $scope.assertionsModelObj.gridOptions.data;
-      teststep.name = 'Test DB 0088';
-      teststep.assertions = ['aa','bb'];
-      teststep.$update(function(response) {
-        $scope.$parent.alerts.push({type: 'success', msg: 'The Test Step has been updated successfully'});
-      }, function(error) {
-        $scope.$parent.alerts.push({type: 'warning', msg: error.data});
-      });
-    };
-
-    $scope.assertionsModelObj.remove = function(assertion) {
-      var assertionId = assertion.id;
-      assertion.$remove({
-        testcaseId: $stateParams.testcaseId,
-        teststepId: $stateParams.teststepId
-      }, function(response) {
-        //  delete the assertion row from the grid
-        var gridData = $scope.assertionsModelObj.gridOptions.data;
-        var indexOfRowToBeDeleted = STTUtils.indexOfArrayElementByProperty(gridData, 'id', assertionId);
-        gridData.splice(indexOfRowToBeDeleted, 1);
-
-        //  if deleted assertion is the one currently selected, set the current assertion to null
-        if ($scope.assertionsModelObj.assertion && $scope.assertionsModelObj.assertion.id === assertionId) {
-          $scope.assertionsModelObj.assertion = null;
-        }
-      }, function(error) {
-        $scope.$parent.alerts.push({type: 'warning', msg: error.data});
-      });
-    };
-
-    $scope.$on('createDSFieldContainAssertion', function (event, data) {
-      $scope.assertionsModelObj.createDSFieldContainAssertion(data);
-    });
-
-    $scope.$on('evaluateDataSet', function (event, data) {
+    $scope.evaluateDataSet = function() {
       var assertions = $scope.assertionsModelObj.gridOptions.data;
       for (var i = 0; i < assertions.length; i ++) {
         var assertion = assertions[i];
-        var values = _.pluck(data, assertion.properties.field);
+        var values = _.pluck($scope.responseOptions.data, assertion.properties.field);
         assertion.result = _.contains(values, assertion.properties.value);
       }
-    });
+    };
 
-    $scope.$on('saveAssertions', function (event, data) {
-      $scope.assertionsModelObj.update(data);
-    });
+    $scope.assertionsAreaLoadedCallback = function() {
+      $scope.$broadcast('assertionsAreaLoaded');
+    };
   }
 ]);
