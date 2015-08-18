@@ -72,7 +72,7 @@ public class STTApplication extends Application<STTConfiguration> {
         environment.jersey().register(new ArticleResource(articleDAO));
         environment.jersey().register(new EndpointResource(endpointDAO, endpointdtlDAO));
         environment.jersey().register(new TestcaseResource(testcaseDAO, teststepDAO));
-        environment.jersey().register(new TeststepResource(teststepDAO));
+        environment.jersey().register(new TeststepResource(teststepDAO, assertionDAO));
         environment.jersey().register(new AssertionResource(assertionDAO));
         environment.jersey().register(new WSDLResource());
         environment.jersey().register(new IntfaceResource(intfaceDAO));

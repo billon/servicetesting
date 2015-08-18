@@ -7,9 +7,7 @@ import au.com.billon.stt.models.Environment;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Trevor Li on 6/30/15.
@@ -36,7 +34,7 @@ public class EnvironmentResource {
         dao.update(environment);
 
         List<EnvEntry> entries = environment.getEntries();
-        Map<Long, EnvEntry> entryMap = new HashMap<Long, EnvEntry>();
+        Set<Long> entryIds = new HashSet<Long>();
         long environmentId = environment.getId();
 
         for (EnvEntry entry: entries) {
@@ -49,14 +47,14 @@ public class EnvironmentResource {
                 entry.setEnvironmentId(environmentId);
                 entryId = entryDao.insert(entry);
             }
-            entryMap.put(entryId, entry);
+            entryIds.add(entryId);
         }
 
         // delete existing entries
         List<EnvEntry> dbEntries = entryDao.findByEnv(environmentId);
         for (EnvEntry dbEntry: dbEntries) {
             Long dbEntryId = dbEntry.getId();
-            if (entryMap.get(dbEntryId) == null) {
+            if (! entryIds.contains(dbEntryId)) {
                 entryDao.deleteById(dbEntryId);
             }
         }

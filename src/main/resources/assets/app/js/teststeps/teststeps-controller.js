@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns', '$stateParams', '$state', '$http', '$modal',
-  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $modal) {
+angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns',
+  '$stateParams', '$state', '$http', '$modal', 'uiGridConstants', 'uiGridEditConstants',
+  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $modal, uiGridConstants, uiGridEditConstants) {
     $scope.schema = {
       type: "object",
       properties: {
