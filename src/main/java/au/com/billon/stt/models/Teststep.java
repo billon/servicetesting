@@ -15,13 +15,13 @@ public class Teststep {
     private String name;
     private String type;
     private String description;
-    private String request;
     private long intfaceId;
     private Intface intface;
-    private long endpointId;
-    private Endpoint endpoint;
     private Properties properties;
     private List<Assertion> assertions;
+    private String request;
+    private long endpointId;
+    private Endpoint endpoint;
     private TestResult result;
     private Date created;
     private Date updated;

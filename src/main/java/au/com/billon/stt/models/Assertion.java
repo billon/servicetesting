@@ -15,8 +15,8 @@ public class Assertion {
     private String name;
     private String type;
     private Properties properties;
-    private String result;
-    private AssertionVerification verification;
+    private String response;
+    private TestResult result;
     private Date created;
     private Date updated;
 
@@ -64,11 +64,11 @@ public class Assertion {
         this.type = type;
     }
 
-    public String getResult() {
+    public TestResult getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(TestResult result) {
         this.result = result;
     }
 
@@ -97,11 +97,11 @@ public class Assertion {
         this.properties = properties;
     }
 
-    public AssertionVerification getVerification() {
-        return verification;
+    public String getResponse() {
+        return response;
     }
 
-    public void setVerification(AssertionVerification verification) {
-        this.verification = verification;
+    public void setResponse(String response) {
+        this.response = response;
     }
 }

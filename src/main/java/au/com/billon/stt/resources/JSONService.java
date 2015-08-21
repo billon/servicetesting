@@ -2,7 +2,6 @@ package au.com.billon.stt.resources;
 
 import au.com.billon.stt.core.EvaluatorFactory;
 import au.com.billon.stt.models.Assertion;
-import au.com.billon.stt.models.AssertionVerification;
 import au.com.billon.stt.models.TestResult;
 import au.com.billon.stt.models.XPathAssertionProperties;
 
@@ -20,13 +19,13 @@ import javax.ws.rs.core.MediaType;
 public class JSONService {
     @POST @Path("verifyassertion")
     public Assertion verifyAssertion(Assertion assertion) {
-        AssertionVerification verification = assertion.getVerification();
         XPathAssertionProperties assertionProperties = (XPathAssertionProperties) assertion.getProperties();
-        TestResult testResult = new EvaluatorFactory().createEvaluator("WSDL", assertion.getType()).evaluate(verification.getInput(), assertionProperties);
-        verification.setPassed(testResult.getError() == null &&
+        TestResult testResult = new EvaluatorFactory().createEvaluator("WSDL", assertion.getType()).evaluate(assertion.getResponse(), assertionProperties);
+        testResult.setPassed(testResult.getError() == null &&
                 assertionProperties.getExpectedValue().equals(testResult.getActualValue()));
-        verification.setError(testResult.getError());
-        verification.setActualValue(testResult.getActualValue());
+        testResult.setError(testResult.getError());
+        testResult.setActualValue(testResult.getActualValue());
+        assertion.setResult(testResult);
         return assertion;
     }
 }

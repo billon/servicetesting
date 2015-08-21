@@ -10,12 +10,12 @@ public class Testcase {
     private long id;
     private String name;
     private String description;
+    private List<Teststep> teststeps;
     private Long environmentId;
     private Environment environment;
-    private String result;
+    private TestResult result;
     private Date created;
     private Date updated;
-    private List<Teststep> teststeps;
 
     public Testcase() {}
 
@@ -72,11 +72,11 @@ public class Testcase {
         this.environment = environment;
     }
 
-    public String getResult() {
+    public TestResult getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(TestResult result) {
         this.result = result;
     }
 
