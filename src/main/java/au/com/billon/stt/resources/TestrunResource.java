@@ -44,7 +44,7 @@ public class TestrunResource {
     @POST
     public Testrun create(Testrun testrun) throws Exception {
         List<Long> testcaseIds = testrun.getTestcaseIds();
-        if (testcaseIds != null && testcaseIds.size() > 0) {
+        if (testcaseIds != null) {
         } else {
             long testcaseId = testrun.getTestcaseId();
             if (testcaseId > 0) {
@@ -66,7 +66,7 @@ public class TestrunResource {
 
                         Map<String, String> details = getEndpointDetails(endpointId);
 
-                        Object response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(teststep.getRequest(), details);
+                        TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(teststep.getRequest(), details);
 
                         System.out.println(response);
 
@@ -93,7 +93,7 @@ public class TestrunResource {
                 if (testrun.getDetails() != null) {
                     Map<String, String> details = testrun.getDetails();
                     details.put("url", details.get("soapAddress"));
-                    Object response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getDetails());
+                    TestResponse response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getDetails());
                     testrun.setResponse(response);
                 } else if (testrun.getEndpointId() > 0) {
                     long endpointId = testrun.getEndpointId();
@@ -101,7 +101,7 @@ public class TestrunResource {
 
                     Map<String, String> details = getEndpointDetails(endpointId);
 
-                    Object response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), details);
+                    TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), details);
 
                     testrun.setEndpoint(endpoint);
                     testrun.setResponse(response);

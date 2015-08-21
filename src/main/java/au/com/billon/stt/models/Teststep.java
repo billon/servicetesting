@@ -18,10 +18,10 @@ public class Teststep {
     private long intfaceId;
     private Intface intface;
     private Properties properties;
-    private List<Assertion> assertions;
     private String request;
     private long endpointId;
     private Endpoint endpoint;
+    private List<Assertion> assertions;
     private TestResult result;
     private Date created;
     private Date updated;

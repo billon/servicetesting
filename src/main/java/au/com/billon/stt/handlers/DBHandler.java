@@ -1,5 +1,6 @@
 package au.com.billon.stt.handlers;
 
+import au.com.billon.stt.models.TestResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.skife.jdbi.v2.DBI;
@@ -18,7 +19,9 @@ import java.util.Set;
 public class DBHandler implements STTHandler {
     public DBHandler() { }
 
-    public Object invoke(String request, Map<String, String> details) throws Exception {
+    public TestResponse invoke(String request, Map<String, String> details) throws Exception {
+        TestResponse response = new TestResponse();
+
         DBI jdbi = new DBI(details.get("url"), details.get("username"), details.get("password"));
         Handle handle = jdbi.open();
 
@@ -40,7 +43,9 @@ public class DBHandler implements STTHandler {
             }
         }
 
-        return results;
+        response.setResponseObj(results);
+
+        return response;
     }
 
     public List<String> getProperties() {

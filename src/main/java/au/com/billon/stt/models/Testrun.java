@@ -17,12 +17,12 @@ public class Testrun {
     private long teststepId;
     private Teststep teststep;
     private String request;
-    private Object response;
     private long environmentId;
     private Environment environment;
     private long endpointId;
     private Endpoint endpoint;
     private Map<String, String> details;
+    private TestResponse response;
     private Date created;
 
     public Testrun() {
@@ -68,11 +68,11 @@ public class Testrun {
         this.request = request;
     }
 
-    public Object getResponse() {
+    public TestResponse getResponse() {
         return response;
     }
 
-    public void setResponse(Object response) {
+    public void setResponse(TestResponse response) {
         this.response = response;
     }
 

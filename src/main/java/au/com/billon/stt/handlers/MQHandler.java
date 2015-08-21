@@ -1,5 +1,7 @@
 package au.com.billon.stt.handlers;
 
+import au.com.billon.stt.models.TestResponse;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +12,7 @@ import java.util.Map;
 public class MQHandler implements STTHandler {
     public MQHandler() { }
 
-    public String invoke(String request, Map<String, String> details) throws Exception {
+    public TestResponse invoke(String request, Map<String, String> details) throws Exception {
         return null;
     }
 

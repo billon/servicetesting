@@ -14,8 +14,8 @@ public class Assertion {
     private long teststepId;
     private String name;
     private String type;
+    private TestResponse response;
     private Properties properties;
-    private String response;
     private TestResult result;
     private Date created;
     private Date updated;
@@ -97,11 +97,11 @@ public class Assertion {
         this.properties = properties;
     }
 
-    public String getResponse() {
+    public TestResponse getResponse() {
         return response;
     }
 
-    public void setResponse(String response) {
+    public void setResponse(TestResponse response) {
         this.response = response;
     }
 }

@@ -1,5 +1,6 @@
 package au.com.billon.stt.handlers;
 
+import au.com.billon.stt.models.TestResponse;
 import au.com.billon.stt.utils.XMLUtils;
 import org.reficio.ws.client.core.SoapClient;
 
@@ -13,10 +14,14 @@ import java.util.Map;
 public class SOAPHandler implements STTHandler {
     public SOAPHandler() { }
 
-    public String invoke(String request, Map<String, String> details) throws Exception {
+    public TestResponse invoke(String request, Map<String, String> details) throws Exception {
+        TestResponse response = new TestResponse();
+
         SoapClient client = SoapClient.builder().endpointUri(details.get("url")).build();
-        String response = client.post(request);
-        return XMLUtils.prettyPrintXML(response);
+        String responseXML = client.post(request);
+        response.setResponseStr(responseXML);
+
+        return response;
     }
 
     public List<String> getProperties() {
