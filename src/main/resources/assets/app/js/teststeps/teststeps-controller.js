@@ -293,16 +293,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
             $scope.responseOptions.columnDefs.push({
               field: key,
               displayName: key,
-              menuItems: [
-                {
-                  title: 'Create An Assertion',
-                  icon: 'ui-grid-icon-plus-squared',
-                  context: $scope,
-                  action: function() {
-                    this.context.createDSFieldContainAssertion(this.context.col.colDef.field);
-                  }
-                }
-              ]
+              cellTemplate: 'responseCellTemplate.html'
             });
           }
         }
@@ -339,15 +330,15 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       ]
     };
 
-    $scope.createDSFieldContainAssertion = function(field) {
+    $scope.createDSFieldContainAssertion = function(field, entity) {
       var assertion = {
         teststepId: $stateParams.teststepId,
-        name: 'Field ' + field + ' contains value',
+        name: 'Check ' + field,
         type: 'DSField',
         properties: {
           field: field,
           operator: 'Contains',
-          value: ''
+          value: entity[field]
         }
       };
       $scope.assertionsModelObj.gridOptions.data.push(assertion);
