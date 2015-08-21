@@ -43,22 +43,7 @@ public class TestrunResource {
 
     @POST
     public Testrun create(Testrun testrun) throws Exception {
-        if (testrun.getDetails() != null) {
-            Map<String, String> details = testrun.getDetails();
-            details.put("url", details.get("soapAddress"));
-            Object response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getDetails());
-            testrun.setResponse(response);
-        } else if (testrun.getEndpointId() > 0) {
-            long endpointId = testrun.getEndpointId();
-            Endpoint endpoint = endpointDao.findById(endpointId);
-
-            Map<String, String> details = getEndpointDetails(endpointId);
-
-            Object response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), details);
-
-            testrun.setEndpoint(endpoint);
-            testrun.setResponse(response);
-        } else if (testrun.getTestcaseId() > 0) {
+        if (testrun.getTestcaseId() > 0) {
             long testcaseId = testrun.getTestcaseId();
             Testcase testcase = testcaseDao.findById(testcaseId);
             List<Teststep> teststeps = teststepDao.findByTestcaseId(testcaseId);
@@ -109,6 +94,23 @@ public class TestrunResource {
             testrun.setEnvironment(environment);
             testcase.setTeststeps(teststeps);
             testrun.setTestcase(testcase);
+        } else {
+            if (testrun.getDetails() != null) {
+                Map<String, String> details = testrun.getDetails();
+                details.put("url", details.get("soapAddress"));
+                Object response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getDetails());
+                testrun.setResponse(response);
+            } else if (testrun.getEndpointId() > 0) {
+                long endpointId = testrun.getEndpointId();
+                Endpoint endpoint = endpointDao.findById(endpointId);
+
+                Map<String, String> details = getEndpointDetails(endpointId);
+
+                Object response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), details);
+
+                testrun.setEndpoint(endpoint);
+                testrun.setResponse(response);
+            }
         }
 
         return testrun;
