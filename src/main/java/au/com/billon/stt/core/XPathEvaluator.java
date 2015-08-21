@@ -18,10 +18,6 @@ import java.io.StringReader;
  * Created by Zheng on 2/08/2015.
  */
 public class XPathEvaluator implements Evaluator {
-    public EvaluationResponse evaluate() {
-        return null;
-    }
-
     public EvaluationResponse evaluate(Object response, Properties properties) {
         String responseStr = (String) response;
         XPathAssertionProperties xPathAssertionProperties = (XPathAssertionProperties) properties;

@@ -1,7 +1,10 @@
 package au.com.billon.stt.resources;
 
-import au.com.billon.stt.core.AssertionVerifierFactory;
+import au.com.billon.stt.core.EvaluatorFactory;
 import au.com.billon.stt.models.Assertion;
+import au.com.billon.stt.models.AssertionVerification;
+import au.com.billon.stt.models.EvaluationResponse;
+import au.com.billon.stt.models.XPathAssertionProperties;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -15,14 +18,15 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/jsonservice") @Produces({ MediaType.APPLICATION_JSON })
 public class JSONService {
-    private AssertionVerifierFactory assertionVerifierFactory;
-
-    public JSONService(AssertionVerifierFactory assertionVerifierFactory) {
-        this.assertionVerifierFactory = assertionVerifierFactory;
-    }
-
     @POST @Path("verifyassertion")
     public Assertion verifyAssertion(Assertion assertion) {
-        return assertionVerifierFactory.create(assertion.getType()).verify(assertion);
+        AssertionVerification verification = assertion.getVerification();
+        XPathAssertionProperties assertionProperties = (XPathAssertionProperties) assertion.getProperties();
+        EvaluationResponse evaluationResponse = new EvaluatorFactory().createEvaluator("WSDL", assertion.getType()).evaluate(verification.getInput(), assertionProperties);
+        verification.setPassed(evaluationResponse.getError() == null &&
+                assertionProperties.getExpectedValue().equals(evaluationResponse.getActualValue()));
+        verification.setError(evaluationResponse.getError());
+        verification.setActualValue(evaluationResponse.getActualValue());
+        return assertion;
     }
 }

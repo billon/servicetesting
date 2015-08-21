@@ -13,10 +13,6 @@ import java.util.Map;
 public class DSFieldEvaluator implements Evaluator {
     public static final String CONTAINS_OPERATOR = "Contains";
 
-    public EvaluationResponse evaluate() {
-        return null;
-    }
-
     public EvaluationResponse evaluate(Object response, Properties properties) {
         EvaluationResponse result = new EvaluationResponse();
         result.setError("true");
