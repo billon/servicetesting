@@ -8,9 +8,7 @@ import au.com.billon.stt.models.*;
 public class STTUtils {
 
     public static Class getAssertionPropertiesClassByType(String assertionType) {
-        if (Assertion.ASSERTION_TYPE_CONTAINS.equals(assertionType)) {
-            return ContainsAssertionProperties.class;
-        } else if (Assertion.ASSERTION_TYPE_XPATH.equals(assertionType)) {
+        if (Assertion.ASSERTION_TYPE_XPATH.equals(assertionType)) {
             return XPathAssertionProperties.class;
         } else if (Assertion.ASSERTION_TYPE_DSFIELD.equals(assertionType)) {
             return DSFieldAssertionProperties.class;

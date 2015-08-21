@@ -3,7 +3,7 @@ package au.com.billon.stt.models;
 /**
  * Created by Zheng on 27/07/2015.
  */
-public class EvaluationResponse {
+public class TestResult {
     //  message of error that occurred during the evaluation
     private String error;
 

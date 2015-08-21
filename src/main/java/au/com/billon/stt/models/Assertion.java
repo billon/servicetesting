@@ -8,7 +8,6 @@ import java.util.Date;
  * Created by Zheng on 19/07/2015.
  */
 public class Assertion {
-    public static final String ASSERTION_TYPE_CONTAINS = "Contains";
     public static final String ASSERTION_TYPE_XPATH = "XPath";
     public static final String ASSERTION_TYPE_DSFIELD = "DSField";
     private long id;

@@ -1,7 +1,7 @@
 package au.com.billon.stt.core;
 
 import au.com.billon.stt.models.DSFieldAssertionProperties;
-import au.com.billon.stt.models.EvaluationResponse;
+import au.com.billon.stt.models.TestResult;
 import au.com.billon.stt.models.Properties;
 
 import java.util.List;
@@ -13,8 +13,8 @@ import java.util.Map;
 public class DSFieldEvaluator implements Evaluator {
     public static final String CONTAINS_OPERATOR = "Contains";
 
-    public EvaluationResponse evaluate(Object response, Properties properties) {
-        EvaluationResponse result = new EvaluationResponse();
+    public TestResult evaluate(Object response, Properties properties) {
+        TestResult result = new TestResult();
         result.setError("true");
 
         DSFieldAssertionProperties assertionProperties = (DSFieldAssertionProperties) properties;

@@ -1,6 +1,6 @@
 package au.com.billon.stt.core;
 
-import au.com.billon.stt.models.EvaluationResponse;
+import au.com.billon.stt.models.TestResult;
 import au.com.billon.stt.models.Properties;
 import au.com.billon.stt.models.XPathAssertionProperties;
 import au.com.billon.stt.utils.XMLUtils;
@@ -18,11 +18,11 @@ import java.io.StringReader;
  * Created by Zheng on 2/08/2015.
  */
 public class XPathEvaluator implements Evaluator {
-    public EvaluationResponse evaluate(Object response, Properties properties) {
+    public TestResult evaluate(Object response, Properties properties) {
         String responseStr = (String) response;
         XPathAssertionProperties xPathAssertionProperties = (XPathAssertionProperties) properties;
 
-        EvaluationResponse evaluationResponse = new EvaluationResponse();
+        TestResult testResult = new TestResult();
         XPath xpath = XPathFactory.newInstance().newXPath();
         xpath.setNamespaceContext(new STTNamespaceContext(xPathAssertionProperties.getNamespacePrefixes()));
 
@@ -53,9 +53,9 @@ public class XPathEvaluator implements Evaluator {
             errorMessage = e.getMessage();
         }
 
-        evaluationResponse.setError(errorMessage);
-        evaluationResponse.setActualValue(actualValue);
+        testResult.setError(errorMessage);
+        testResult.setActualValue(actualValue);
 
-        return evaluationResponse;
+        return testResult;
     }
 }

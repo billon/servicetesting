@@ -73,7 +73,7 @@ public class TestrunResource {
                         Intface intface = intfaceDao.findById(intfaceId);
                         List<Assertion> assertions = assertionDao.findByTeststepId(teststep.getId());
 
-                        EvaluationResponse result = new EvaluationResponse();
+                        TestResult result = new TestResult();
                         for (Assertion assertion : assertions) {
                             Evaluator evaluator = evaluatorFactory.createEvaluator(intface.getDeftype(), assertion.getType());
                             result = evaluator.evaluate(response, assertion.getProperties());
