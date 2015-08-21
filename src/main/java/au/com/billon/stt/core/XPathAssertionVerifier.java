@@ -11,10 +11,7 @@ public class XPathAssertionVerifier implements AssertionVerifier {
     public Assertion verify(Assertion assertion) {
         AssertionVerification verification = assertion.getVerification();
         XPathAssertionProperties assertionProperties = (XPathAssertionProperties) assertion.getProperties();
-        EvaluationRequest evaluationRequest = new EvaluationRequest(
-                assertion.getType(), assertionProperties.getxPath(), verification.getInput(),
-                new XPathEvaluationRequestProperties(assertionProperties.getNamespacePrefixes()));
-        EvaluationResponse evaluationResponse = new EvaluatorFactory().createEvaluator(evaluationRequest).evaluate();
+        EvaluationResponse evaluationResponse = new EvaluatorFactory().createEvaluator("WSDL", assertion.getType()).evaluate(verification.getInput(), assertionProperties);
         verification.setPassed(evaluationResponse.getError() == null &&
                 assertionProperties.getExpectedValue().equals(evaluationResponse.getActualValue()));
         verification.setError(evaluationResponse.getError());
