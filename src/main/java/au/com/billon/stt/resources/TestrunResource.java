@@ -43,77 +43,98 @@ public class TestrunResource {
 
     @POST
     public Testrun create(Testrun testrun) throws Exception {
-        if (testrun.getTestcaseId() > 0) {
+        List<Long> testcaseIds = testrun.getTestcaseIds();
+        if (testcaseIds != null && testcaseIds.size() > 0) {
+        } else {
             long testcaseId = testrun.getTestcaseId();
-            Testcase testcase = testcaseDao.findById(testcaseId);
-            List<Teststep> teststeps = teststepDao.findByTestcaseId(testcaseId);
+            if (testcaseId > 0) {
+                Testcase testcase = testcaseDao.findById(testcaseId);
+                List<Teststep> teststeps = teststepDao.findByTestcaseId(testcaseId);
 
-            long environmentId = testrun.getEnvironmentId();
-            Environment environment = environmentDao.findById(environmentId);
-            List<EnvEntry> enventries = enventryDao.findByEnv(environmentId);
-            Map<Long, EnvEntry> enventriesMap = new HashMap<Long, EnvEntry>();
-            for (EnvEntry enventry : enventries) {
-                enventriesMap.put(enventry.getIntfaceId(), enventry);
-            }
+                long environmentId = testrun.getEnvironmentId();
+                Environment environment = environmentDao.findById(environmentId);
+                Map<Long, EnvEntry> enventryMap = getEnvEntryMap(enventryDao.findByEnv(environmentId));
 
-            // set the default environment for the test case
-            testcase.setEnvironmentId(environmentId);
-            testcaseDao.update(testcase);
+                for (Teststep teststep : teststeps) {
+                    long intfaceId = teststep.getIntfaceId();
+                    EnvEntry enventry = enventryMap.get(intfaceId);
+                    if (enventry == null) {
+                        throw new Exception("No interface entry for the test step " + teststep.getName() + " in the environment " + environment.getName());
+                    } else {
+                        long endpointId = enventry.getEndpointId();
+                        Endpoint endpoint = endpointDao.findById(endpointId);
 
-            for (Teststep teststep : teststeps) {
-                long intfaceId = teststep.getIntfaceId();
-                EnvEntry enventry = enventriesMap.get(intfaceId);
-                if (enventry == null) {
-                    throw new Exception("No interface entry for the test step " + teststep.getName() + " in the environment " + environment.getName());
-                } else {
-                    long endpointId = enventry.getEndpointId();
+                        Map<String, String> details = getEndpointDetails(endpointId);
+
+                        Object response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(teststep.getRequest(), details);
+
+                        System.out.println(response);
+
+                        Intface intface = intfaceDao.findById(intfaceId);
+                        List<Assertion> assertions = assertionDao.findByTeststepId(teststep.getId());
+
+                        EvaluationResponse result = new EvaluationResponse();
+                        for (Assertion assertion : assertions) {
+                            Evaluator evaluator = evaluatorFactory.createEvaluator(intface.getDeftype(), assertion.getType());
+                            result = evaluator.evaluate(response, assertion.getProperties());
+                            if (result.getError().equals("true")) {
+                                break;
+                            }
+                        }
+
+                        teststep.setResult(result);
+                    }
+                }
+
+                testrun.setEnvironment(environment);
+                testcase.setTeststeps(teststeps);
+                testrun.setTestcase(testcase);
+            } else {
+                if (testrun.getDetails() != null) {
+                    Map<String, String> details = testrun.getDetails();
+                    details.put("url", details.get("soapAddress"));
+                    Object response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getDetails());
+                    testrun.setResponse(response);
+                } else if (testrun.getEndpointId() > 0) {
+                    long endpointId = testrun.getEndpointId();
                     Endpoint endpoint = endpointDao.findById(endpointId);
 
                     Map<String, String> details = getEndpointDetails(endpointId);
 
-                    Object response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(teststep.getRequest(), details);
+                    Object response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), details);
 
-                    System.out.println(response);
-
-                    Intface intface = intfaceDao.findById(intfaceId);
-                    List<Assertion> assertions = assertionDao.findByTeststepId(teststep.getId());
-
-                    EvaluationResponse result = new EvaluationResponse();
-                    for (Assertion assertion : assertions) {
-                        Evaluator evaluator = evaluatorFactory.createEvaluator(intface.getDeftype(), assertion.getType());
-                        result = evaluator.evaluate(response, assertion.getProperties());
-                        if (result.getError().equals("true")) {
-                            break;
-                        }
-                    }
-
-                    teststep.setResult(result);
+                    testrun.setEndpoint(endpoint);
+                    testrun.setResponse(response);
                 }
-            }
-
-            testrun.setEnvironment(environment);
-            testcase.setTeststeps(teststeps);
-            testrun.setTestcase(testcase);
-        } else {
-            if (testrun.getDetails() != null) {
-                Map<String, String> details = testrun.getDetails();
-                details.put("url", details.get("soapAddress"));
-                Object response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getDetails());
-                testrun.setResponse(response);
-            } else if (testrun.getEndpointId() > 0) {
-                long endpointId = testrun.getEndpointId();
-                Endpoint endpoint = endpointDao.findById(endpointId);
-
-                Map<String, String> details = getEndpointDetails(endpointId);
-
-                Object response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), details);
-
-                testrun.setEndpoint(endpoint);
-                testrun.setResponse(response);
             }
         }
 
         return testrun;
+    }
+
+    private void run(Testcase testcase) {
+
+    }
+
+    private void run(Teststep teststep) {
+
+    }
+
+    private void run(String request, Endpoint endpoint) {
+
+    }
+
+    private void run(String request, Map<String, String> details) {
+
+    }
+
+    private Map<Long, EnvEntry> getEnvEntryMap(List<EnvEntry> enventries) {
+        Map<Long, EnvEntry> enventryMap = new HashMap<Long, EnvEntry>();
+        for (EnvEntry enventry : enventries) {
+            enventryMap.put(enventry.getIntfaceId(), enventry);
+        }
+
+        return enventryMap;
     }
 
     private Map<String, String> getEndpointDetails(long endpointId) {
