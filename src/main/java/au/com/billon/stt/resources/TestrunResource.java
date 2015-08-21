@@ -90,10 +90,10 @@ public class TestrunResource {
                 testcase.setTeststeps(teststeps);
                 testrun.setTestcase(testcase);
             } else {
-                if (testrun.getDetails() != null) {
-                    Map<String, String> details = testrun.getDetails();
+                if (testrun.getEndpointProps() != null) {
+                    Map<String, String> details = testrun.getEndpointProps();
                     details.put("url", details.get("soapAddress"));
-                    TestResponse response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getDetails());
+                    TestResponse response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getEndpointProps());
                     testrun.setResponse(response);
                 } else if (testrun.getEndpointId() > 0) {
                     long endpointId = testrun.getEndpointId();
@@ -124,7 +124,7 @@ public class TestrunResource {
 
     }
 
-    private void run(String request, Map<String, String> details) {
+    private void run(String request, Map<String, String> properties) {
 
     }
 

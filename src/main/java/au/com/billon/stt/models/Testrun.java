@@ -21,7 +21,7 @@ public class Testrun {
     private Environment environment;
     private long endpointId;
     private Endpoint endpoint;
-    private Map<String, String> details;
+    private Map<String, String> endpointProps;
     private TestResponse response;
     private Date created;
 
@@ -92,12 +92,12 @@ public class Testrun {
         this.endpoint = endpoint;
     }
 
-    public Map<String, String> getDetails() {
-        return details;
+    public Map<String, String> getEndpointProps() {
+        return endpointProps;
     }
 
-    public void setDetails(Map<String, String> details) {
-        this.details = details;
+    public void setEndpointProps(Map<String, String> endpointProps) {
+        this.endpointProps = endpointProps;
     }
 
     public List<Long> getTestcaseIds() {

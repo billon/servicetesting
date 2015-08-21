@@ -14,17 +14,17 @@ import java.util.Map;
 public class SOAPHandler implements STTHandler {
     public SOAPHandler() { }
 
-    public TestResponse invoke(String request, Map<String, String> details) throws Exception {
+    public TestResponse invoke(String request, Map<String, String> properties) throws Exception {
         TestResponse response = new TestResponse();
 
-        SoapClient client = SoapClient.builder().endpointUri(details.get("url")).build();
+        SoapClient client = SoapClient.builder().endpointUri(properties.get("url")).build();
         String responseXML = client.post(request);
         response.setResponseStr(responseXML);
 
         return response;
     }
 
-    public List<String> getProperties() {
+    public List<String> getPropNames() {
         String[] properties = {"url", "username", "password"};
         return Arrays.asList(properties);
     }

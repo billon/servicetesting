@@ -10,6 +10,6 @@ import java.util.Map;
  * Created by Trevor Li on 7/14/15.
  */
 public interface STTHandler {
-    public TestResponse invoke(String request, Map<String, String> details) throws Exception;
-    public List<String> getProperties();
+    public TestResponse invoke(String request, Map<String, String> properties) throws Exception;
+    public List<String> getPropNames();
 }

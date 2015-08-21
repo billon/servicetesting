@@ -12,11 +12,11 @@ import java.util.Map;
 public class MQHandler implements STTHandler {
     public MQHandler() { }
 
-    public TestResponse invoke(String request, Map<String, String> details) throws Exception {
+    public TestResponse invoke(String request, Map<String, String> properties) throws Exception {
         return null;
     }
 
-    public List<String> getProperties() {
+    public List<String> getPropNames() {
         String[] properties = {"host", "port", "channel", "manager", "queue", "userid", "password"};
         return Arrays.asList(properties);
     }

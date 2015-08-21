@@ -19,10 +19,10 @@ import java.util.Set;
 public class DBHandler implements STTHandler {
     public DBHandler() { }
 
-    public TestResponse invoke(String request, Map<String, String> details) throws Exception {
+    public TestResponse invoke(String request, Map<String, String> properties) throws Exception {
         TestResponse response = new TestResponse();
 
-        DBI jdbi = new DBI(details.get("url"), details.get("username"), details.get("password"));
+        DBI jdbi = new DBI(properties.get("url"), properties.get("username"), properties.get("password"));
         Handle handle = jdbi.open();
 
         Query<Map<String, Object>> query = handle.createQuery(request);
@@ -48,7 +48,7 @@ public class DBHandler implements STTHandler {
         return response;
     }
 
-    public List<String> getProperties() {
+    public List<String> getPropNames() {
         String[] properties = {"url", "username", "password"};
         return Arrays.asList(properties);
     }
