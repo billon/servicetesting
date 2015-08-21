@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Trevor Li on 7/14/15.
@@ -30,6 +31,14 @@ public class DBHandler implements STTHandler {
         // mapper.writeValue(responseWriter, results);
 
         handle.close();
+
+        // convert the result values to String
+        for (Map<String, Object> result : results) {
+            Set<String> keys = result.keySet();
+            for (String key : keys) {
+                result.put(key, result.get(key).toString());
+            }
+        }
 
         return results;
     }
