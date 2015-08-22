@@ -278,23 +278,27 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       } else {
         testrun = {
           request: $scope.teststep.request,
-          details: $scope.teststep.properties
+          endpointProps: $scope.teststep.properties
         };
       }
 
       var testrunRes = new Testruns(testrun);
       testrunRes.$save(function(response) {
-        $scope.tempData.soapResponse = response.response;
-        $scope.responseOptions.data = response.response;
-        $scope.responseOptions.columnDefs = [ ];
-        if (response.response.length > 0) {
-          var row = response.response[0];
-          for (var key in row) {
-            $scope.responseOptions.columnDefs.push({
-              field: key,
-              displayName: key,
-              cellTemplate: 'responseCellTemplate.html'
-            });
+        $scope.tempData.soapResponse = response.response.responseStr;
+
+        var responseObj = response.response.responseObj;
+        if (responseObj) {
+          $scope.responseOptions.data = responseObj;
+          $scope.responseOptions.columnDefs = [ ];
+          if (responseObj.length > 0) {
+            var row = responseObj[0];
+            for (var key in row) {
+              $scope.responseOptions.columnDefs.push({
+                field: key,
+                displayName: key,
+                cellTemplate: 'responseCellTemplate.html'
+              });
+            }
           }
         }
       }, function(error) {
