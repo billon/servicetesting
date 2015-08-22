@@ -41,59 +41,20 @@ public class TestrunResource {
 
     @POST
     public Testrun create(Testrun testrun) throws Exception {
-        List<Long> testcaseIds = testrun.getTestcaseIds();
+        List<Testcase> testcases = testrun.getTestcases();
         // Run multiple test cases
-        if (testcaseIds != null) {
+        if (testcases != null) {
+            runTestcases(testcases, testrun.getEnvironmentId());
         } else {
-            long testcaseId = testrun.getTestcaseId();
+            Testcase testcase = testrun.getTestcase();
             // Run one test case
-            if (testcaseId > 0) {
-                Testcase testcase = testcaseDao.findById(testcaseId);
-                List<Teststep> teststeps = teststepDao.findByTestcaseId(testcaseId);
-
-                long environmentId = testrun.getEnvironmentId();
-                Environment environment = environmentDao.findById(environmentId);
-                Map<Long, EnvEntry> enventryMap = getEnvEntryMap(enventryDao.findByEnv(environmentId));
-
-                for (Teststep teststep : teststeps) {
-                    long intfaceId = teststep.getIntfaceId();
-                    EnvEntry enventry = enventryMap.get(intfaceId);
-                    if (enventry == null) {
-                        throw new Exception("No interface entry for the test step " + teststep.getName() + " in the environment " + environment.getName());
-                    } else {
-                        long endpointId = enventry.getEndpointId();
-                        Endpoint endpoint = endpointDao.findById(endpointId);
-
-                        Map<String, String> endpointProps = getEndpointProps(endpointId);
-
-                        TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(teststep.getRequest(), endpointProps);
-
-                        System.out.println(response);
-
-                        Intface intface = intfaceDao.findById(intfaceId);
-                        List<Assertion> assertions = assertionDao.findByTeststepId(teststep.getId());
-
-                        TestResult result = new TestResult();
-                        for (Assertion assertion : assertions) {
-                            Evaluator evaluator = EvaluatorFactory.getInstance().getEvaluator(assertion.getType());
-                            result = evaluator.evaluate(response, assertion.getProperties());
-                            if (result.getError().equals("true")) {
-                                break;
-                            }
-                        }
-
-                        teststep.setResult(result);
-                    }
-                }
-
-                testrun.setEnvironment(environment);
-                testcase.setTeststeps(teststeps);
-                testrun.setTestcase(testcase);
+            if (testcase != null) {
+                runTestCase(testcase, false, testrun.getEnvironmentId());
             } else {
                 String request = testrun.getRequest();
                 // Invoke a service only
                 if (request != null) {
-                    TestResponse response = invoke(request, testrun.getEndpointId(), testrun.getEndpointProps());
+                    TestResponse response = invokeService(request, testrun.getEndpointId(), testrun.getEndpointProps());
                     testrun.setResponse(response);
                 } else {
                     TestResponse response = testrun.getResponse();
@@ -101,7 +62,7 @@ public class TestrunResource {
                     if (response != null) {
                         List<Assertion> assertions = testrun.getAssertions();
                         if (assertions != null) {
-                            evaluate(response, assertions);
+                            evaluateAssertions(response, assertions);
                         }
                     }
                 }
@@ -111,15 +72,64 @@ public class TestrunResource {
         return testrun;
     }
 
-    private void run(Testcase testcase) {
-
+    private void runTestcases(List<Testcase> testcases, long environmentId) throws Exception {
+        for (Testcase testcase: testcases) {
+            runTestCase(testcase, true, environmentId);
+        }
     }
 
-    private void run(Teststep teststep) {
+    private void runTestCase(Testcase testcase, boolean isDBTeststeps, long environmentId) throws Exception {
+        TestResult result = new TestResult();
+        result.setPassed(true);
 
+        List<Teststep> teststeps = null;
+        if (isDBTeststeps) {
+            teststeps = teststepDao.findByTestcaseId(testcase.getId());
+            testcase.setTeststeps(teststeps);
+        } else {
+            teststeps = testcase.getTeststeps();
+        }
+
+        Environment environment = environmentDao.findById(environmentId);
+        Map<Long, EnvEntry> enventryMap = enventryList2Map(enventryDao.findByEnv(environmentId));
+
+        for (Teststep teststep : teststeps) {
+            EnvEntry enventry = enventryMap.get(teststep.getIntfaceId());
+            if (enventry == null) {
+                throw new Exception("The interface of the test step " + teststep.getName() + " is not added to the environment " + environment.getName());
+            } else {
+                long endpointId = enventry.getEndpointId();
+                runTestStep(teststep, endpointId);
+                if (! teststep.getResult().getPassed()) {
+                    result.setPassed(false);
+                    break;
+                };
+            }
+        }
+
+        testcase.setResult(result);
     }
 
-    private TestResponse invoke(String request, long endpointId, Map<String, String> endpointProps) throws Exception {
+    private void runTestStep(Teststep teststep, long endpointId) throws Exception {
+        TestResult result = new TestResult();
+        result.setPassed(true);
+
+        TestResponse response = invokeService(teststep.getRequest(), endpointId, null);
+
+        List<Assertion> assertions = assertionDao.findByTeststepId(teststep.getId());
+        evaluateAssertions(response, assertions);
+
+        for (Assertion assertion : assertions) {
+            if (!assertion.getResult().getPassed()) {
+                result.setPassed(false);
+                break;
+            }
+        }
+
+        teststep.setResult(result);
+    }
+
+    private TestResponse invokeService(String request, long endpointId, Map<String, String> endpointProps) throws Exception {
         TestResponse response = null;
 
         String handler = null;
@@ -137,19 +147,20 @@ public class TestrunResource {
 
         if (endpointProps != null) {
             response = HandlerFactory.getInstance().getHandler(handler).invoke(request, endpointProps);
+            System.out.println(response);
         }
 
         return response;
     }
 
-    private void evaluate(TestResponse response, List<Assertion> assertions) {
+    private void evaluateAssertions(TestResponse response, List<Assertion> assertions) {
         for (Assertion assertion : assertions) {
             TestResult result = EvaluatorFactory.getInstance().getEvaluator(assertion.getType()).evaluate(response, assertion.getProperties());
             assertion.setResult(result);
         }
     }
 
-    private Map<Long, EnvEntry> getEnvEntryMap(List<EnvEntry> enventries) {
+    private Map<Long, EnvEntry> enventryList2Map(List<EnvEntry> enventries) {
         Map<Long, EnvEntry> enventryMap = new HashMap<Long, EnvEntry>();
         for (EnvEntry enventry : enventries) {
             enventryMap.put(enventry.getIntfaceId(), enventry);
@@ -159,22 +170,24 @@ public class TestrunResource {
     }
 
     private Map<String, String> getEndpointProps(long endpointId) {
-        Map<String, String> details = list2Props(endpointdtlDao.findByEndpoint(endpointId));
+        Map<String, String> properties = details2Properties(endpointdtlDao.findByEndpoint(endpointId));
+
+        // get decrypted password
         EndpointDetail detailPassword = endpointdtlDao.findByEndpointPassword(endpointId);
         if (detailPassword != null) {
-            details.put(detailPassword.getName(), detailPassword.getValue());
+            properties.put(detailPassword.getName(), detailPassword.getValue());
         }
 
-        return details;
+        return properties;
     }
 
-    private Map<String, String> list2Props(List<EndpointDetail> detailsArray) {
-        Map<String, String> details = new HashMap<String, String>();
-        for (EndpointDetail detail : detailsArray) {
-            details.put(detail.getName(), detail.getValue());
+    private Map<String, String> details2Properties(List<EndpointDetail> details) {
+        Map<String, String> properties = new HashMap<String, String>();
+        for (EndpointDetail detail : details) {
+            properties.put(detail.getName(), detail.getValue());
         }
 
-        return details;
+        return properties;
     }
 
     @DELETE @Path("{testrunId}")
