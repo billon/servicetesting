@@ -53,7 +53,7 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
           {value: "MQHandler", name: "MQHandler"}
         ],
         onChange: function (modelValue, form) {
-          Endpoints.getProperties({
+          Endpoints.getDetails({
             handlerName: modelValue
           }, function(details) {
               $scope.endpoint.details = details;

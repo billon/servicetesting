@@ -69,7 +69,7 @@ public class EndpointResource {
     }
 
     @GET @Path("/handler/{handlerName}")
-    public List<EndpointDetail> getProperties(@PathParam("handlerName") String handlerName) {
+    public List<EndpointDetail> getDetails(@PathParam("handlerName") String handlerName) {
         List<String> propNames = HandlerFactory.getInstance().getHandler(handlerName).getPropNames();
         List<EndpointDetail> details = new ArrayList<EndpointDetail>();
 

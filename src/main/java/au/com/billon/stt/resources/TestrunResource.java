@@ -64,7 +64,7 @@ public class TestrunResource {
                         long endpointId = enventry.getEndpointId();
                         Endpoint endpoint = endpointDao.findById(endpointId);
 
-                        Map<String, String> details = getEndpointDetails(endpointId);
+                        Map<String, String> details = getEndpointProps(endpointId);
 
                         TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(teststep.getRequest(), details);
 
@@ -91,17 +91,17 @@ public class TestrunResource {
                 testrun.setTestcase(testcase);
             } else {
                 if (testrun.getEndpointProps() != null) {
-                    Map<String, String> details = testrun.getEndpointProps();
-                    details.put("url", details.get("soapAddress"));
-                    TestResponse response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), testrun.getEndpointProps());
+                    Map<String, String> endpointProps = testrun.getEndpointProps();
+                    endpointProps.put("url", endpointProps.get("soapAddress"));
+                    TestResponse response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), endpointProps);
                     testrun.setResponse(response);
                 } else if (testrun.getEndpointId() > 0) {
                     long endpointId = testrun.getEndpointId();
                     Endpoint endpoint = endpointDao.findById(endpointId);
 
-                    Map<String, String> details = getEndpointDetails(endpointId);
+                    Map<String, String> endpointProps = getEndpointProps(endpointId);
 
-                    TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), details);
+                    TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), endpointProps);
 
                     testrun.setEndpoint(endpoint);
                     testrun.setResponse(response);
@@ -137,8 +137,8 @@ public class TestrunResource {
         return enventryMap;
     }
 
-    private Map<String, String> getEndpointDetails(long endpointId) {
-        Map<String, String> details = convertDetails(endpointdtlDao.findByEndpoint(endpointId));
+    private Map<String, String> getEndpointProps(long endpointId) {
+        Map<String, String> details = list2Props(endpointdtlDao.findByEndpoint(endpointId));
         EndpointDetail detailPassword = endpointdtlDao.findByEndpointPassword(endpointId);
         if (detailPassword != null) {
             details.put(detailPassword.getName(), detailPassword.getValue());
@@ -147,7 +147,7 @@ public class TestrunResource {
         return details;
     }
 
-    private Map<String, String> convertDetails(List<EndpointDetail> detailsArray) {
+    private Map<String, String> list2Props(List<EndpointDetail> detailsArray) {
         Map<String, String> details = new HashMap<String, String>();
         for (EndpointDetail detail : detailsArray) {
             details.put(detail.getName(), detail.getValue());

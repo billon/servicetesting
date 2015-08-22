@@ -9,7 +9,7 @@ angular.module('service-testing-tool').factory('Endpoints', ['$resource',
       update: {
         method: 'PUT'
       },
-      getProperties: {
+      getDetails: {
         method: 'GET',
         url: '/api/endpoints/handler/:handlerName',
         params: {handlerName: '@name'},
