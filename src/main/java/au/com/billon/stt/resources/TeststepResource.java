@@ -42,7 +42,6 @@ public class TeststepResource {
 
         long id = dao.insert(teststep);
         teststep.setId(id);
-        teststep.setRequest(null);  //  no need to bring request to client at this point
         return teststep;
     }
 

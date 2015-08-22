@@ -49,11 +49,6 @@ public class TestcaseResource {
     public Testcase findById(@PathParam("testcaseId") long testcaseId) {
         Testcase result = testcaseDAO.findById(testcaseId);
         List<Teststep> teststeps = teststepDAO.findByTestcaseId(testcaseId);
-        for(Teststep teststep: teststeps) {
-            //  remove unneeded data to save bandwidth
-            teststep.setRequest(null);
-            teststep.setProperties(null);
-        }
         result.setTeststeps(teststeps);
         return result;
     }
