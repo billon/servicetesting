@@ -42,9 +42,11 @@ public class TestrunResource {
     @POST
     public Testrun create(Testrun testrun) throws Exception {
         List<Long> testcaseIds = testrun.getTestcaseIds();
+        // Run multiple test cases
         if (testcaseIds != null) {
         } else {
             long testcaseId = testrun.getTestcaseId();
+            // Run one test case
             if (testcaseId > 0) {
                 Testcase testcase = testcaseDao.findById(testcaseId);
                 List<Teststep> teststeps = teststepDao.findByTestcaseId(testcaseId);
@@ -88,8 +90,21 @@ public class TestrunResource {
                 testcase.setTeststeps(teststeps);
                 testrun.setTestcase(testcase);
             } else {
-                TestResponse response = run(testrun.getRequest(), testrun.getEndpointId(), testrun.getEndpointProps());
-                testrun.setResponse(response);
+                String request = testrun.getRequest();
+                // Invoke a service only
+                if (request != null) {
+                    TestResponse response = invoke(request, testrun.getEndpointId(), testrun.getEndpointProps());
+                    testrun.setResponse(response);
+                } else {
+                    TestResponse response = testrun.getResponse();
+                    // Evaluate test response
+                    if (response != null) {
+                        List<Assertion> assertions = testrun.getAssertions();
+                        if (assertions != null) {
+                            evaluate(response, assertions);
+                        }
+                    }
+                }
             }
         }
 
@@ -104,7 +119,7 @@ public class TestrunResource {
 
     }
 
-    private TestResponse run(String request, long endpointId, Map<String, String> endpointProps) throws Exception {
+    private TestResponse invoke(String request, long endpointId, Map<String, String> endpointProps) throws Exception {
         TestResponse response = null;
 
         String handler = null;
@@ -125,6 +140,13 @@ public class TestrunResource {
         }
 
         return response;
+    }
+
+    private void evaluate(TestResponse response, List<Assertion> assertions) {
+        for (Assertion assertion : assertions) {
+            TestResult result = EvaluatorFactory.getInstance().getEvaluator(assertion.getType()).evaluate(response, assertion.getProperties());
+            assertion.setResult(result);
+        }
     }
 
     private Map<Long, EnvEntry> getEnvEntryMap(List<EnvEntry> enventries) {

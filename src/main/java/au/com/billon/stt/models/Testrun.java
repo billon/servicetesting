@@ -16,6 +16,10 @@ public class Testrun {
     private List<Teststep> teststeps;
     private long teststepId;
     private Teststep teststep;
+    private List<Long> assertionIds;
+    private List<Assertion> assertions;
+    private long assertionId;
+    private Assertion assertion;
     private String request;
     private long environmentId;
     private Environment environment;
@@ -130,6 +134,38 @@ public class Testrun {
 
     public void setTeststepId(long teststepId) {
         this.teststepId = teststepId;
+    }
+
+    public List<Long> getAssertionIds() {
+        return assertionIds;
+    }
+
+    public void setAssertionIds(List<Long> assertionIds) {
+        this.assertionIds = assertionIds;
+    }
+
+    public List<Assertion> getAssertions() {
+        return assertions;
+    }
+
+    public void setAssertions(List<Assertion> assertions) {
+        this.assertions = assertions;
+    }
+
+    public long getAssertionId() {
+        return assertionId;
+    }
+
+    public void setAssertionId(long assertionId) {
+        this.assertionId = assertionId;
+    }
+
+    public Assertion getAssertion() {
+        return assertion;
+    }
+
+    public void setAssertion(Assertion assertion) {
+        this.assertion = assertion;
     }
 
     public long getEnvironmentId() {

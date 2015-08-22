@@ -14,7 +14,6 @@ public class Assertion {
     private long teststepId;
     private String name;
     private String type;
-    private TestResponse response;
     private Properties properties;
     private TestResult result;
     private Date created;
@@ -95,13 +94,5 @@ public class Assertion {
     @JsonDeserialize(using=AssertionPropertiesDeserializer.class)
     public void setProperties(Properties properties) {
         this.properties = properties;
-    }
-
-    public TestResponse getResponse() {
-        return response;
-    }
-
-    public void setResponse(TestResponse response) {
-        this.response = response;
     }
 }

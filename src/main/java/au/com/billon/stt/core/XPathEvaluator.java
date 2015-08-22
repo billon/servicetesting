@@ -56,6 +56,8 @@ public class XPathEvaluator implements Evaluator {
 
         testResult.setError(errorMessage);
         testResult.setActualValue(actualValue);
+        testResult.setPassed(errorMessage == null &&
+                xPathAssertionProperties.getExpectedValue().equals(testResult.getActualValue()));
 
         return testResult;
     }
