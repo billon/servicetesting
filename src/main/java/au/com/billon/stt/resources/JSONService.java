@@ -20,7 +20,7 @@ public class JSONService {
     @POST @Path("verifyassertion")
     public Assertion verifyAssertion(Assertion assertion) {
         XPathAssertionProperties assertionProperties = (XPathAssertionProperties) assertion.getProperties();
-        TestResult testResult = new EvaluatorFactory().createEvaluator("WSDL", assertion.getType()).evaluate(assertion.getResponse(), assertionProperties);
+        TestResult testResult = EvaluatorFactory.getInstance().getEvaluator(assertion.getType()).evaluate(assertion.getResponse(), assertionProperties);
         testResult.setPassed(testResult.getError() == null &&
                 assertionProperties.getExpectedValue().equals(testResult.getActualValue()));
         testResult.setError(testResult.getError());

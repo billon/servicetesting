@@ -65,8 +65,6 @@ public class STTApplication extends Application<STTConfiguration> {
         teststepDAO.createTableIfNotExists();
         assertionDAO.createTableIfNotExists();
 
-        final EvaluatorFactory evaluatorFactory = new EvaluatorFactory();
-
         //  register REST resources
         environment.jersey().register(new ArticleResource(articleDAO));
         environment.jersey().register(new EndpointResource(endpointDAO, endpointdtlDAO));
@@ -78,7 +76,7 @@ public class STTApplication extends Application<STTConfiguration> {
         environment.jersey().register(new EnvironmentResource(environmentDAO, enventryDAO));
         environment.jersey().register(new EnvEntryResource(enventryDAO));
         environment.jersey().register(new TestrunResource(endpointDAO, endpointdtlDAO, testcaseDAO, teststepDAO,
-                environmentDAO, enventryDAO, intfaceDAO, assertionDAO, evaluatorFactory));
+                environmentDAO, enventryDAO, intfaceDAO, assertionDAO));
 
         //  register JSON services
         environment.jersey().register(new JSONService());

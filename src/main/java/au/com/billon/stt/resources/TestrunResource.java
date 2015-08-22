@@ -25,11 +25,10 @@ public class TestrunResource {
     private final EnvEntryDAO enventryDao;
     private final IntfaceDAO intfaceDao;
     private final AssertionDAO assertionDao;
-    private final EvaluatorFactory evaluatorFactory;
 
     public TestrunResource(EndpointDAO endpointDao, EndpointDetailDAO endpointdtlDao, TestcaseDAO testcaseDao,
                            TeststepDAO teststepDao, EnvironmentDAO environmentDao, EnvEntryDAO enventryDao,
-                           IntfaceDAO intfaceDao, AssertionDAO assertionDao, EvaluatorFactory evaluatorFactory) {
+                           IntfaceDAO intfaceDao, AssertionDAO assertionDao) {
         this.endpointDao = endpointDao;
         this.endpointdtlDao = endpointdtlDao;
         this.testcaseDao = testcaseDao;
@@ -38,7 +37,6 @@ public class TestrunResource {
         this.enventryDao = enventryDao;
         this.intfaceDao = intfaceDao;
         this.assertionDao = assertionDao;
-        this.evaluatorFactory = evaluatorFactory;
     }
 
     @POST
@@ -75,7 +73,7 @@ public class TestrunResource {
 
                         TestResult result = new TestResult();
                         for (Assertion assertion : assertions) {
-                            Evaluator evaluator = evaluatorFactory.createEvaluator(intface.getDeftype(), assertion.getType());
+                            Evaluator evaluator = EvaluatorFactory.getInstance().getEvaluator(assertion.getType());
                             result = evaluator.evaluate(response, assertion.getProperties());
                             if (result.getError().equals("true")) {
                                 break;
