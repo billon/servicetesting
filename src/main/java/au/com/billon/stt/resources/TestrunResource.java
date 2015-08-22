@@ -90,27 +90,8 @@ public class TestrunResource {
                 testcase.setTeststeps(teststeps);
                 testrun.setTestcase(testcase);
             } else {
-                Map<String, String> endpointProps = null;
-                String handler = null;
-
-                long endpointId = testrun.getEndpointId();
-                if (endpointId > 0) {
-                    Endpoint endpoint = endpointDao.findById(endpointId);
-                    endpointProps = getEndpointProps(endpointId);
-                    handler = endpoint.getHandler();
-                    testrun.setEndpoint(endpoint);
-                } else {
-                    endpointProps = testrun.getEndpointProps();
-                    if (endpointProps != null) {
-                        endpointProps.put("url", endpointProps.get("soapAddress"));
-                        handler = "SOAPHandler";
-                    }
-                }
-
-                if (endpointProps != null) {
-                    TestResponse response = HandlerFactory.getInstance().getHandler(handler).invoke(testrun.getRequest(), endpointProps);
-                    testrun.setResponse(response);
-                }
+                TestResponse response = run(testrun.getRequest(), testrun.getEndpointId(), testrun.getEndpointProps());
+                testrun.setResponse(response);
             }
         }
 
@@ -125,12 +106,27 @@ public class TestrunResource {
 
     }
 
-    private void run(String request, Endpoint endpoint) {
+    private TestResponse run(String request, long endpointId, Map<String, String> endpointProps) throws Exception {
+        TestResponse response = null;
 
-    }
+        String handler = null;
 
-    private void run(String request, Map<String, String> properties) {
+        if (endpointId > 0) {
+            endpointProps = getEndpointProps(endpointId);
+            Endpoint endpoint = endpointDao.findById(endpointId);
+            handler = endpoint.getHandler();
+        } else {
+            if (endpointProps != null) {
+                endpointProps.put("url", endpointProps.get("soapAddress"));
+                handler = "SOAPHandler";
+            }
+        }
 
+        if (endpointProps != null) {
+            response = HandlerFactory.getInstance().getHandler(handler).invoke(request, endpointProps);
+        }
+
+        return response;
     }
 
     private Map<Long, EnvEntry> getEnvEntryMap(List<EnvEntry> enventries) {
