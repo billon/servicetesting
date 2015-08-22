@@ -1,7 +1,6 @@
 package au.com.billon.stt.handlers;
 
 import au.com.billon.stt.models.TestResponse;
-import au.com.billon.stt.utils.XMLUtils;
 import org.reficio.ws.client.core.SoapClient;
 
 import java.util.Arrays;

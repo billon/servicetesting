@@ -79,8 +79,9 @@
       <div class="ui-grid-cell-contents">
         <div>
           <div ng-if="row.entity.result">
-            <div ng-if="row.entity.result.error">Failed</div>
-            <div ng-if="! row.entity.result.error">Successful</div>
+            <div ng-class="{ 'background-red' : row.entity.result.passed === false, 'background-green' : row.entity.result.passed === true }">
+              {{row.entity.result.passed}}
+            </div>
           </div>
         </div>
       </div>

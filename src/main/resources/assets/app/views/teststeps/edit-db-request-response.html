@@ -67,8 +67,8 @@
   </script>
   <script type="text/ng-template" id="assertionGridResultCellTemplate.html">
     <div class="ui-grid-cell-contents">
-      <div ng-class="{ 'background-red' : row.entity.result === false, 'background-green' : row.entity.result === true }">
-        {{COL_FIELD}}
+      <div ng-class="{ 'background-red' : row.entity.result.passed === false, 'background-green' : row.entity.result.passed === true }">
+        {{row.entity.result.passed}}
       </div>
     </div>
   </script>
