@@ -64,9 +64,9 @@ public class TestrunResource {
                         long endpointId = enventry.getEndpointId();
                         Endpoint endpoint = endpointDao.findById(endpointId);
 
-                        Map<String, String> details = getEndpointProps(endpointId);
+                        Map<String, String> endpointProps = getEndpointProps(endpointId);
 
-                        TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(teststep.getRequest(), details);
+                        TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(teststep.getRequest(), endpointProps);
 
                         System.out.println(response);
 
@@ -90,20 +90,25 @@ public class TestrunResource {
                 testcase.setTeststeps(teststeps);
                 testrun.setTestcase(testcase);
             } else {
-                if (testrun.getEndpointProps() != null) {
-                    Map<String, String> endpointProps = testrun.getEndpointProps();
-                    endpointProps.put("url", endpointProps.get("soapAddress"));
-                    TestResponse response = HandlerFactory.getInstance().getHandler("SOAPHandler").invoke(testrun.getRequest(), endpointProps);
-                    testrun.setResponse(response);
-                } else if (testrun.getEndpointId() > 0) {
-                    long endpointId = testrun.getEndpointId();
+                Map<String, String> endpointProps = null;
+                String handler = null;
+
+                long endpointId = testrun.getEndpointId();
+                if (endpointId > 0) {
                     Endpoint endpoint = endpointDao.findById(endpointId);
-
-                    Map<String, String> endpointProps = getEndpointProps(endpointId);
-
-                    TestResponse response = HandlerFactory.getInstance().getHandler(endpoint.getHandler()).invoke(testrun.getRequest(), endpointProps);
-
+                    endpointProps = getEndpointProps(endpointId);
+                    handler = endpoint.getHandler();
                     testrun.setEndpoint(endpoint);
+                } else {
+                    endpointProps = testrun.getEndpointProps();
+                    if (endpointProps != null) {
+                        endpointProps.put("url", endpointProps.get("soapAddress"));
+                        handler = "SOAPHandler";
+                    }
+                }
+
+                if (endpointProps != null) {
+                    TestResponse response = HandlerFactory.getInstance().getHandler(handler).invoke(testrun.getRequest(), endpointProps);
                     testrun.setResponse(response);
                 }
             }
