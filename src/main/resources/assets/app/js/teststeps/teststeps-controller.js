@@ -27,8 +27,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     ];
 
     $scope.teststep = {};
-    $scope.tempData = {};
-    $scope.showAssertionsArea = false;
+    $scope.namespaces = {};
     $scope.responseOptions = {
       enableFiltering: true,
       columnDefs: [ ]
@@ -284,10 +283,11 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
 
       var testrunRes = new Testruns(testrun);
       testrunRes.$save(function(response) {
-        $scope.tempData.soapResponse = response.response.responseStr;
-
         var responseObj = response.response.responseObj;
-        if (responseObj) {
+        if ($scope.teststep.type === 'SOAP') {
+          $scope.responseOptions.data = responseObj.jsonGrid;
+          $scope.namespaces = responseObj.namespacePrefixes;
+        } else {
           $scope.responseOptions.data = responseObj;
           $scope.responseOptions.columnDefs = [ ];
           if (responseObj.length > 0) {
@@ -367,10 +367,6 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       },function(error) {
         $scope.alerts.push({type: 'warning', msg: error.data});
       });
-    };
-
-    $scope.assertionsAreaLoadedCallback = function() {
-      $scope.$broadcast('assertionsAreaLoaded');
     };
   }
 ]);

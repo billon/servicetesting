@@ -1,10 +1,10 @@
 <div class="row">
   <div class="col-lg-6 half-height">
     <textarea name="request" ng-model="teststep.request" id="request" placeholder="SOAP Request"
-        class="form-control full-height-important"></textarea>
+              class="form-control full-height-important"></textarea>
   </div>
   <div class="col-lg-6 half-height">
-    <textarea name="response" ng-model="tempData.soapResponse" id="response" placeholder="SOAP Response"
-        class="form-control full-height-important"></textarea>
+    <div ui-grid="responseOptions" ui-grid-resize-columns ui-grid-tree-view
+         class="ui-grid full-height-important"></div>
   </div>
 </div>
