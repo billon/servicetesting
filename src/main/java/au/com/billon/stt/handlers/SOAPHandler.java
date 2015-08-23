@@ -56,7 +56,6 @@ public class SOAPHandler implements STTHandler {
         // process current element
         Map<String, Object> row = new HashMap<String, Object>();
         row.put("name", elementName);
-        row.put("level", level);
         row.put("path", path);
         grid.add(row);
 
@@ -79,15 +78,22 @@ public class SOAPHandler implements STTHandler {
         }
 
         NodeList nodes = element.getChildNodes();
+        boolean hasChildElements = false;
 
         for (int i = 0; i < nodes.getLength(); i ++) {
             Node node = nodes.item(i);
             if (Node.ELEMENT_NODE == node.getNodeType()) {
+                hasChildElements = true;
                 Element childElement = (Element) node;
                 grid.addAll(element2JsonGrid(path, level + 1, childElement, namespacePrefixes));
             } else if (Node.TEXT_NODE == node.getNodeType()) {
                 row.put("value", node.getNodeValue());
             }
+        }
+
+        // only set tree level if child elements exist
+        if (hasChildElements) {
+            row.put("$$treeLevel", level);
         }
 
         return grid;

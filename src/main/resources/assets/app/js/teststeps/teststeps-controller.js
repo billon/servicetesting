@@ -27,7 +27,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     ];
 
     $scope.teststep = {};
-    $scope.namespaces = {};
+    $scope.responseObj = {};
     $scope.responseOptions = {
       enableFiltering: true,
       columnDefs: [ ]
@@ -284,12 +284,21 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       var testrunRes = new Testruns(testrun);
       testrunRes.$save(function(response) {
         var responseObj = response.response.responseObj;
+        $scope.responseObj = responseObj;
         if ($scope.teststep.type === 'SOAP') {
-          $scope.responseOptions.data = responseObj.jsonGrid;
-          $scope.namespaces = responseObj.namespacePrefixes;
+          $scope.responseOptions = {
+            data: responseObj.jsonGrid,
+            showTreeExpandNoChildren: false,
+            columnDefs: [
+              { field: 'name', width: 225 },
+              { field: 'value', width: 225 }
+            ]
+          };
         } else {
-          $scope.responseOptions.data = responseObj;
-          $scope.responseOptions.columnDefs = [ ];
+          $scope.responseOptions = {
+            data: responseObj,
+            columnDefs: [ ]
+          };
           if (responseObj.length > 0) {
             var row = responseObj[0];
             for (var key in row) {
@@ -358,7 +367,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     $scope.evaluate = function() {
       var testrun = new Testruns({
         response: {
-          responseObj: $scope.responseOptions.data
+          responseObj: $scope.responseObj
         },
         assertions: $scope.assertionsModelObj.gridOptions.data
       });
