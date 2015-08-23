@@ -49,7 +49,7 @@ public class TestrunResource {
             Testcase testcase = testrun.getTestcase();
             // Run one test case
             if (testcase != null) {
-                runTestCase(testcase, true, testrun.getEnvironmentId());
+                runTestCase(testcase, testrun.getEnvironmentId());
             } else {
                 String request = testrun.getRequest();
                 // Invoke a service only
@@ -74,18 +74,16 @@ public class TestrunResource {
 
     private void runTestcases(List<Testcase> testcases, long environmentId) throws Exception {
         for (Testcase testcase: testcases) {
-            runTestCase(testcase, false, environmentId);
+            runTestCase(testcase, environmentId);
         }
     }
 
-    private void runTestCase(Testcase testcase, boolean hasTeststepList, long environmentId) throws Exception {
+    private void runTestCase(Testcase testcase, long environmentId) throws Exception {
         TestResult result = new TestResult();
         result.setPassed(true);
 
-        List<Teststep> teststeps = null;
-        if (hasTeststepList) {
-            teststeps = testcase.getTeststeps();
-        } else {
+        List<Teststep> teststeps = testcase.getTeststeps();
+        if (teststeps == null) {
             teststeps = teststepDao.findByTestcaseId(testcase.getId());
             testcase.setTeststeps(teststeps);
         }

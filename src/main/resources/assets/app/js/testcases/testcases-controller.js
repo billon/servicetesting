@@ -183,7 +183,7 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       testrun.$save(function(response) {
         $scope.testcase = response.testcase;
       },function(error) {
-        alert('Error');
+        $scope.alerts.push({type: 'warning', msg: error.data});
       });
     };
 
