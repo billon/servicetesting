@@ -4,14 +4,12 @@ import au.com.billon.stt.models.TestResponse;
 import au.com.billon.stt.models.TestResult;
 import au.com.billon.stt.models.Properties;
 import au.com.billon.stt.models.XPathAssertionProperties;
-import au.com.billon.stt.utils.XMLUtils;
-import com.sun.org.apache.xpath.internal.XPathException;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
@@ -27,27 +25,18 @@ public class XPathEvaluator implements Evaluator {
         XPath xpath = XPathFactory.newInstance().newXPath();
         xpath.setNamespaceContext(new STTNamespaceContext(xPathAssertionProperties.getNamespacePrefixes()));
 
-        String actualValue = null;
         String errorMessage = null;
+        boolean passed = false;
+
         try {
             InputSource inputSource = new InputSource(new StringReader(responseStr));
             Object value = xpath.evaluate(xPathAssertionProperties.getXpath(), inputSource, XPathConstants.NODESET);
-            actualValue = XMLUtils.domNodeListToString((NodeList) value);
-        } catch (XPathExpressionException e) {
-            Throwable cause = e.getCause();
-            if (cause instanceof XPathException &&
-                    cause.getMessage().startsWith("Can not convert") && cause.getMessage().endsWith("!")) {
-                //  The value is not of type NODESET. Swallow the exception and try STRING.
-                InputSource inputSource2 = new InputSource(new StringReader(responseStr));
-                try {
-                    actualValue = (String) xpath.evaluate(xPathAssertionProperties.getXpath(), inputSource2, XPathConstants.STRING);
-                } catch (XPathExpressionException e1) {
-                    e.printStackTrace();
-                    errorMessage = e.getMessage();
+            NodeList nodeList = (NodeList) value;
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getTextContent().equals(xPathAssertionProperties.getValue())) {
+                    passed = true;
                 }
-            } else {
-                e.printStackTrace();
-                errorMessage = e.getMessage();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,9 +44,7 @@ public class XPathEvaluator implements Evaluator {
         }
 
         testResult.setError(errorMessage);
-        testResult.setActualValue(actualValue);
-        testResult.setPassed(errorMessage == null &&
-                xPathAssertionProperties.getValue().equals(testResult.getActualValue()));
+        testResult.setPassed(passed);
 
         return testResult;
     }
