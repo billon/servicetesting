@@ -75,6 +75,40 @@
             <p></p>
             <div ng-if="teststep.type==='SOAP'" ng-include="'/ui/views/teststeps/edit-soap-request-response.html'"></div>
             <div ng-if="teststep.type!=='SOAP'" ng-include="'/ui/views/teststeps/edit-db-request-response.html'"></div>
+            <p></p>
+            <div class="row">
+              <div class="col-lg-12">
+                <div ui-grid="assertionsModelObj.gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-edit class="ui-grid small-grid"></div>
+              </div>
+              <script type="text/ng-template" id="assertionGridNameEditableCellTemplate.html">
+                <div class="ui-grid-cell-contents">
+                  <div>
+                    <input type="text" class="form-control" maxlength="200" ui-grid-editor ng-model="row.entity.name">
+                  </div>
+                </div>
+              </script>
+              <script type="text/ng-template" id="assertionGridValueEditableCellTemplate.html">
+                <div class="ui-grid-cell-contents">
+                  <div>
+                    <input type="text" class="form-control" maxlength="200" ui-grid-editor ng-model="row.entity.properties.value">
+                  </div>
+                </div>
+              </script>
+              <script type="text/ng-template" id="assertionGridResultCellTemplate.html">
+                <div class="ui-grid-cell-contents">
+                  <div ng-class="{ 'background-red' : row.entity.result.passed === false, 'background-green' : row.entity.result.passed === true }">
+                    {{row.entity.result.passed}}
+                  </div>
+                </div>
+              </script>
+              <script type="text/ng-template" id="assertionGridDeleteCellTemplate.html">
+                <div class="ui-grid-cell-contents">
+                  <a ng-click="grid.appScope.removeAssertion(row.entity)" href="">
+                    <i class="glyphicon glyphicon-trash center-block text-center"></i>
+                  </a>
+                </div>
+              </script>
+            </div>
           </tab>
         </tabset>
       </div>
