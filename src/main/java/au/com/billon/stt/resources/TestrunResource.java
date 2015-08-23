@@ -145,7 +145,6 @@ public class TestrunResource {
 
         if (endpointProps != null) {
             response = HandlerFactory.getInstance().getHandler(handler).invoke(request, endpointProps);
-            System.out.println(response);
         }
 
         return response;

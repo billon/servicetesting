@@ -355,13 +355,18 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       gridData.splice(indexOfRowToBeDeleted, 1);
     };
 
-    $scope.evaluateDataSet = function() {
-      var assertions = $scope.assertionsModelObj.gridOptions.data;
-      for (var i = 0; i < assertions.length; i ++) {
-        var assertion = assertions[i];
-        var values = _.pluck($scope.responseOptions.data, assertion.properties.field);
-        assertion.result = _.contains(values, assertion.properties.value);
-      }
+    $scope.evaluate = function() {
+      var testrun = new Testruns({
+        response: {
+          responseObj: $scope.responseOptions.data
+        },
+        assertions: $scope.assertionsModelObj.gridOptions.data
+      });
+      testrun.$save(function(response) {
+        $scope.assertionsModelObj.gridOptions.data = response.assertions;
+      },function(error) {
+        $scope.alerts.push({type: 'warning', msg: error.data});
+      });
     };
 
     $scope.assertionsAreaLoadedCallback = function() {
