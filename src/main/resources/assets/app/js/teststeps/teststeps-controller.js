@@ -260,6 +260,11 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         }, function (response) {
           $scope.teststep = response;
           $scope.assertionsModelObj.gridOptions.data = response.assertions;
+          if ($scope.teststep.type === 'SOAP') {
+            $scope.assertionsModelObj.gridOptions.columnDefs[1] = {
+              name: 'properties.xpath', displayName: 'XPath', width: 500, minWidth: 500, enableCellEdit: false
+            };
+          }
         });
       } else {
         // create a new entry
@@ -323,7 +328,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     $scope.assertionsModelObj.gridOptions = {
       columnDefs: [
         {
-          name: 'name', width: 250, minWidth: 250,
+          name: 'name', width: 200, minWidth: 200,
           sort: {
             direction: uiGridConstants.ASC,
             priority: 1
@@ -360,13 +365,13 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       $scope.assertionsModelObj.gridOptions.data.push(assertion);
     };
 
-    $scope.createXPathContainAssertion = function(xPath, value) {
+    $scope.createXPathContainAssertion = function(xpath, value) {
       var assertion = {
         teststepId: $stateParams.teststepId,
         name: 'Check XPath',
         type: 'XPath',
         properties: {
-          xPath: xPath,
+          xpath: xpath,
           operator: 'Contains',
           value: value
         }
