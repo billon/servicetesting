@@ -31,7 +31,7 @@ public class XPathEvaluator implements Evaluator {
         String errorMessage = null;
         try {
             InputSource inputSource = new InputSource(new StringReader(responseStr));
-            Object value = xpath.evaluate(xPathAssertionProperties.getxPath(), inputSource, XPathConstants.NODESET);
+            Object value = xpath.evaluate(xPathAssertionProperties.getXpath(), inputSource, XPathConstants.NODESET);
             actualValue = XMLUtils.domNodeListToString((NodeList) value);
         } catch (XPathExpressionException e) {
             Throwable cause = e.getCause();
@@ -40,7 +40,7 @@ public class XPathEvaluator implements Evaluator {
                 //  The value is not of type NODESET. Swallow the exception and try STRING.
                 InputSource inputSource2 = new InputSource(new StringReader(responseStr));
                 try {
-                    actualValue = (String) xpath.evaluate(xPathAssertionProperties.getxPath(), inputSource2, XPathConstants.STRING);
+                    actualValue = (String) xpath.evaluate(xPathAssertionProperties.getXpath(), inputSource2, XPathConstants.STRING);
                 } catch (XPathExpressionException e1) {
                     e.printStackTrace();
                     errorMessage = e.getMessage();
@@ -57,7 +57,7 @@ public class XPathEvaluator implements Evaluator {
         testResult.setError(errorMessage);
         testResult.setActualValue(actualValue);
         testResult.setPassed(errorMessage == null &&
-                xPathAssertionProperties.getExpectedValue().equals(testResult.getActualValue()));
+                xPathAssertionProperties.getValue().equals(testResult.getActualValue()));
 
         return testResult;
     }

@@ -27,7 +27,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     ];
 
     $scope.teststep = {};
-    $scope.responseObj = {};
+    $scope.testResponse = {};
     $scope.responseOptions = {
       enableFiltering: true,
       columnDefs: [ ]
@@ -288,8 +288,8 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
 
       var testrunRes = new Testruns(testrun);
       testrunRes.$save(function(response) {
+        $scope.testResponse = response.response;
         var responseObj = response.response.responseObj;
-        $scope.responseObj = responseObj;
         if ($scope.teststep.type === 'SOAP') {
           $scope.responseOptions = {
             data: responseObj.jsonGrid,
@@ -338,7 +338,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         {name: 'properties.field', displayName: 'Field', width: 100, minWidth: 100, enableCellEdit: false},
         {name: 'properties.operator', displayName: 'Operator', width: 100, minWidth: 100, enableCellEdit: false},
         {
-          name: 'properties.value', displayName: 'Value', width: 200, minWidth: 200,
+          name: 'properties.value', displayName: 'Expected Value', width: 200, minWidth: 200,
           editableCellTemplate: 'assertionGridValueEditableCellTemplate.html'
         },
         {
@@ -373,7 +373,8 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         properties: {
           xpath: xpath,
           operator: 'Contains',
-          value: value
+          value: value,
+          namespacePrefixes: $scope.testResponse.responseObj.namespacePrefixes
         }
       };
       $scope.assertionsModelObj.gridOptions.data.push(assertion);
@@ -388,9 +389,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
 
     $scope.evaluate = function() {
       var testrun = new Testruns({
-        response: {
-          responseObj: $scope.responseObj
-        },
+        response: $scope.testResponse,
         assertions: $scope.assertionsModelObj.gridOptions.data
       });
       testrun.$save(function(response) {

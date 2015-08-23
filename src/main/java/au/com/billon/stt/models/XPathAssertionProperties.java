@@ -7,24 +7,33 @@ import java.util.Map;
  * Created by Zheng on 26/07/2015.
  */
 public class XPathAssertionProperties extends Properties {
-    private String xPath;
-    private String expectedValue;
+    private String xpath;
+    private String operator;
+    private String value;
     private Map<String, String> namespacePrefixes;
 
-    public String getxPath() {
-        return xPath;
+    public String getXpath() {
+        return xpath;
     }
 
-    public void setxPath(String xPath) {
-        this.xPath = xPath;
+    public void setXpath(String xpath) {
+        this.xpath = xpath;
     }
 
-    public String getExpectedValue() {
-        return expectedValue;
+    public String getOperator() {
+        return operator;
     }
 
-    public void setExpectedValue(String expectedValue) {
-        this.expectedValue = expectedValue;
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public Map<String, String> getNamespacePrefixes() {
