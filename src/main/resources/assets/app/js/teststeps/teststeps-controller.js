@@ -288,10 +288,13 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         if ($scope.teststep.type === 'SOAP') {
           $scope.responseOptions = {
             data: responseObj.jsonGrid,
-            showTreeExpandNoChildren: false,
             columnDefs: [
-              { field: 'name', width: 225 },
-              { field: 'value', width: 225 }
+              { field: 'name', displayName: 'XML Element', width: 300 },
+              {
+                field: 'value',
+                width: 300,
+                cellTemplate: 'responseCellTemplate.html'
+              }
             ]
           };
         } else {

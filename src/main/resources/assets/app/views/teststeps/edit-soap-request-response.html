@@ -7,4 +7,11 @@
     <div ui-grid="responseOptions" ui-grid-resize-columns ui-grid-tree-view
          class="ui-grid full-height-important"></div>
   </div>
+  <script type="text/ng-template" id="responseCellTemplate.html">
+    <div class="ui-grid-cell-contents">
+      <a ng-click="grid.appScope.createXPathContainAssertion(row.entity.path, row.entity.value)" href="">
+        {{COL_FIELD}}
+      </a>
+    </div>
+  </script>
 </div>
