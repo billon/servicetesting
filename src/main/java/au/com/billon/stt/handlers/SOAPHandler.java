@@ -53,17 +53,20 @@ public class SOAPHandler implements STTHandler {
         String elementName = element.getNodeName();
         String path = parentPath + "/" + elementName;
 
+        // process current element
         Map<String, Object> row = new HashMap<String, Object>();
         row.put("name", elementName);
         row.put("level", level);
         row.put("path", path);
         grid.add(row);
 
+        // build namespace context
         String prefix = element.getPrefix();
         if (prefix != null) {
             namespacePrefixes.put(prefix, element.getNamespaceURI());
         }
 
+        // only process attributes which are not namespaces
         NamedNodeMap attributes = element.getAttributes();
         for (int i = 0; i < attributes.getLength(); i ++) {
             Node node = attributes.item(i);

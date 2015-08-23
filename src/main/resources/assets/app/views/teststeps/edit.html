@@ -42,6 +42,37 @@
             </div>
           </tab>
           <tab ng-if="teststep.id" heading="Invocation" active="true">
+            <p></p>
+            <div class="row">
+              <div ng-if="teststep.endpointId" class="col-lg-10">
+                <a href="" ng-click="viewEndpoint(teststep.endpointId)" class="margin-small">{{teststep.endpoint.name}}</a>
+                <button type="button" class="btn btn-primary" ng-click="changeEndpoint(teststep)" title="Change Endpoint">
+                  <span class="glyphicon glyphicon-edit"></span>
+                </button>
+              </div>
+              <div ng-if="! teststep.endpointId" class="col-lg-8">
+                <input name="soapAddress" type="text" class="form-control margin-small" ng-model="teststep.properties.soapAddress" id="soapAddress" required
+                       placeholder="Please select or input an endpoint to invoke">
+              </div>
+              <div ng-if="! teststep.endpointId" class="btn-toolbar col-lg-2">
+                <button type="button" class="btn btn-primary" ng-click="createEndpoint(teststep)" title="Share the Endpoint">
+                  <span class="vertical-center glyphicon glyphicon-share-alt"></span>
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="changeEndpoint(teststep)" title="Change Endpoint">
+                  <span class="glyphicon glyphicon-edit"></span>
+                </button>
+              </div>
+              <div class="btn-group col-lg-2" dropdown>
+                <button type="button" class="btn btn-primary" dropdown-toggle>
+                  Action <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="" ng-click="invoke(teststep)">Invoke the Test Step</a></li>
+                  <li><a href="" ng-click="evaluate()">Evaluate Assertions</a></li>
+                </ul>
+              </div>
+            </div>
+            <p></p>
             <div ng-if="teststep.type==='SOAP'" ng-include="'/ui/views/teststeps/edit-soap-request-response.html'"></div>
             <div ng-if="teststep.type!=='SOAP'" ng-include="'/ui/views/teststeps/edit-db-request-response.html'"></div>
           </tab>
