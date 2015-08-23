@@ -165,6 +165,15 @@ angular.module('service-testing-tool').controller('EndpointsModalController', ['
       $modalInstance.close(endpoint);
     };
 
+    $scope.save_select = function(form) {
+      var endpoint = new Endpoints(this.endpoint);
+      endpoint.$save(function(response) {
+        $modalInstance.close(response);
+      }, function(exception) {
+        $scope.alerts.push({type: 'warning', msg: exception.data});
+      });
+    };
+
     $scope.findOne = function() {
       $scope.columnDefs = [
         {
@@ -183,6 +192,14 @@ angular.module('service-testing-tool').controller('EndpointsModalController', ['
           endpointId: $scope.context.endpointId
         }, function(endpoint) {
           $scope.endpoint = endpoint;
+        });
+      } else {
+        $scope.endpoint.handler = context.handler;
+        Endpoints.getDetails({
+          handlerName: context.handler
+        }, function(details) {
+          $scope.endpoint.details = details;
+          $scope.endpoint.details[0].value = context.url;
         });
       }
     };
