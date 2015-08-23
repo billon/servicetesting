@@ -1,31 +1,22 @@
 package au.com.billon.stt.core;
 
-import au.com.billon.stt.models.NamespacePrefix;
-
 import javax.xml.namespace.NamespaceContext;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Zheng on 1/08/2015.
  */
 public class STTNamespaceContext implements NamespaceContext {
-    private List<NamespacePrefix> namespacePrefixes;
+    private Map<String, String> namespacePrefixes;
 
-    public STTNamespaceContext(List<NamespacePrefix> namespacePrefixes) {
+    public STTNamespaceContext(Map<String, String> namespacePrefixes) {
         this.namespacePrefixes = namespacePrefixes;
     }
 
     public String getNamespaceURI(String prefix) {
-        String result = null;
-        for (NamespacePrefix np: namespacePrefixes) {
-            if (np.getPrefix().equals(prefix)) {
-                result = np.getNamespace();
-                break;
-            }
-        }
-
-        return result;
+        return namespacePrefixes.get(prefix);
     }
 
     public String getPrefix(String namespaceURI) {

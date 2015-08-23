@@ -1,6 +1,7 @@
 package au.com.billon.stt.models;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Zheng on 26/07/2015.
@@ -8,7 +9,7 @@ import java.util.List;
 public class XPathAssertionProperties extends Properties {
     private String xPath;
     private String expectedValue;
-    private List<NamespacePrefix> namespacePrefixes;
+    private Map<String, String> namespacePrefixes;
 
     public String getxPath() {
         return xPath;
@@ -26,11 +27,11 @@ public class XPathAssertionProperties extends Properties {
         this.expectedValue = expectedValue;
     }
 
-    public List<NamespacePrefix> getNamespacePrefixes() {
+    public Map<String, String> getNamespacePrefixes() {
         return namespacePrefixes;
     }
 
-    public void setNamespacePrefixes(List<NamespacePrefix> namespacePrefixes) {
+    public void setNamespacePrefixes(Map<String, String> namespacePrefixes) {
         this.namespacePrefixes = namespacePrefixes;
     }
 }
