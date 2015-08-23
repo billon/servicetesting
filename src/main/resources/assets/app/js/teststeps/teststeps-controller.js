@@ -360,6 +360,20 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       $scope.assertionsModelObj.gridOptions.data.push(assertion);
     };
 
+    $scope.createXPathContainAssertion = function(xPath, value) {
+      var assertion = {
+        teststepId: $stateParams.teststepId,
+        name: 'Check XPath',
+        type: 'XPath',
+        properties: {
+          xPath: xPath,
+          operator: 'Contains',
+          value: value
+        }
+      };
+      $scope.assertionsModelObj.gridOptions.data.push(assertion);
+    };
+
     $scope.removeAssertion = function(assertion) {
       var assertionId = assertion.id;
       var gridData = $scope.assertionsModelObj.gridOptions.data;
