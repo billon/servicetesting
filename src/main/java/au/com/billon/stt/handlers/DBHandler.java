@@ -17,15 +17,26 @@ import java.util.Set;
  * Created by Trevor Li on 7/14/15.
  */
 public class DBHandler implements STTHandler {
+    private static final int Return_Row_Limit = 100;
+
     public DBHandler() { }
 
     public TestResponse invoke(String request, Map<String, String> properties) throws Exception {
         TestResponse response = new TestResponse();
 
-        DBI jdbi = new DBI(properties.get("url"), properties.get("username"), properties.get("password"));
+        String dbUrl = properties.get("url");
+
+        String rowLimitRequest = request;
+        if (dbUrl.toLowerCase().startsWith("jdbc:h2")) {
+            rowLimitRequest = "select * from ( " + request + " ) where rownum() <= " + Return_Row_Limit;
+        } else if (dbUrl.toLowerCase().startsWith("jdbc:oracle")) {
+            rowLimitRequest = "select * from ( " + request + " ) where rownum <= " + Return_Row_Limit;
+        }
+
+        DBI jdbi = new DBI(dbUrl, properties.get("username"), properties.get("password"));
         Handle handle = jdbi.open();
 
-        Query<Map<String, Object>> query = handle.createQuery(request);
+        Query<Map<String, Object>> query = handle.createQuery(rowLimitRequest);
         List<Map<String, Object>> results = query.list();
 
         // ObjectMapper mapper = new ObjectMapper();
