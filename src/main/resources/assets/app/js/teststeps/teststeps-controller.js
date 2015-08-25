@@ -300,6 +300,11 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     };
 
     $scope.invoke = function(teststep) {
+      if (! teststep.endpointId && (! teststep.properties || ! teststep.properties.soapAddress)) {
+        $scope.alerts.push({type: 'warning', msg: 'Please select or input an endpoint to invoke'});
+        return;
+       }
+
       var testrun;
       if ($scope.teststep.endpointId) {
         testrun = {

@@ -36,7 +36,7 @@ public abstract class IntfaceDAO {
 
     public void initSystemData() {
         if (findByName("SampleDBInterface") == null) {
-            Intface intface = new Intface(0, "SampleDBInterface", "System pre-defined sample interface to access a database", "DBInterface", "NA", null, null);
+            Intface intface = new Intface(0, "DB of Service Testing Tool (STT)", "The database of the Servie Testing Tool (STT)", "DBInterface", "NA", null, null);
             insert(intface);
         }
     }
