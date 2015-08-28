@@ -19,7 +19,7 @@ public abstract class TeststepDAO {
     @SqlUpdate("create table IF NOT EXISTS teststep (" +
             "id INT PRIMARY KEY auto_increment, testcase_id INT, name varchar(200), description clob, " +
             "created timestamp DEFAULT CURRENT_TIMESTAMP, updated timestamp DEFAULT CURRENT_TIMESTAMP, " +
-            "type varchar(20), request clob, properties clob, sequence int," +
+            "type varchar(20), request clob, properties clob, sequence int not null," +
             "CONSTRAINT cons_teststep_1 unique (testcase_id, sequence)," +
             "intfaceId int, FOREIGN KEY (intfaceId) REFERENCES intface(id), " +
             "endpointId int, FOREIGN KEY (endpointId) REFERENCES endpoint(id), " +

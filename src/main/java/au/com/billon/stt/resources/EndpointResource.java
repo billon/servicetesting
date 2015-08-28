@@ -5,6 +5,7 @@ import au.com.billon.stt.db.EndpointDetailDAO;
 import au.com.billon.stt.handlers.HandlerFactory;
 import au.com.billon.stt.models.Endpoint;
 import au.com.billon.stt.models.EndpointDetail;
+import io.dropwizard.db.DataSourceFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -19,9 +20,26 @@ public class EndpointResource {
     private final EndpointDAO dao;
     private final EndpointDetailDAO detailDao;
 
-    public EndpointResource(EndpointDAO dao, EndpointDetailDAO detailDao) {
+    public EndpointResource(EndpointDAO dao, EndpointDetailDAO detailDao, DataSourceFactory dsFactory) {
         this.dao = dao;
         this.detailDao = detailDao;
+
+        initSystemData(dsFactory);
+    }
+
+    private void initSystemData(DataSourceFactory dsFactory) {
+        if (dao.findByName("STTSystemDBEndpoint") == null) {
+            Endpoint endpoint = new Endpoint(0, "STTSystemDBEndpoint", "The database of the Servie Testing Tool (STT)", "DBHandler", null, null);
+
+            List<EndpointDetail> details = new ArrayList<EndpointDetail>();
+            details.add(new EndpointDetail(0, 0, "url", dsFactory.getUrl(), null, null));
+            details.add(new EndpointDetail(0, 0, "username", dsFactory.getUser(), null, null));
+            details.add(new EndpointDetail(0, 0, "password", dsFactory.getPassword(), null, null));
+
+            endpoint.setDetails(details);
+
+            create(endpoint);
+        }
     }
 
     @POST

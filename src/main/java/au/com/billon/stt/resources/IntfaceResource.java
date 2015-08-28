@@ -16,6 +16,14 @@ public class IntfaceResource {
 
     public IntfaceResource(IntfaceDAO dao) {
         this.dao = dao;
+        initSystemData();
+    }
+
+    private void initSystemData() {
+        if (dao.findByName("STTSystemDBInterface") == null) {
+            Intface intface = new Intface(0, "STTSystemDBInterface", "The database of the Servie Testing Tool (STT)", "DBInterface", "NA", null, null);
+            dao.insert(intface);
+        }
     }
 
     @POST

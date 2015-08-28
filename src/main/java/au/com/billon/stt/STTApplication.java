@@ -9,6 +9,7 @@ import com.roskart.dropwizard.jaxws.EndpointBuilder;
 import com.roskart.dropwizard.jaxws.JAXWSBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.setup.Bootstrap;
@@ -40,7 +41,8 @@ public class STTApplication extends Application<STTConfiguration> {
     @Override
     public void run(STTConfiguration configuration, Environment environment) throws Exception {
         final DBIFactory factory = new DBIFactory();
-        final DBI jdbi = factory.build(environment, configuration.getDatabase(), "h2");
+        DataSourceFactory dsFactory = configuration.getDatabase();
+        final DBI jdbi = factory.build(environment, dsFactory, "h2");
 
         //  create DAO objects
         final ArticleDAO articleDAO = jdbi.onDemand(ArticleDAO.class);
@@ -58,7 +60,6 @@ public class STTApplication extends Application<STTConfiguration> {
         endpointDAO.createTableIfNotExists();
         endpointdtlDAO.createTableIfNotExists();
         intfaceDAO.createTableIfNotExists();
-        intfaceDAO.initSystemData();
         environmentDAO.createTableIfNotExists();
         enventryDAO.createTableIfNotExists();
         testcaseDAO.createTableIfNotExists();
@@ -67,7 +68,7 @@ public class STTApplication extends Application<STTConfiguration> {
 
         //  register REST resources
         environment.jersey().register(new ArticleResource(articleDAO));
-        environment.jersey().register(new EndpointResource(endpointDAO, endpointdtlDAO));
+        environment.jersey().register(new EndpointResource(endpointDAO, endpointdtlDAO, dsFactory));
         environment.jersey().register(new TestcaseResource(testcaseDAO, teststepDAO));
         environment.jersey().register(new TeststepResource(teststepDAO, assertionDAO));
         environment.jersey().register(new AssertionResource(assertionDAO));

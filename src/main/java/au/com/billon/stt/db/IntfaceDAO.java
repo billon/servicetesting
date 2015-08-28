@@ -33,11 +33,4 @@ public abstract class IntfaceDAO {
 
     @SqlQuery("select * from intface where name = :name")
     public abstract Intface findByName(@Bind("name") String name);
-
-    public void initSystemData() {
-        if (findByName("SampleDBInterface") == null) {
-            Intface intface = new Intface(0, "DB of Service Testing Tool (STT)", "The database of the Servie Testing Tool (STT)", "DBInterface", "NA", null, null);
-            insert(intface);
-        }
-    }
 }

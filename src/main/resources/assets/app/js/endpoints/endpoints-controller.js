@@ -45,12 +45,12 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
       },
       {
         key: "handler",
-        title: "Handler",
+        title: "Type",
         type: "select",
         titleMap: [
-          {value: "DBHandler", name: "DBHandler"},
-          {value: "SOAPHandler", name: "SOAPHandler"},
-          {value: "MQHandler", name: "MQHandler"}
+          {value: "DBHandler", name: "DB"},
+          {value: "SOAPHandler", name: "SOAP"},
+          {value: "MQHandler", name: "MQ"}
         ],
         onChange: function (modelValue, form) {
           Endpoints.getDetails({
