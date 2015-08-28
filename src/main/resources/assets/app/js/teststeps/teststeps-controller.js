@@ -8,6 +8,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       properties: {
         id: { type: "integer" },
         name: { type: "string", maxLength: 200 },
+        sequence: { type: "integer" },
         description: { type: "string" }
       },
       "required": ["name", "description"]
@@ -23,6 +24,10 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         key: "description",
         title: "Description",
         type: "textarea"
+      },
+      {
+        key: "sequence",
+        title: "Sequence"
       }
     ];
 
@@ -296,6 +301,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       } else {
         // create a new entry
         $scope.teststep.testcaseId = $stateParams.testcaseId;
+        $scope.teststep.sequence = $stateParams.sequence;
       }
     };
 

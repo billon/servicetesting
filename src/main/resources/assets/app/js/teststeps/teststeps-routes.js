@@ -4,6 +4,9 @@ angular.module('service-testing-tool').config(['$stateProvider', function ($stat
     $stateProvider
         .state('teststep_create', {
             url: '/testcases/:testcaseId/teststeps/create',
+            params: {
+                sequence: 10
+            },
             templateUrl: '/ui/views/teststeps/create.html'
         })
         .state('teststep_edit', {

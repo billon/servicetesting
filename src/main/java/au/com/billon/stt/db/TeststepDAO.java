@@ -26,29 +26,29 @@ public abstract class TeststepDAO {
             "FOREIGN KEY (testcase_id) REFERENCES testcase(id) ON DELETE CASCADE)")
     public abstract void createTableIfNotExists();
 
-    @SqlUpdate("insert into teststep (testcase_id, name, type, description, request, properties, intfaceId, endpointId) values " +
-            "(:testcaseId, :name, :type, :description, :request, :properties, :intfaceId, :endpointId)")
+    @SqlUpdate("insert into teststep (testcase_id, name, type, description, sequence, request, properties, intfaceId, endpointId) values " +
+            "(:testcaseId, :name, :type, :description, :sequence, :request, :properties, :intfaceId, :endpointId)")
     @GetGeneratedKeys
     public abstract long insert(@Bind("testcaseId") long testcaseId, @Bind("name") String name,
-                                @Bind("type") String type, @Bind("description") String description,
+                                @Bind("type") String type, @Bind("description") String description, @Bind("sequence") long sequence,
                                 @Bind("request") String request, @Bind("properties") String properties,
                                 @Bind("intfaceId") Long intfaceId, @Bind("endpointId") Long endpointId);
 
     public long insert(Teststep teststep) throws JsonProcessingException {
         return insert(teststep.getTestcaseId(), teststep.getName(), teststep.getType(), teststep.getDescription(),
-                teststep.getRequest(), new ObjectMapper().writeValueAsString(teststep.getProperties()),
+                teststep.getSequence(), teststep.getRequest(), new ObjectMapper().writeValueAsString(teststep.getProperties()),
                 teststep.getIntfaceId() == 0 ? null : teststep.getIntfaceId(),
                 teststep.getEndpointId() == 0 ? null : teststep.getEndpointId());
     }
 
-    @SqlUpdate("update teststep set name = :name, description = :description, request = :request, properties = :properties, " +
-            "intfaceId = :intfaceId, endpointId = :endpointId, updated = CURRENT_TIMESTAMP where id = :id")
-    public abstract int update(@Bind("name") String name, @Bind("description") String description,
+    @SqlUpdate("update teststep set name = :name, description = :description, sequence = :sequence, request = :request, " +
+            "properties = :properties, intfaceId = :intfaceId, endpointId = :endpointId, updated = CURRENT_TIMESTAMP where id = :id")
+    public abstract int update(@Bind("name") String name, @Bind("description") String description, @Bind("sequence") long sequence,
                                @Bind("request") String request, @Bind("properties") String properties,
                                @Bind("intfaceId") Long intfaceId, @Bind("endpointId") Long endpointId, @Bind("id") long id);
 
     public int update(Teststep teststep) throws JsonProcessingException {
-        return update(teststep.getName(), teststep.getDescription(), teststep.getRequest(),
+        return update(teststep.getName(), teststep.getDescription(), teststep.getSequence(), teststep.getRequest(),
                 new ObjectMapper().writeValueAsString(teststep.getProperties()),
                 teststep.getIntfaceId() == 0 ? null : teststep.getIntfaceId(),
                 teststep.getEndpointId() == 0 ? null : teststep.getEndpointId(),

@@ -40,10 +40,6 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
     $scope.teststepColumnDefs = [
       {
         name: 'name', width: 150, minWidth: 50,
-        sort: {
-          direction: uiGridConstants.ASC,
-          priority: 1
-        },
         cellTemplate: 'teststepGridNameCellTemplate.html'
       },
       {name: 'description', width: 400, minWidth: 200},
@@ -52,7 +48,14 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
         cellTemplate: 'teststepGridIntfaceCellTemplate.html'
       },
       {
-        name: 'result.error', displayName: 'Result', width: 100, minWidth: 80,
+        name: 'sequence', width: 120, maxWidth: 120,
+        sort: {
+          direction: uiGridConstants.ASC,
+          priority: 1
+        },
+      },
+      {
+        name: 'result', width: 100, minWidth: 100,
         cellTemplate: 'teststepGridResultCellTemplate.html'
       }
     ];
@@ -201,6 +204,18 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
           $scope.testcase = testcase;
         });
       }
+    };
+
+    $scope.createTeststep = function() {
+      // calculate the max sequence number
+      var sequences = _.pluck($scope.testcase.teststeps, 'sequence');
+
+      var maxSequence = 0;
+      if (sequences.length > 0) {
+        maxSequence = _.max(sequences);
+      }
+      var newSequence = Math.floor(maxSequence / 10) * 10 + 10;
+      $state.go('teststep_create', {testcaseId: $scope.testcase.id, sequence: newSequence});
     };
   }
 ]);
