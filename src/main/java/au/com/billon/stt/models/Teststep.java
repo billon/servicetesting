@@ -29,13 +29,14 @@ public class Teststep {
 
     public Teststep() {}
 
-    public Teststep(long id, long testcaseId, String name, String type, String description, Properties properties,
-                    Date created, Date updated, String request, long intfaceId, long endpointId) {
+    public Teststep(long id, long testcaseId, String name, String type, String description, long sequence,
+                    Properties properties, Date created, Date updated, String request, long intfaceId, long endpointId) {
         this.id = id;
         this.testcaseId = testcaseId;
         this.name = name;
         this.type = type;
         this.description = description;
+        this.sequence = sequence;
         this.properties = properties;
         this.created = created;
         this.updated = updated;

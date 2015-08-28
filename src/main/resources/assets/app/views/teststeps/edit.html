@@ -50,17 +50,25 @@
                   <span class="glyphicon glyphicon-edit"></span>
                 </button>
               </div>
-              <div ng-if="! teststep.endpointId" class="col-lg-8">
-                <input name="soapAddress" type="text" class="form-control margin-small" ng-model="teststep.properties.soapAddress" id="soapAddress" required
-                       placeholder="Please select or input an endpoint to invoke">
-              </div>
-              <div ng-if="! teststep.endpointId" class="btn-toolbar col-lg-2">
-                <button type="button" class="btn btn-primary" ng-click="createEndpoint(teststep)" title="Share the Endpoint">
-                  <span class="vertical-center glyphicon glyphicon-share-alt"></span>
-                </button>
+              <div ng-if="! isSOAP() && ! teststep.endpointId" class="col-lg-10">
+                <span class="margin-small">Please select an endpoint to invoke</span>
                 <button type="button" class="btn btn-primary" ng-click="changeEndpoint(teststep)" title="Change Endpoint">
                   <span class="glyphicon glyphicon-edit"></span>
                 </button>
+              </div>
+              <div ng-if="isSOAP() && ! teststep.endpointId">
+                <div class="col-lg-8">
+                  <input name="soapAddress" type="text" class="form-control margin-small" ng-model="teststep.properties.soapAddress" id="soapAddress"
+                         placeholder="Please select or input an endpoint to invoke">
+                </div>
+                <div class="btn-toolbar col-lg-2">
+                  <button type="button" class="btn btn-primary" ng-click="createEndpoint(teststep)" title="Share the Endpoint">
+                    <span class="vertical-center glyphicon glyphicon-share-alt"></span>
+                  </button>
+                  <button type="button" class="btn btn-primary" ng-click="changeEndpoint(teststep)" title="Change Endpoint">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </button>
+                </div>
               </div>
               <div class="btn-group col-lg-2" dropdown>
                 <button type="button" class="btn btn-primary" dropdown-toggle>
@@ -73,8 +81,8 @@
               </div>
             </div>
             <p></p>
-            <div ng-if="teststep.type==='SOAP'" ng-include="'/ui/views/teststeps/edit-soap-request-response.html'"></div>
-            <div ng-if="teststep.type!=='SOAP'" ng-include="'/ui/views/teststeps/edit-db-request-response.html'"></div>
+            <div ng-if="isSOAP()" ng-include="'/ui/views/teststeps/edit-soap-request-response.html'"></div>
+            <div ng-if="! isSOAP()" ng-include="'/ui/views/teststeps/edit-db-request-response.html'"></div>
             <p></p>
             <div class="row">
               <div class="col-lg-12">

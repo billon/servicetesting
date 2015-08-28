@@ -54,6 +54,10 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       $scope.alerts.splice(index, 1);
     };
 
+    $scope.isSOAP = function() {
+      return $scope.teststep.type==='SOAP';
+    }
+
     $scope.loadWsdl = function() {
       if ($scope.teststep.intfaceId && $scope.teststep.intface.deftype==='WSDL') {
         $scope.teststep.wsdlUrl = $scope.teststep.intface.defurl;
@@ -85,7 +89,8 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         var teststep = new Teststeps({
           testcaseId: this.teststep.testcaseId,
           name: this.teststep.name,
-          description: this.teststep.description
+          description: this.teststep.description,
+          sequence: this.teststep.sequence
         });
         if (this.teststep.intfaceId) {
           teststep.intfaceId = this.teststep.intfaceId;

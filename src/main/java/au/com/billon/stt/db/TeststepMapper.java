@@ -27,7 +27,7 @@ public class TeststepMapper implements ResultSetMapper<Teststep> {
         }
 
         Teststep teststep = new Teststep(rs.getLong("id"), rs.getLong("testcase_id"), rs.getString("name"),
-                rs.getString("type"), rs.getString("description"), properties, rs.getTimestamp("created"),
+                rs.getString("type"), rs.getString("description"), rs.getLong("sequence"), properties, rs.getTimestamp("created"),
                 rs.getTimestamp("updated"), rs.getString("request"), rs.getLong("intfaceId"), rs.getLong("endpointId"));
 
         Intface intface = new Intface();
