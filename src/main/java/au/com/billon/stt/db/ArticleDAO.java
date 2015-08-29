@@ -12,7 +12,7 @@ import java.util.List;
  */
 @RegisterMapper(ArticleMapper.class)
 public interface ArticleDAO {
-    @SqlUpdate("create table IF NOT EXISTS article (id INT PRIMARY KEY auto_increment, title varchar(50), content varchar(500), created timestamp DEFAULT CURRENT_TIMESTAMP, updated timestamp DEFAULT CURRENT_TIMESTAMP)")
+    @SqlUpdate("create table IF NOT EXISTS article (id INT PRIMARY KEY auto_increment, title varchar(50) UNIQUE not null, content varchar(500), created timestamp DEFAULT CURRENT_TIMESTAMP, updated timestamp DEFAULT CURRENT_TIMESTAMP)")
     void createTableIfNotExists();
 
     @SqlUpdate("insert into article (title, content) values (:title, :content)")
@@ -24,6 +24,9 @@ public interface ArticleDAO {
 
     @SqlUpdate("delete from article where id = :id")
     void deleteById(@Bind("id") long id);
+
+    @SqlUpdate("delete from article where title = :title")
+    void deleteByTitle(@Bind("title") String title);
 
     @SqlQuery("select * from article")
     List<Article> findAll();

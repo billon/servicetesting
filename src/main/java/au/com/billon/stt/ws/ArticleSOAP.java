@@ -38,7 +38,7 @@ public class ArticleSOAP {
     }
 
     @WebMethod
-    public void deleteArticle(@WebParam(name = "id") long id) {
-        dao.deleteById(id);
+    public void deleteArticle(@WebParam(name = "title") String title) {
+        dao.deleteByTitle(title);
     }
 }
