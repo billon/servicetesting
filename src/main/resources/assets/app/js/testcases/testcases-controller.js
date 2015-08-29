@@ -39,6 +39,13 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
 
     $scope.teststepColumnDefs = [
       {
+        name: 'sequence', width: 120, maxWidth: 120,
+        sort: {
+          direction: uiGridConstants.ASC,
+          priority: 1
+        },
+      },
+      {
         name: 'name', width: 150, minWidth: 50,
         cellTemplate: 'teststepGridNameCellTemplate.html'
       },
@@ -46,13 +53,6 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
       {
         name: 'intface.name', displayName: 'Interface', width: 200, minWidth: 100,
         cellTemplate: 'teststepGridIntfaceCellTemplate.html'
-      },
-      {
-        name: 'sequence', width: 120, maxWidth: 120,
-        sort: {
-          direction: uiGridConstants.ASC,
-          priority: 1
-        },
       },
       {
         name: 'result', width: 100, minWidth: 100,
