@@ -184,6 +184,14 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
         return;
       }
 
+      var teststeps = $scope.testcase.teststeps;
+      for (var index in teststeps) {
+        if (! teststeps[index].intfaceId) {
+          $scope.alerts.push({type: 'warning', msg: 'Please assign an Interface for all the Test Steps'});
+          return;
+        }
+      }
+
       var testrun = new Testruns({
         testcase: $scope.testcase,
         environmentId: $scope.testcase.environmentId

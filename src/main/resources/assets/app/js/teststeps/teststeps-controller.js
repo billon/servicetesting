@@ -60,12 +60,12 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
 
     $scope.loadWsdl = function() {
       if ($scope.teststep.intfaceId && $scope.teststep.intface.deftype==='WSDL') {
-        $scope.teststep.wsdlUrl = $scope.teststep.intface.defurl;
+        $scope.teststep.properties.wsdlUrl = $scope.teststep.intface.defurl;
       }
       $http
         .get('api/wsdls/anywsdl/operations', {
           params: {
-            wsdlUrl: $scope.teststep.wsdlUrl
+            wsdlUrl: $scope.teststep.properties.wsdlUrl
           }
         })
         .success(function(data, status) {
@@ -97,7 +97,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
           if (this.teststep.intface.deftype === "WSDL") {
             teststep.type = 'SOAP';
             teststep.properties = {
-              wsdlUrl: this.teststep.wsdlUrl,
+              wsdlUrl: this.teststep.properties.wsdlUrl,
               wsdlBindingName: this.teststep.wsdlBinding.name,
               wsdlOperationName: this.teststep.wsdlOperation
             };
@@ -105,7 +105,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         } else {
           teststep.type = 'SOAP';
           teststep.properties = {
-            wsdlUrl: this.teststep.wsdlUrl,
+            wsdlUrl: this.teststep.properties.wsdlUrl,
             wsdlBindingName: this.teststep.wsdlBinding.name,
             wsdlOperationName: this.teststep.wsdlOperation
           };
@@ -174,7 +174,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
 
     $scope.createIntface = function(teststep) {
       var context = {
-        defurl: teststep.wsdlUrl,
+        defurl: teststep.properties.wsdlUrl,
         deftype: 'WSDL',
         expect: 'Single'
       };

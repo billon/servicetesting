@@ -32,7 +32,7 @@
             <div class="row">
               <div class="col-lg-9">
                 <a href="" ng-if="teststep.intfaceId" ng-click="viewIntface(teststep.intfaceId)">{{teststep.intface.name}}</a>
-                <input ng-if="! teststep.intfaceId" name="wsdlUrl" type="text" class="form-control" ng-model="teststep.wsdlUrl" id="wsdlUrl" required
+                <input ng-if="! teststep.intfaceId" name="wsdlUrl" type="text" class="form-control" ng-model="teststep.properties.wsdlUrl" id="wsdlUrl" required
                        placeholder="http://localhost:8080/soap/article?wsdl">
               </div>
               <div class="btn-toolbar col-lg-3">

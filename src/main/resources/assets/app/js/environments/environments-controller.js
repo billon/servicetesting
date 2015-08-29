@@ -85,7 +85,7 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
       var entries = $scope.environment.entries;
       for (var index in entries) {
         if (! entries[index].endpointId) {
-          $scope.alerts.push({type: 'warning', msg: 'Please select an endpoint for the interfaces'});
+          $scope.alerts.push({type: 'warning', msg: 'Please select an Endpoint for all the Interfaces'});
           return;
         }
       }
