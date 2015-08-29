@@ -59,7 +59,7 @@
               <div ng-if="isSOAP() && ! teststep.endpointId">
                 <div class="col-lg-8">
                   <input name="soapAddress" type="text" class="form-control margin-small" ng-model="teststep.properties.soapAddress" id="soapAddress"
-                         placeholder="Please select or input an endpoint to invoke">
+                         placeholder="http://localhost:8080/soap/article">
                 </div>
                 <div class="btn-toolbar col-lg-2">
                   <button type="button" class="btn btn-primary" ng-click="createEndpoint(teststep)" title="Share the Endpoint">

@@ -179,6 +179,11 @@ angular.module('service-testing-tool').controller('TestcasesController', ['$scop
     };
     
     $scope.run = function() {
+      if (! $scope.testcase.environmentId) {
+        $scope.alerts.push({type: 'warning', msg: 'Please select an environment to run'});
+        return;
+      }
+
       var testrun = new Testruns({
         testcase: $scope.testcase,
         environmentId: $scope.testcase.environmentId

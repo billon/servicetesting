@@ -82,6 +82,14 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
     $scope.create_update = function(form) {
       $scope.$broadcast('schemaFormValidate');
 
+      var entries = $scope.environment.entries;
+      for (var index in entries) {
+        if (! entries[index].endpointId) {
+          $scope.alerts.push({type: 'warning', msg: 'Please select an endpoint for the interfaces'});
+          return;
+        }
+      }
+
       if (form.$valid) {
         if ($scope.environment.id) {
           $scope.environment.$update(function(response) {

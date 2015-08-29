@@ -65,6 +65,6 @@ public abstract class TeststepDAO {
 
     @SqlQuery("select teststep.*, intface.name as intfaceName, endpoint.name as endpointName from teststep " +
             "left outer join intface on teststep.intfaceId = intface.id left outer join endpoint on teststep.endpointId = endpoint.id " +
-            "where teststep.testcase_id = :testcaseId")
+            "where teststep.testcase_id = :testcaseId order by teststep.sequence")
     public abstract List<Teststep> findByTestcaseId(@Bind("testcaseId") long testcaseId);
 }
