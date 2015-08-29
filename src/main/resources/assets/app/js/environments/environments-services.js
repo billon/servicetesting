@@ -11,20 +11,4 @@ angular.module('service-testing-tool').factory('Environments', ['$resource',
       }
     });
   }
-]).factory('EnvEntries', ['$resource',
-  function($resource) {
-    return $resource('api/enventries/:enventryId', {
-      enventryId: '@id'
-    }, {
-      update: {
-        method: 'PUT'
-      },
-      queryByEnv: {
-        method: 'GET',
-        url: '/api/enventries/env/:environmentId',
-        params: {environmentId: '@id'},
-        isArray: true
-      }
-    });
-  }
 ]);

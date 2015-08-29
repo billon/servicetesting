@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('EnvironmentsController', ['$scope', 'Environments', 'EnvEntries', '$stateParams', '$state', 'uiGridConstants', '$modal',
-  function($scope, Environments, EnvEntries, $stateParams, $state, uiGridConstants, $modal) {
+angular.module('service-testing-tool').controller('EnvironmentsController', ['$scope', 'Environments', '$stateParams', '$state', 'uiGridConstants', '$modal',
+  function($scope, Environments, $stateParams, $state, uiGridConstants, $modal) {
     $scope.schema = {
       type: "object",
       properties: {
