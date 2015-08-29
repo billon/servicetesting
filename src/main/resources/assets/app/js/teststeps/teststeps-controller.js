@@ -31,7 +31,9 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       }
     ];
 
-    $scope.teststep = {};
+    $scope.teststep = {
+      properties: {}
+    };
     $scope.testResponse = {};
     $scope.responseOptions = {
       enableFiltering: true,
