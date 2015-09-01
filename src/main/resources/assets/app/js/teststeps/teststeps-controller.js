@@ -82,8 +82,8 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     };
 
     $scope.refreshOperations = function() {
-      $scope.wsdlOperations = _.findWhere($scope.wsdlBindings, { name: $scope.wsdlBinding.name }).operations;
-      $scope.wsdlOperation = $scope.wsdlOperations[0];
+      $scope.teststep.wsdlOperations = _.findWhere($scope.teststep.wsdlBindings, { name: $scope.teststep.wsdlBinding.name }).operations;
+      $scope.teststep.wsdlOperation = $scope.teststep.wsdlOperations[0];
     };
 
     $scope.create = function(isValid) {

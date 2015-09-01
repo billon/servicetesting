@@ -50,7 +50,10 @@ public class DBHandler implements STTHandler {
         for (Map<String, Object> result : results) {
             Set<String> keys = result.keySet();
             for (String key : keys) {
-                result.put(key, result.get(key).toString());
+                Object value = result.get(key);
+                if (value != null) {
+                    result.put(key, value.toString());
+                }
             }
         }
 
