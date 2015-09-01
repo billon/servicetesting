@@ -21,8 +21,8 @@ public class SOAPHandler implements STTHandler {
     public TestResponse invoke(String request, Map<String, String> properties) throws Exception {
         TestResponse response = new TestResponse();
 
-        SoapClient client = SoapClient.builder().endpointUri(properties.get("url")).build();
-        String responseXML = client.post(request);
+        SoapClient client = SoapClient.builder().endpointUri(properties.get("soapAddress")).build();
+        String responseXML = client.post(properties.get("soapAction"), request);
         response.setResponseStr(responseXML);
 
         XMLJson responseObj = new XMLJson();
@@ -101,7 +101,7 @@ public class SOAPHandler implements STTHandler {
 
 
     public List<String> getPropNames() {
-        String[] properties = {"url", "username", "password"};
+        String[] properties = {"soapAddress", "username", "password"};
         return Arrays.asList(properties);
     }
 }

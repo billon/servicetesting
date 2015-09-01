@@ -1,5 +1,6 @@
 package au.com.billon.stt.resources;
 
+import au.com.billon.stt.models.WSDLOperation;
 import au.com.billon.stt.models.WSDLBinding;
 import org.reficio.ws.builder.SoapBuilder;
 import org.reficio.ws.builder.SoapOperation;
@@ -29,11 +30,14 @@ public class WSDLResource {
         for (QName binding: bindings) {
             SoapBuilder builder = wsdl.getBuilder(binding);
             List<SoapOperation> operations = builder.getOperations();
-            List<String> operationNames = new ArrayList<String>();
+            List<WSDLOperation> wsdlOperations = new ArrayList<WSDLOperation>();
             for (SoapOperation operation: operations) {
-                operationNames.add(operation.getOperationName());
+                WSDLOperation wsdlOperation = new WSDLOperation();
+                wsdlOperation.setName(operation.getOperationName());
+                wsdlOperation.setAction(operation.getSoapAction());
+                wsdlOperations.add(wsdlOperation);
             }
-            result.add(new WSDLBinding(binding.getLocalPart(), operationNames));
+            result.add(new WSDLBinding(binding.getLocalPart(), wsdlOperations));
         }
 
         return result;

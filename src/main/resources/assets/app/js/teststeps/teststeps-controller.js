@@ -101,7 +101,8 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
             teststep.properties = {
               wsdlUrl: this.teststep.properties.wsdlUrl,
               wsdlBindingName: this.teststep.wsdlBinding.name,
-              wsdlOperationName: this.teststep.wsdlOperation
+              wsdlOperationName: this.teststep.wsdlOperation.name,
+              soapAction: this.teststep.wsdlOperation.action
             };
           }
         } else {
@@ -109,7 +110,8 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
           teststep.properties = {
             wsdlUrl: this.teststep.properties.wsdlUrl,
             wsdlBindingName: this.teststep.wsdlBinding.name,
-            wsdlOperationName: this.teststep.wsdlOperation
+            wsdlOperationName: this.teststep.wsdlOperation.name,
+            soapAction: this.teststep.wsdlOperation.action
           };
         }
         teststep.$save(function(response) {
@@ -318,18 +320,11 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         return;
        }
 
-      var testrun;
-      if ($scope.teststep.endpointId) {
-        testrun = {
-          request: $scope.teststep.request,
-          endpointId: $scope.teststep.endpointId
-        };
-      } else {
-        testrun = {
-          request: $scope.teststep.request,
-          endpointProps: $scope.teststep.properties
-        };
-      }
+      var testrun = {
+        request: $scope.teststep.request,
+        endpointId: $scope.teststep.endpointId,
+        teststepProps: $scope.teststep.properties
+      };
 
       var testrunRes = new Testruns(testrun);
       testrunRes.$save(function(response) {

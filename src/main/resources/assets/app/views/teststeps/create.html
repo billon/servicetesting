@@ -70,7 +70,7 @@
             <div class="row">
               <div class="col-lg-12">
                 <select name="wsdlOperation" id="wsdlOperation" class="form-control" ng-model="teststep.wsdlOperation"
-                        ng-options="item for item in teststep.wsdlOperations" />
+                        ng-options="item.name for item in teststep.wsdlOperations" />
               </div>
             </div>
           </div>

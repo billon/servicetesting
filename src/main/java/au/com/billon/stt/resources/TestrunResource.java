@@ -54,7 +54,7 @@ public class TestrunResource {
                 String request = testrun.getRequest();
                 // Invoke a service only
                 if (request != null) {
-                    TestResponse response = invokeService(request, testrun.getEndpointId(), testrun.getEndpointProps());
+                    TestResponse response = invokeService(request, testrun.getEndpointId(), testrun.getTeststepProps());
                     testrun.setResponse(response);
                 } else {
                     TestResponse response = testrun.getResponse();
@@ -112,7 +112,7 @@ public class TestrunResource {
         TestResult result = new TestResult();
         result.setPassed(true);
 
-        TestResponse response = invokeService(teststep.getRequest(), endpointId, null);
+        TestResponse response = invokeService(teststep.getRequest(), endpointId, teststep.getProperties());
 
         List<Assertion> assertions = assertionDao.findByTeststepId(teststep.getId());
         evaluateAssertions(response, assertions);
@@ -127,25 +127,25 @@ public class TestrunResource {
         teststep.setResult(result);
     }
 
-    private TestResponse invokeService(String request, long endpointId, Map<String, String> endpointProps) throws Exception {
+    private TestResponse invokeService(String request, long endpointId, Properties teststepProps) throws Exception {
         TestResponse response = null;
 
         String handler = null;
+        Map<String, String> endpointProps = null;
 
         if (endpointId > 0) {
             endpointProps = getEndpointProps(endpointId);
             Endpoint endpoint = endpointDao.findById(endpointId);
             handler = endpoint.getHandler();
         } else {
-            if (endpointProps != null) {
-                endpointProps.put("url", endpointProps.get("soapAddress"));
-                handler = "SOAPHandler";
-            }
+            endpointProps.put("soapAddress", ((SOAPTeststepProperties) teststepProps).getSoapAddress());
+            handler = "SOAPHandler";
+        }
+        if (handler.equals("SOAP")) {
+            endpointProps.put("soapAction", ((SOAPTeststepProperties) teststepProps).getSoapAction());
         }
 
-        if (endpointProps != null) {
-            response = HandlerFactory.getInstance().getHandler(handler).invoke(request, endpointProps);
-        }
+        response = HandlerFactory.getInstance().getHandler(handler).invoke(request, endpointProps);
 
         return response;
     }

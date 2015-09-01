@@ -7,11 +7,11 @@ import java.util.List;
  */
 public class WSDLBinding {
     private String name;
-    private List<String> operations;
+    private List<WSDLOperation> operations;
 
     public WSDLBinding() {}
 
-    public WSDLBinding(String name, List<String> operations) {
+    public WSDLBinding(String name, List<WSDLOperation> operations) {
         this.name = name;
         this.operations = operations;
     }
@@ -24,11 +24,11 @@ public class WSDLBinding {
         this.name = name;
     }
 
-    public List<String> getOperations() {
+    public List<WSDLOperation> getOperations() {
         return operations;
     }
 
-    public void setOperations(List<String> operations) {
+    public void setOperations(List<WSDLOperation> operations) {
         this.operations = operations;
     }
 }
