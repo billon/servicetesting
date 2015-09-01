@@ -25,7 +25,7 @@ public class Testrun {
     private Environment environment;
     private long endpointId;
     private Endpoint endpoint;
-    private Properties teststepProps;
+    private SOAPTeststepProperties teststepProps;
     private TestResponse response;
     private Date created;
 
@@ -96,11 +96,11 @@ public class Testrun {
         this.endpoint = endpoint;
     }
 
-    public Properties getTeststepProps() {
+    public SOAPTeststepProperties getTeststepProps() {
         return teststepProps;
     }
 
-    public void setTeststepProps(Properties teststepProps) {
+    public void setTeststepProps(SOAPTeststepProperties teststepProps) {
         this.teststepProps = teststepProps;
     }
 

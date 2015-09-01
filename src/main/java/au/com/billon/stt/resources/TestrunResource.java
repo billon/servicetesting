@@ -138,10 +138,11 @@ public class TestrunResource {
             Endpoint endpoint = endpointDao.findById(endpointId);
             handler = endpoint.getHandler();
         } else {
+            endpointProps = new HashMap<String, String>();
             endpointProps.put("soapAddress", ((SOAPTeststepProperties) teststepProps).getSoapAddress());
             handler = "SOAPHandler";
         }
-        if (handler.equals("SOAP")) {
+        if (handler.equals("SOAPHandler")) {
             endpointProps.put("soapAction", ((SOAPTeststepProperties) teststepProps).getSoapAction());
         }
 
