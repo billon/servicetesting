@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns',
+angular.module('service-testing-tool').controller('TeststepsController', ['$scope', 'Teststeps', 'Testruns', 'Intfaces',
   '$stateParams', '$state', '$http', '$modal', 'uiGridConstants', 'uiGridEditConstants', 'STTUtils',
-  function($scope, Teststeps, Testruns, $stateParams, $state, $http, $modal, uiGridConstants, uiGridEditConstants, STTUtils) {
+  function($scope, Teststeps, Testruns, Intfaces, $stateParams, $state, $http, $modal, uiGridConstants, uiGridEditConstants, STTUtils) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -216,28 +216,33 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     };
 
     $scope.changeEndpoint = function(teststep) {
-      var context = {
-        endpointId: teststep.endpointId,
-        expect: 'Single'
-      };
+      Intfaces.endpointTypes({
+        intfaceType: teststep.type
+      }, function(endpointTypes) {
+        var context = {
+          endpointId: teststep.endpointId,
+          endpointTypes: endpointTypes,
+          expect: 'Single'
+        };
 
-      var modalInstance = $modal.open({
-        animation: true,
-        templateUrl: '/ui/views/endpoints/list-modal.html',
-        controller: 'EndpointsModalController',
-        windowClass: 'large-modal',
-        resolve: {
-          context: function () {
-            return context;
+        var modalInstance = $modal.open({
+          animation: true,
+          templateUrl: '/ui/views/endpoints/list-modal.html',
+          controller: 'EndpointsModalController',
+          windowClass: 'large-modal',
+          resolve: {
+            context: function () {
+              return context;
+            }
           }
-        }
-      });
+        });
 
-      modalInstance.result.then(function (selectedEndpoint) {
-        if (selectedEndpoint) {
-          teststep.endpointId = selectedEndpoint.id;
-          teststep.endpoint = selectedEndpoint;
-        }
+        modalInstance.result.then(function (selectedEndpoint) {
+          if (selectedEndpoint) {
+            teststep.endpointId = selectedEndpoint.id;
+            teststep.endpoint = selectedEndpoint;
+          }
+        });
       });
     };
 
@@ -295,7 +300,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         }, function (response) {
           $scope.teststep = response;
           $scope.assertionsModelObj.gridOptions.data = response.assertions;
-          if ($scope.teststep.type === 'SOAP') {
+          if ($scope.isSOAP()) {
             $scope.assertionsModelObj.gridOptions.columnDefs[1] = {
               name: 'properties.xpath', displayName: 'XPath', width: 500, minWidth: 500, enableCellEdit: false
             };
@@ -324,7 +329,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
       testrunRes.$save(function(response) {
         $scope.testResponse = response.response;
         var responseObj = response.response.responseObj;
-        if ($scope.teststep.type === 'SOAP') {
+        if ($scope.isSOAP()) {
           $scope.responseOptions = {
             data: responseObj.jsonGrid,
             columnDefs: [

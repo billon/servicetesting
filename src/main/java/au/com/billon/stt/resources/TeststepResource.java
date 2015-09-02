@@ -33,7 +33,9 @@ public class TeststepResource {
         STTParser parser = ParserFactory.getInstance().getParser(type);
 
         String adhocAddress = parser.getAdhocAddress(properties);
-        properties.put("adhocAddress", adhocAddress);
+        if (adhocAddress != null) {
+            properties.put("adhocAddress", adhocAddress);
+        }
 
         String sampleRequest = parser.getSampleRequest(properties);
         teststep.setRequest(sampleRequest);
