@@ -86,8 +86,8 @@ public class EndpointResource {
         return dao.findAll();
     }
 
-    @GET @Path("/handler/{handlerName}")
-    public List<EndpointDetail> getDetails(@PathParam("handlerName") String handlerName) {
+    @GET @Path("/properties/{endpointType}")
+    public List<EndpointDetail> getDetails(@PathParam("endpointType") String handlerName) {
         List<String> propNames = HandlerFactory.getInstance().getHandler(handlerName).getPropNames();
         List<EndpointDetail> details = new ArrayList<EndpointDetail>();
 

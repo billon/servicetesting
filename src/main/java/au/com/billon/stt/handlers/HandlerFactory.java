@@ -20,15 +20,15 @@ public class HandlerFactory {
         return instance;
     }
 
-    public STTHandler getHandler(String handlerName) {
+    public STTHandler getHandler(String endpointType) {
         STTHandler handler = null;
-        if (handlerName != null) {
-            handler = handlers.get(handlerName);
+        if (endpointType != null) {
+            handler = handlers.get(endpointType);
             if (handler == null) {
                 try {
-                    Class handlerClass = Class.forName("au.com.billon.stt.handlers." + handlerName + "Handler");
+                    Class handlerClass = Class.forName("au.com.billon.stt.handlers." + endpointType + "Handler");
                     handler = (STTHandler) handlerClass.newInstance();
-                    handlers.put(handlerName, handler);
+                    handlers.put(endpointType, handler);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

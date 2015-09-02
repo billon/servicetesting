@@ -54,7 +54,7 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
         ],
         onChange: function (modelValue, form) {
           Endpoints.getDetails({
-            handlerName: modelValue
+            endpointType: modelValue
           }, function(details) {
               $scope.endpoint.details = details;
           });

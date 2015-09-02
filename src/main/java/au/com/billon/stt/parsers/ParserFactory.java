@@ -20,22 +20,22 @@ public class ParserFactory {
         return instance;
     }
 
-    public STTParser getParser(String parserName) {
+    public STTParser getParser(String intfaceType) {
         STTParser parser = null;
-        if (parserName != null) {
-            parser = parsers.get(parserName);
+        if (intfaceType != null) {
+            parser = parsers.get(intfaceType);
             if (parser == null) {
                 try {
                     String classname = "au.com.billon.stt.parsers.";
-                    if (parserName.equals("DBInterface")) {
+                    if (intfaceType.equals("DBInterface")) {
                         classname = classname + "SPDDBParser";
                     } else {
-                        classname = classname + parserName + "Parser";
+                        classname = classname + intfaceType + "Parser";
                     }
 
                     Class parserClass = Class.forName(classname);
                     parser = (STTParser) parserClass.newInstance();
-                    parsers.put(parserName, parser);
+                    parsers.put(intfaceType, parser);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

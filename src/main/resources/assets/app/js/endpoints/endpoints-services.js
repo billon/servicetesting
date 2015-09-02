@@ -11,8 +11,8 @@ angular.module('service-testing-tool').factory('Endpoints', ['$resource',
       },
       getDetails: {
         method: 'GET',
-        url: '/api/endpoints/handler/:handlerName',
-        params: {handlerName: '@name'},
+        url: '/api/endpoints/properties/:endpointType',
+        params: {endpointType: '@name'},
         isArray: true
       }
     });
