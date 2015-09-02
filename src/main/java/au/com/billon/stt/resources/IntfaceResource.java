@@ -2,6 +2,7 @@ package au.com.billon.stt.resources;
 
 import au.com.billon.stt.db.IntfaceDAO;
 import au.com.billon.stt.models.Intface;
+import au.com.billon.stt.utils.TypeMapper;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -52,5 +53,10 @@ public class IntfaceResource {
     @GET @Path("{intfaceId}")
     public Intface findById(@PathParam("intfaceId") long intfaceId) {
         return dao.findById(intfaceId);
+    }
+
+    @GET @Path("/endpointTypes/{intfaceType}")
+    public List<String> getEndpointTypes(@PathParam("intfaceType") String intfaceType) {
+        return TypeMapper.getInstance().getEndpointTypes(intfaceType);
     }
 }

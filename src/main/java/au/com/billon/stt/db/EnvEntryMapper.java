@@ -25,10 +25,12 @@ public class EnvEntryMapper implements ResultSetMapper<EnvEntry> {
         Intface intface = new Intface();
         intface.setName(rs.getString("intfacename"));
         intface.setDescription(rs.getString("intfacedesc"));
+        intface.setDeftype("intfaceType");
 
         Endpoint endpoint = new Endpoint();
         endpoint.setName(rs.getString("endpointname"));
         endpoint.setDescription(rs.getString("endpointdesc"));
+        endpoint.setType("endpointType");
 
         enventry.setEnvironment(environment);
         enventry.setIntface(intface);

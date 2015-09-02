@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('service-testing-tool').controller('EnvironmentsController', ['$scope', 'Environments', '$stateParams', '$state', 'uiGridConstants', '$modal',
-  function($scope, Environments, $stateParams, $state, uiGridConstants, $modal) {
+angular.module('service-testing-tool').controller('EnvironmentsController', ['$scope', 'Environments', 'Intfaces', '$stateParams', '$state', 'uiGridConstants', '$modal',
+  function($scope, Environments, Intfaces, $stateParams, $state, uiGridConstants, $modal) {
     $scope.schema = {
       type: "object",
       properties: {
@@ -178,28 +178,33 @@ angular.module('service-testing-tool').controller('EnvironmentsController', ['$s
     };
 
     $scope.changeEndpoint = function(entry) {
-      var context = {
-        endpointId: entry.endpointId,
-        expect: 'Single'
-      };
+      Intfaces.endpointTypes({
+        intfaceType: entry.intface.deftype
+      }, function(endpointTypes) {
+        var context = {
+          endpointId: entry.endpointId,
+          endpointTypes: endpointTypes,
+          expect: 'Single'
+        };
 
-      var modalInstance = $modal.open({
-        animation: true,
-        templateUrl: '/ui/views/endpoints/list-modal.html',
-        controller: 'EndpointsModalController',
-        windowClass: 'large-modal',
-        resolve: {
-          context: function () {
-            return context;
+        var modalInstance = $modal.open({
+          animation: true,
+          templateUrl: '/ui/views/endpoints/list-modal.html',
+          controller: 'EndpointsModalController',
+          windowClass: 'large-modal',
+          resolve: {
+            context: function () {
+              return context;
+            }
           }
-        }
-      });
+        });
 
-      modalInstance.result.then(function (selectedEndpoint) {
-        if (selectedEndpoint) {
-          entry.endpointId = selectedEndpoint.id;
-          entry.endpoint = selectedEndpoint;
-        }
+        modalInstance.result.then(function (selectedEndpoint) {
+          if (selectedEndpoint) {
+            entry.endpointId = selectedEndpoint.id;
+            entry.endpoint = selectedEndpoint;
+          }
+        });
       });
     };
 

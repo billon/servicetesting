@@ -28,7 +28,7 @@ public class EndpointResource {
     }
 
     private void initSystemData(DataSourceFactory dsFactory) {
-        if (dao.findByName("STTSystemDBEndpoint") == null) {
+        if (dao.findByName("STTSystemDB") == null) {
             Endpoint endpoint = new Endpoint(0, "STTSystemDB", "The database of the Servie Testing Tool (STT)", "DB", null, null);
 
             List<EndpointDetail> details = new ArrayList<EndpointDetail>();
@@ -87,8 +87,8 @@ public class EndpointResource {
     }
 
     @GET @Path("/properties/{endpointType}")
-    public List<EndpointDetail> getDetails(@PathParam("endpointType") String handlerName) {
-        List<String> propNames = HandlerFactory.getInstance().getHandler(handlerName).getPropNames();
+    public List<EndpointDetail> getDetails(@PathParam("endpointType") String endpointType) {
+        List<String> propNames = HandlerFactory.getInstance().getHandler(endpointType).getPropNames();
         List<EndpointDetail> details = new ArrayList<EndpointDetail>();
 
         for (String propName : propNames) {

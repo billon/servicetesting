@@ -8,6 +8,12 @@ angular.module('service-testing-tool').factory('Intfaces', ['$resource',
     }, {
       update: {
         method: 'PUT'
+      },
+      endpointTypes: {
+        method: 'GET',
+        url: '/api/intfaces/endpointTypes/:intfaceType',
+        params: {intfaceType: '@name'},
+        isArray: true
       }
     });
   }

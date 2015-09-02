@@ -149,7 +149,7 @@ angular.module('service-testing-tool').controller('EndpointsModalController', ['
       Endpoints.query(function(endpoints) {
         if ($scope.context) {
           endpoints = _.filter(endpoints, function(endpoint) {
-            return $scope.context.endpointId !== endpoint.id;
+            return $scope.context.endpointId !== endpoint.id && _.contains(context.endpointTypes, endpoint.type);
           });
         }
 

@@ -31,8 +31,8 @@ public interface EnvEntryDAO {
 
     @SqlQuery("select ENVENTRY.*, " +
             "ENVIRONMENT.NAME as environmentname, ENVIRONMENT.description as environmentdesc, " +
-            "intface.name as intfacename, intface.description as intfacedesc, " +
-            "endpoint.name as endpointname, endpoint.description as endpointdesc " +
+            "intface.name as intfacename, intface.description as intfacedesc, intface.deftype as intfacetype, " +
+            "endpoint.name as endpointname, endpoint.description as endpointdesc, endpoint.type as endpointtype " +
             "from ENVENTRY " +
             "left outer join ENVIRONMENT on ENVENTRY.ENVIRONMENTID = ENVIRONMENT.ID " +
             "left outer join intface on ENVENTRY.intfaceid = intface.id " +
@@ -42,8 +42,8 @@ public interface EnvEntryDAO {
 
     @SqlQuery("select ENVENTRY.*, " +
             "ENVIRONMENT.NAME as environmentname, ENVIRONMENT.description as environmentdesc, " +
-            "intface.name as intfacename, intface.description as intfacedesc, " +
-            "endpoint.name as endpointname, endpoint.description as endpointdesc " +
+            "intface.name as intfacename, intface.description as intfacedesc, intface.deftype as intfacetype, " +
+            "endpoint.name as endpointname, endpoint.description as endpointdesc, endpoint.type as endpointtype " +
             "from ENVENTRY " +
             "left outer join ENVIRONMENT on ENVENTRY.ENVIRONMENTID = ENVIRONMENT.ID " +
             "left outer join intface on ENVENTRY.intfaceid = intface.id " +
