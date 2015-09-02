@@ -10,7 +10,7 @@ public class Endpoint {
     private long id;
     private String name;
     private String description;
-    private String handler;
+    private String type;
     private List<EndpointDetail> details;
     private Date created;
     private Date updated;
@@ -18,11 +18,11 @@ public class Endpoint {
     public Endpoint() {
     }
 
-    public Endpoint(long id, String name, String description, String handler, Date created, Date updated) {
+    public Endpoint(long id, String name, String description, String type, Date created, Date updated) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.handler = handler;
+        this.type = type;
         this.created = created;
         this.updated = updated;
     }
@@ -49,12 +49,12 @@ public class Endpoint {
         this.description = description;
     }
 
-    public String getHandler() {
-        return handler;
+    public String getType() {
+        return type;
     }
 
-    public void setHandler(String handler) {
-        this.handler = handler;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<EndpointDetail> getDetails() {

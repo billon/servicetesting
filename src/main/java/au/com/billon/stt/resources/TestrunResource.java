@@ -130,23 +130,23 @@ public class TestrunResource {
     private TestResponse invokeService(String request, long endpointId, Properties teststepProps) throws Exception {
         TestResponse response = null;
 
-        String handler = null;
+        String endpointType = null;
         Map<String, String> endpointProps = null;
 
         if (endpointId > 0) {
             endpointProps = getEndpointProps(endpointId);
             Endpoint endpoint = endpointDao.findById(endpointId);
-            handler = endpoint.getHandler();
+            endpointType = endpoint.getType();
         } else {
             endpointProps = new HashMap<String, String>();
             endpointProps.put("soapAddress", ((SOAPTeststepProperties) teststepProps).getSoapAddress());
-            handler = "SOAPHandler";
+            endpointType = "SOAP";
         }
-        if (handler.equals("SOAPHandler")) {
+        if (endpointType.equals("SOAP")) {
             endpointProps.put("soapAction", ((SOAPTeststepProperties) teststepProps).getSoapAction());
         }
 
-        response = HandlerFactory.getInstance().getHandler(handler).invoke(request, endpointProps);
+        response = HandlerFactory.getInstance().getHandler(endpointType).invoke(request, endpointProps);
 
         return response;
     }

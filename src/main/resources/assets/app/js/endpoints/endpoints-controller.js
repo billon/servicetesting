@@ -8,7 +8,7 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
         id: { type: "integer" },
         name: { type: "string", maxLength: 50 },
         description: { type: "string", maxLength: 500 },
-        handler: {
+        type: {
           type: "string",
           maxLength: 50
         },
@@ -28,7 +28,7 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
           pattern: "^http:\/{2}(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])(\/([a-z0-9_\.-])+)*\/?[A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-\.]*[A-Za-z0-9]$"
         }*/
       },
-      "required": ["name", "description", "handler"]
+      "required": ["name", "description", "type"]
     };
 
     $scope.form = [
@@ -44,13 +44,13 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
         validationMessage: "The Description is required and should be less than 500 characters"
       },
       {
-        key: "handler",
+        key: "type",
         title: "Type",
         type: "select",
         titleMap: [
-          {value: "DBHandler", name: "DB"},
-          {value: "SOAPHandler", name: "SOAP"},
-          {value: "MQHandler", name: "MQ"}
+          {value: "DB", name: "DB"},
+          {value: "SOAP", name: "SOAP"},
+          {value: "MQ", name: "MQ"}
         ],
         onChange: function (modelValue, form) {
           Endpoints.getDetails({
@@ -136,7 +136,7 @@ angular.module('service-testing-tool').controller('EndpointsController', ['$scop
           name: 'description', width: 600, minWidth: 300
         },
         {
-          name: 'handler', width: 200, minWidth: 100
+          name: 'type', width: 200, minWidth: 100
         }
       ];
 

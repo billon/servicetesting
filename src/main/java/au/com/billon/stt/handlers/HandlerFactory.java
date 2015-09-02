@@ -26,7 +26,7 @@ public class HandlerFactory {
             handler = handlers.get(handlerName);
             if (handler == null) {
                 try {
-                    Class handlerClass = Class.forName("au.com.billon.stt.handlers." + handlerName);
+                    Class handlerClass = Class.forName("au.com.billon.stt.handlers." + handlerName + "Handler");
                     handler = (STTHandler) handlerClass.newInstance();
                     handlers.put(handlerName, handler);
                 } catch (Exception e) {

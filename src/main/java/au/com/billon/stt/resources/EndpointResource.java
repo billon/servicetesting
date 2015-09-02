@@ -29,7 +29,7 @@ public class EndpointResource {
 
     private void initSystemData(DataSourceFactory dsFactory) {
         if (dao.findByName("STTSystemDBEndpoint") == null) {
-            Endpoint endpoint = new Endpoint(0, "STTSystemDBEndpoint", "The database of the Servie Testing Tool (STT)", "DBHandler", null, null);
+            Endpoint endpoint = new Endpoint(0, "STTSystemDBEndpoint", "The database of the Servie Testing Tool (STT)", "DB", null, null);
 
             List<EndpointDetail> details = new ArrayList<EndpointDetail>();
             details.add(new EndpointDetail(0, 0, "url", dsFactory.getUrl(), null, null));
