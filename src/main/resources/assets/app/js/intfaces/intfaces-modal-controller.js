@@ -161,7 +161,8 @@ angular.module('service-testing-tool').controller('IntfacesModalController', ['$
             if ($scope.context.intfaceIds) {
               return ! _.contains($scope.context.intfaceIds, intface.id);
             } else {
-              return $scope.context.intfaceId !== intface.id;
+              return $scope.context.intfaceId !== intface.id
+                  && (! $scope.context.intfaceType || $scope.context.intfaceType === intface.deftype);
             }
           });
         }

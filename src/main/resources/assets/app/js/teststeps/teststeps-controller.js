@@ -147,6 +147,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     $scope.changeIntface = function(teststep) {
       var context = {
         intfaceId: teststep.intfaceId,
+        intfaceType: teststep.type,
         expect: 'Single'
       };
 
