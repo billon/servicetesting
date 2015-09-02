@@ -250,7 +250,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     $scope.createEndpoint = function(teststep) {
       var context = {
         url: teststep.properties.soapAddress,
-        handler: 'SOAPHandler',
+        type: 'SOAP',
         expect: 'Single'
       };
 
