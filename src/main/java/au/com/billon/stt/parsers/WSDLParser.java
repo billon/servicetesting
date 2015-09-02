@@ -1,33 +1,28 @@
 package au.com.billon.stt.parsers;
 
-import au.com.billon.stt.models.Properties;
-import au.com.billon.stt.models.SOAPTeststepProperties;
 import org.reficio.ws.builder.SoapBuilder;
 import org.reficio.ws.builder.SoapOperation;
 import org.reficio.ws.builder.core.Wsdl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Trevor Li on 7/25/15.
  */
 public class WSDLParser implements STTParser {
-    public String getSampleRequest(Properties details) {
-        SOAPTeststepProperties soapDetails = (SOAPTeststepProperties) details;
-
-        Wsdl wsdl = Wsdl.parse(soapDetails.getWsdlUrl());
-        SoapBuilder builder = wsdl.binding().localPart(soapDetails.getWsdlBindingName()).find();
-        SoapOperation operation = builder.operation().name(soapDetails.getWsdlOperationName()).find();
+    public String getSampleRequest(Map<String, String> details) {
+        Wsdl wsdl = Wsdl.parse(details.get("wsdlUrl"));
+        SoapBuilder builder = wsdl.binding().localPart(details.get("wsdlBindingName")).find();
+        SoapOperation operation = builder.operation().name(details.get("wsdlOperationName")).find();
 
         return builder.buildInputMessage(operation);
     }
 
-    public String getAdhocAddress(Properties details) {
-        SOAPTeststepProperties soapDetails = (SOAPTeststepProperties) details;
-
-        Wsdl wsdl = Wsdl.parse(soapDetails.getWsdlUrl());
-        SoapBuilder builder = wsdl.binding().localPart(soapDetails.getWsdlBindingName()).find();
+    public String getAdhocAddress(Map<String, String> details) {
+        Wsdl wsdl = Wsdl.parse(details.get("wsdlUrl"));
+        SoapBuilder builder = wsdl.binding().localPart(details.get("wsdlBindingName")).find();
 
         return builder.getServiceUrls().get(0);
     }

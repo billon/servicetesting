@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Zheng on 7/07/2015.
@@ -18,7 +19,7 @@ public class Teststep {
     private long sequence;
     private long intfaceId;
     private Intface intface;
-    private Properties properties;
+    private Map<String, String> properties;
     private String request;
     private long endpointId;
     private Endpoint endpoint;
@@ -30,7 +31,7 @@ public class Teststep {
     public Teststep() {}
 
     public Teststep(long id, long testcaseId, String name, String type, String description, long sequence,
-                    Properties properties, Date created, Date updated, String request, long intfaceId, long endpointId) {
+                    Map<String, String> properties, Date created, Date updated, String request, long intfaceId, long endpointId) {
         this.id = id;
         this.testcaseId = testcaseId;
         this.name = name;
@@ -155,7 +156,7 @@ public class Teststep {
         this.type = type;
     }
 
-    public Properties getProperties() {
+    public Map<String, String> getProperties() {
         return properties;
     }
 
@@ -167,8 +168,7 @@ public class Teststep {
         this.result = result;
     }
 
-    @JsonDeserialize(using=TeststepPropertiesDeserializer.class)
-    public void setProperties(Properties properties) {
+    public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
 }

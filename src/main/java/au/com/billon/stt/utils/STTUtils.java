@@ -17,11 +17,4 @@ public class STTUtils {
         }
     }
 
-    public static Class getTeststepPropertiesClassByType(String teststepType) {
-        if (Teststep.TEST_STEP_TYPE_SOAP.equals(teststepType)) {
-            return SOAPTeststepProperties.class;
-        } else {
-            return null;
-        }
-    }
 }

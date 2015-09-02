@@ -57,7 +57,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     };
 
     $scope.isSOAP = function() {
-      return $scope.teststep.type==='SOAP';
+      return $scope.teststep.type==='WSDL';
     }
 
     $scope.loadWsdl = function() {
@@ -96,17 +96,11 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
         });
         if (this.teststep.intfaceId) {
           teststep.intfaceId = this.teststep.intfaceId;
-          if (this.teststep.intface.deftype === "WSDL") {
-            teststep.type = 'SOAP';
-            teststep.properties = {
-              wsdlUrl: this.teststep.properties.wsdlUrl,
-              wsdlBindingName: this.teststep.wsdlBinding.name,
-              wsdlOperationName: this.teststep.wsdlOperation.name,
-              soapAction: this.teststep.wsdlOperation.action
-            };
-          }
+          teststep.type = this.teststep.intface.deftype;
         } else {
-          teststep.type = 'SOAP';
+          teststep.type = 'WSDL';
+        }
+        if (teststep.type === "WSDL") {
           teststep.properties = {
             wsdlUrl: this.teststep.properties.wsdlUrl,
             wsdlBindingName: this.teststep.wsdlBinding.name,
@@ -249,7 +243,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
 
     $scope.createEndpoint = function(teststep) {
       var context = {
-        url: teststep.properties.soapAddress,
+        url: teststep.properties.adhocAddress,
         type: 'SOAP',
         expect: 'Single'
       };
@@ -315,7 +309,7 @@ angular.module('service-testing-tool').controller('TeststepsController', ['$scop
     };
 
     $scope.invoke = function(teststep) {
-      if (! teststep.endpointId && (! teststep.properties || ! teststep.properties.soapAddress)) {
+      if (! teststep.endpointId && (! teststep.properties || ! teststep.properties.adhocAddress)) {
         $scope.alerts.push({type: 'warning', msg: 'Please select or input an endpoint to invoke'});
         return;
        }

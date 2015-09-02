@@ -4,16 +4,17 @@ import au.com.billon.stt.models.Properties;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Trevor Li on 7/25/15.
  */
 public class SPDDBParser implements STTParser {
-    public String getSampleRequest(Properties details) {
+    public String getSampleRequest(Map<String, String> details) {
         return "select * from ? where ?";
     }
 
-    public String getAdhocAddress(Properties details) {
+    public String getAdhocAddress(Map<String, String> details) {
         return null;
     }
 
